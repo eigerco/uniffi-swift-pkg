@@ -4,6 +4,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 // The following structs are used to implement the lowest level
@@ -28,7 +29,19 @@ typedef struct RustBuffer
     uint8_t *_Nullable data;
 } RustBuffer;
 
-typedef int32_t (*ForeignCallback)(uint64_t, int32_t, RustBuffer, RustBuffer *_Nonnull);
+typedef int32_t (*ForeignCallback)(uint64_t, int32_t, const uint8_t *_Nonnull, int32_t, RustBuffer *_Nonnull);
+
+// Task defined in Rust that Swift executes
+typedef void (*UniFfiRustTaskCallback)(const void * _Nullable, int8_t);
+
+// Callback to execute Rust tasks using a Swift Task
+//
+// Args:
+//   executor: ForeignExecutor lowered into a size_t value
+//   delay: Delay in MS
+//   task: UniFfiRustTaskCallback to call
+//   task_data: data to pass the task callback
+typedef int8_t (*UniFfiForeignExecutorCallback)(size_t, uint32_t, UniFfiRustTaskCallback _Nullable, const void * _Nullable);
 
 typedef struct ForeignBytes
 {
@@ -46,1611 +59,2277 @@ typedef struct RustCallStatus {
 // ⚠️ increment the version suffix in all instances of UNIFFI_SHARED_HEADER_V4 in this file.           ⚠️
 #endif // def UNIFFI_SHARED_H
 
-void ffi_zcash_e53_ZcashRecipientAddress_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashRecipientAddress_decode(
-      RustBuffer params,RustBuffer address,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashRecipientAddress_shielded(
-      void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashRecipientAddress_transparent(
-      void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashRecipientAddress_unified(
-      void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashRecipientAddress_encode(
-      void*_Nonnull ptr,RustBuffer params,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashUnifiedAddress_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedAddress_new(
-      RustBuffer orchard,RustBuffer sapling,RustBuffer transparent,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedAddress_decode(
-      RustBuffer params,RustBuffer address,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedAddress_orchard(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedAddress_sapling(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedAddress_transparent(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedAddress_encode(
-      void*_Nonnull ptr,RustBuffer params,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashUnifiedFullViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedFullViewingKey_new(
-      RustBuffer transparent,RustBuffer sapling,RustBuffer orchard,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedFullViewingKey_decode(
-      RustBuffer params,RustBuffer encoded,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedFullViewingKey_encode(
-      void*_Nonnull ptr,RustBuffer params,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedFullViewingKey_transparent(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedFullViewingKey_sapling(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedFullViewingKey_orchard(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedFullViewingKey_address(
-      void*_Nonnull ptr,void*_Nonnull j,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedFullViewingKey_find_address(
-      void*_Nonnull ptr,void*_Nonnull j,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedFullViewingKey_default_address(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashUnifiedSpendingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedSpendingKey_from_seed(
-      RustBuffer params,RustBuffer seed,RustBuffer account_id,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedSpendingKey_from_bytes(
-      RustBuffer era,RustBuffer encoded,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedSpendingKey_to_unified_full_viewing_key(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedSpendingKey_transparent(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedSpendingKey_sapling(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashUnifiedSpendingKey_orchard(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashUnifiedSpendingKey_to_bytes(
-      void*_Nonnull ptr,RustBuffer era,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardNote_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardNote_from_parts(
-      void*_Nonnull recipient,void*_Nonnull value,void*_Nonnull rho,void*_Nonnull rseed,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardNote_recipient(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardNote_value(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardNote_commitment(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardNullifier_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardNullifier_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardNullifier_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardRandomSeed_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardRandomSeed_from_bytes(
-      RustBuffer data,void*_Nonnull rho,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardRandomSeed_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardNoteCommitment_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardNoteCommitment_to_extracted_note_commitment(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashExtractedNoteCommitment_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtractedNoteCommitment_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtractedNoteCommitment_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardAddress_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardAddress_from_raw_address_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardAddress_diversifier(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardAddress_to_raw_address_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashVerifyingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashVerifyingKey_new(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashProvingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashProvingKey_new(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardBundle_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardBundle_actions(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardBundle_flags(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardBundle_value_balance(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardBundle_anchor(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashOrchardBundle_verify_proof(
-      void*_Nonnull ptr,void*_Nonnull key,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardBundle_decrypt_output_with_key(
-      void*_Nonnull ptr,uint64_t action_idx,void*_Nonnull ivk,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardBundle_decrypt_output_with_keys(
-      void*_Nonnull ptr,RustBuffer ivks,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardBundle_recover_output_with_ovk(
-      void*_Nonnull ptr,uint64_t action_idx,void*_Nonnull ovk,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardBundle_recover_outputs_with_ovks(
-      void*_Nonnull ptr,RustBuffer ovks,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardFlags_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardFlags_from_parts(
-      int8_t spends_enabled,int8_t outputs_enabled,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardFlags_from_byte(
-      uint8_t v,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashOrchardFlags_spends_enabled(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashOrchardFlags_outputs_enabled(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-uint8_t zcash_e53_ZcashOrchardFlags_to_byte(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardNoteValue_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardNoteValue_from_raw(
-      uint64_t value,
-    RustCallStatus *_Nonnull out_status
-    );
-uint64_t zcash_e53_ZcashOrchardNoteValue_value(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardValueCommitment_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardValueCommitment_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardAction_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardAction_nullifier(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardAction_cmx(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardAction_encrypted_note(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardAction_cv_net(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardFullViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardFullViewingKey_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardFullViewingKey_address_at(
-      void*_Nonnull ptr,void*_Nonnull j,RustBuffer scope,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardFullViewingKey_address(
-      void*_Nonnull ptr,void*_Nonnull d,RustBuffer scope,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardFullViewingKey_scope_for_address(
-      void*_Nonnull ptr,void*_Nonnull address,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardFullViewingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardFullViewingKey_to_ivk(
-      void*_Nonnull ptr,RustBuffer scope,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardFullViewingKey_to_ovk(
-      void*_Nonnull ptr,RustBuffer scope,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardSpendingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardSpendingKey_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardSpendingKey_from_zip32_seed(
-      RustBuffer seed,uint32_t coin_type,uint32_t account,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardSpendingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardSpendingKey_to_fvk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashAnchor_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAnchor_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashAnchor_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardIncomingViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardIncomingViewingKey_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardIncomingViewingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardIncomingViewingKey_diversifier_index(
-      void*_Nonnull ptr,void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardIncomingViewingKey_address_at(
-      void*_Nonnull ptr,void*_Nonnull j,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardIncomingViewingKey_address(
-      void*_Nonnull ptr,void*_Nonnull diversifier,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardDiversifier_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardDiversifier_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardDiversifier_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardOutgoingViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardOutgoingViewingKey_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardOutgoingViewingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardMerklePath_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardMerklePath_from_parts(
-      uint32_t position,RustBuffer auth_path,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardMerklePath_root(
-      void*_Nonnull ptr,void*_Nonnull cmx,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardMerkleHash_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardMerkleHash_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardMerkleHash_from_cmx(
-      void*_Nonnull cmx,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardMerkleHash_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardDiversifierIndex_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardDiversifierIndex_from_bytes(
-      RustBuffer b,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardDiversifierIndex_from_u32(
-      uint32_t i,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardDiversifierIndex_from_u64(
-      uint64_t i,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOrchardDiversifierIndex_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashExtendedPrivKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedPrivKey_random(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedPrivKey_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedPrivKey_random_with_seed_size(
-      RustBuffer seed_size,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedPrivKey_with_seed(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedPrivKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedPrivKey_derive_private_key(
-      void*_Nonnull ptr,void*_Nonnull key_index,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashKeyIndex_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashKeyIndex_from_u32(
-      uint32_t i,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashKeyIndex_hardened_from_normalize_index(
-      uint32_t i,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashKeyIndex_from_index(
-      uint32_t i,
-    RustCallStatus *_Nonnull out_status
-    );
-uint32_t zcash_e53_ZcashKeyIndex_raw_index(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-uint32_t zcash_e53_ZcashKeyIndex_normalize_index(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashKeyIndex_is_valid(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashZip317FeeRule_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashZip317FeeRule_standard(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashZip317FeeRule_non_standard(
-      void*_Nonnull marginal_fee,uint64_t grace_actions,uint64_t p2pkh_standard_input_size,uint64_t p2pkh_standard_output_size,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashZip317FeeRule_marginal_fee(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashFixedFeeRule_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashFixedFeeRule_non_standard(
-      void*_Nonnull fixed_fee,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashFixedFeeRule_standard(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashFixedFeeRule_fixed_fee(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashTransparentBundle_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashTransparentBundle_is_coinbase(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransparentBundle_vin(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransparentBundle_vout(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashTxOut_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTxOut_new(
-      void*_Nonnull value,void*_Nonnull script_pubkey,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTxOut_value(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTxOut_script_pubkey(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTxOut_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTxOut_recipient_address(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashTxIn_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTxIn_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashTransactionBuilder_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransactionBuilder_new(
-      RustBuffer parameters,void*_Nonnull block_height,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashTransactionBuilder_add_sapling_spend(
-      void*_Nonnull ptr,void*_Nonnull extsk,void*_Nonnull diversifier,void*_Nonnull note,void*_Nonnull merkle_path,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashTransactionBuilder_add_sapling_output(
-      void*_Nonnull ptr,RustBuffer ovk,void*_Nonnull to,void*_Nonnull value,void*_Nonnull memo,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashTransactionBuilder_add_transparent_input(
-      void*_Nonnull ptr,void*_Nonnull sk,void*_Nonnull utxo,void*_Nonnull coin,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashTransactionBuilder_add_transparent_output(
-      void*_Nonnull ptr,void*_Nonnull to,void*_Nonnull value,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransactionBuilder_build(
-      void*_Nonnull ptr,void*_Nonnull prover,RustBuffer fee_rule,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashTransaction_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransaction_from_bytes(
-      RustBuffer data,RustBuffer consensus_branch_id,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransaction_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransaction_txid(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransaction_version(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransaction_consensus_branch_id(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-uint32_t zcash_e53_ZcashTransaction_lock_time(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransaction_expiry_height(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransaction_transparent_bundle(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransaction_sapling_bundle(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransaction_orchard_bundle(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashTxId_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTxId_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTxId_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOrchardTransactionBuilder_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardTransactionBuilder_new(
-      RustBuffer parameters,void*_Nonnull target_height,void*_Nonnull expiry_height,void*_Nonnull anchor,void*_Nonnull flags,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashOrchardTransactionBuilder_add_spend(
-      void*_Nonnull ptr,void*_Nonnull fvk,void*_Nonnull note,void*_Nonnull merkle_path,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashOrchardTransactionBuilder_add_recipient(
-      void*_Nonnull ptr,RustBuffer ovk,void*_Nonnull recipient,uint64_t value,RustBuffer memo,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOrchardTransactionBuilder_build(
-      void*_Nonnull ptr,RustBuffer keys,RustBuffer sighash,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashTxVersion_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTxVersion_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTxVersion_suggested_for_branch(
-      RustBuffer consensus_branch_id,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTxVersion_selection(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-uint32_t zcash_e53_ZcashTxVersion_header(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-uint32_t zcash_e53_ZcashTxVersion_version_group_id(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTxVersion_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashTxVersion_has_sprout(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashTxVersion_has_overwinter(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashTxVersion_has_sapling(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashTxVersion_has_orchard(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOutPoint_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOutPoint_new(
-      RustBuffer hash,uint32_t n,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashAmount_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAmount_new(
-      int64_t amount,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAmount_zero(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-int64_t zcash_e53_ZcashAmount_value(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingSpendDescription_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingSpendDescription_cv(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingSpendDescription_anchor(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingSpendDescription_nullifier(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingSpendDescription_rk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingBundle_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingBundle_shielded_spends(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingBundle_shielded_outputs(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingBundle_value_balance(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingOutputDescription_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingOutputDescription_cv(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingOutputDescription_cmu(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingMetadata_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingMetadata_new(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingMetadata_spend_index(
-      void*_Nonnull ptr,uint64_t n,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingMetadata_output_index(
-      void*_Nonnull ptr,uint64_t n,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashBlockHeight_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashBlockHeight_new(
-      uint32_t v,
-    RustCallStatus *_Nonnull out_status
-    );
-uint32_t zcash_e53_ZcashBlockHeight_value(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashCommitmentTree_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashCommitmentTree_empty(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashCommitmentTree_append(
-      void*_Nonnull ptr,void*_Nonnull node,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingMerklePath_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingMerklePath_auth_path(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-uint64_t zcash_e53_ZcashSaplingMerklePath_position(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashIncrementalWitness_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashIncrementalWitness_from_tree(
-      void*_Nonnull tree,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashIncrementalWitness_append(
-      void*_Nonnull ptr,void*_Nonnull node,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashIncrementalWitness_path(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashTransparentAddress_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransparentAddress_from_public_key(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransparentAddress_from_script(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransparentAddress_decode(
-      RustBuffer params,RustBuffer input,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransparentAddress_encode(
-      void*_Nonnull ptr,RustBuffer params,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashTransparentAddress_is_public_key(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-int8_t zcash_e53_ZcashTransparentAddress_is_script(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashTransparentAddress_script(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashTransparentAddress_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashExternalIvk_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExternalIvk_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExternalIvk_derive_address(
-      void*_Nonnull ptr,uint32_t child_index,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExternalIvk_default_address(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExternalIvk_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashInternalIvk_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashInternalIvk_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashInternalIvk_default_address(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashInternalIvk_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashExternalOvk_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExternalOvk_as_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashInternalOvk_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashInternalOvk_as_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashAccountPubKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPubKey_new(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPubKey_derive_external_ivk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPubKey_derive_internal_ivk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashAccountPubKey_ovks_for_shielding(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPubKey_internal_ovk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPubKey_external_ovk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashAccountPubKey_serialize(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashAccountPrivKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPrivKey_from_seed(
-      RustBuffer params,RustBuffer seed,RustBuffer account_id,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPrivKey_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPrivKey_from_extended_privkey(
-      void*_Nonnull key,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPrivKey_to_account_pubkey(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPrivKey_derive_external_secret_key(
-      void*_Nonnull ptr,uint32_t child_index,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashAccountPrivKey_derive_internal_secret_key(
-      void*_Nonnull ptr,uint32_t child_index,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashAccountPrivKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashScript_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashScript_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashScript_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingValueCommitment_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingValueCommitment_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingNote_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingNote_from_parts(
-      void*_Nonnull recipient,void*_Nonnull value,RustBuffer rseed,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingNote_value(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingNote_cmu(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingNoteValue_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingNoteValue_from_raw(
-      uint64_t data,
-    RustCallStatus *_Nonnull out_status
-    );
-uint64_t zcash_e53_ZcashSaplingNoteValue_inner(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingNullifier_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingNullifier_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingExtractedNoteCommitment_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingExtractedNoteCommitment_new(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingExtractedNoteCommitment_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashPaymentAddress_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashPaymentAddress_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashPaymentAddress_decode(
-      RustBuffer params,RustBuffer input,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashPaymentAddress_encode(
-      void*_Nonnull ptr,RustBuffer params,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashPaymentAddress_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashPaymentAddress_diversifier(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashPaymentAddress_pk_d(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashPaymentAddress_create_note(
-      void*_Nonnull ptr,uint64_t value,RustBuffer rseed,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingIvk_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingIvk_to_payment_address(
-      void*_Nonnull ptr,void*_Nonnull diversifier,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingIvk_to_repr(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashDiversifier_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifier_new(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifier_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashFullViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashFullViewingKey_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashFullViewingKey_from_expanded_spending_key(
-      void*_Nonnull expsk,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashFullViewingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashFullViewingKey_vk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashFullViewingKey_ovk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashNullifierDerivingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashNullifierDerivingKey_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashNullifierDerivingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashOutgoingViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashOutgoingViewingKey_from_bytes(
-      RustBuffer b,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashOutgoingViewingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashExpandedSpendingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExpandedSpendingKey_from_spending_key(
-      RustBuffer sk,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExpandedSpendingKey_from_bytes(
-      RustBuffer b,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExpandedSpendingKey_proof_generation_key(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExpandedSpendingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashProofGenerationKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashProofGenerationKey_to_viewing_key(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashDiversifiableFullViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifiableFullViewingKey_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifiableFullViewingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifiableFullViewingKey_fvk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifiableFullViewingKey_to_nk(
-      void*_Nonnull ptr,RustBuffer scope,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifiableFullViewingKey_to_ivk(
-      void*_Nonnull ptr,RustBuffer scope,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifiableFullViewingKey_to_ovk(
-      void*_Nonnull ptr,RustBuffer scope,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifiableFullViewingKey_address(
-      void*_Nonnull ptr,void*_Nonnull j,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifiableFullViewingKey_find_address(
-      void*_Nonnull ptr,void*_Nonnull j,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifiableFullViewingKey_default_address(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifiableFullViewingKey_diversified_address(
-      void*_Nonnull ptr,void*_Nonnull diversifier,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifiableFullViewingKey_change_address(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifiableFullViewingKey_diversified_change_address(
-      void*_Nonnull ptr,void*_Nonnull diversifier,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifiableFullViewingKey_decrypt_diversifier(
-      void*_Nonnull ptr,void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingDiversifiedTransmissionKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashViewingKey_ivk(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashViewingKey_to_payment_address(
-      void*_Nonnull ptr,void*_Nonnull diversifier,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashExtendedFullViewingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedFullViewingKey_from_bytes(
-      RustBuffer bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedFullViewingKey_decode(
-      RustBuffer params,RustBuffer input,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedFullViewingKey_encode(
-      void*_Nonnull ptr,RustBuffer params,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedFullViewingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedFullViewingKey_address(
-      void*_Nonnull ptr,void*_Nonnull j,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedFullViewingKey_derive_child(
-      void*_Nonnull ptr,RustBuffer i,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedFullViewingKey_find_address(
-      void*_Nonnull ptr,void*_Nonnull j,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedFullViewingKey_default_address(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedFullViewingKey_derive_internal(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedFullViewingKey_to_diversifiable_full_viewing_key(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingPublicKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashSaplingPublicKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashSaplingNode_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashSaplingNode_from_cmu(
-      void*_Nonnull cmu,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashExtendedSpendingKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedSpendingKey_master(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedSpendingKey_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedSpendingKey_from_path(
-      void*_Nonnull master,RustBuffer path,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedSpendingKey_decode(
-      RustBuffer params,RustBuffer input,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedSpendingKey_encode(
-      void*_Nonnull ptr,RustBuffer params,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedSpendingKey_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedSpendingKey_derive_child(
-      void*_Nonnull ptr,RustBuffer index,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashExtendedSpendingKey_default_address(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedSpendingKey_derive_internal(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashExtendedSpendingKey_to_diversifiable_full_viewing_key(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashDiversifierIndex_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifierIndex_new(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifierIndex_from_u32(
-      uint32_t i,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashDiversifierIndex_from_u64(
-      uint64_t i,
-    RustCallStatus *_Nonnull out_status
-    );
-void zcash_e53_ZcashDiversifierIndex_increment(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-uint32_t zcash_e53_ZcashDiversifierIndex_to_u32(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashDiversifierIndex_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashMemoBytes_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashMemoBytes_new(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashMemoBytes_empty(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashMemoBytes_data(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashLocalTxProver_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashLocalTxProver_new(
-      RustBuffer spend_path,RustBuffer output_path,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashLocalTxProver_from_bytes(
-      RustBuffer spend_param_bytes,RustBuffer output_param_bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashLocalTxProver_with_default_location(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_SecpSecretKey_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_SecpSecretKey_new(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_SecpSecretKey_serialize_secret(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_ZcashJubjubFr_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_ZcashJubjubFr_from_bytes(
-      RustBuffer data,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_ZcashJubjubFr_to_bytes(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_TestSupport_object_free(
-      void*_Nonnull ptr,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_TestSupport_from_csv_file(
-      
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_TestSupport_get_as_u8_array(
-      void*_Nonnull ptr,RustBuffer key,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_TestSupport_get_as_u32_array(
-      void*_Nonnull ptr,RustBuffer key,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_TestSupport_get_as_u64_array(
-      void*_Nonnull ptr,RustBuffer key,
-    RustCallStatus *_Nonnull out_status
-    );
-uint32_t zcash_e53_TestSupport_get_as_u32(
-      void*_Nonnull ptr,RustBuffer key,
-    RustCallStatus *_Nonnull out_status
-    );
-uint64_t zcash_e53_TestSupport_get_as_u64(
-      void*_Nonnull ptr,RustBuffer key,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_TestSupport_get_as_string(
-      void*_Nonnull ptr,RustBuffer key,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_decode_extended_full_viewing_key(
-      RustBuffer hrp,RustBuffer s,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_decode_extended_spending_key(
-      RustBuffer hrp,RustBuffer s,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_decode_payment_address(
-      RustBuffer hrp,RustBuffer s,
-    RustCallStatus *_Nonnull out_status
-    );
-void*_Nonnull zcash_e53_decode_transparent_address(
-      RustBuffer pubkey_version,RustBuffer script_version,RustBuffer s,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_encode_extended_full_viewing_key(
-      RustBuffer hrp,void*_Nonnull extfvk,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_encode_extended_spending_key(
-      RustBuffer hrp,void*_Nonnull extsk,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_encode_payment_address(
-      RustBuffer hrp,void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_encode_payment_address_p(
-      RustBuffer params,void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_encode_transparent_address(
-      RustBuffer pubkey_version,RustBuffer script_version,void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer zcash_e53_encode_transparent_address_p(
-      RustBuffer params,void*_Nonnull addr,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer ffi_zcash_e53_rustbuffer_alloc(
-      int32_t size,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer ffi_zcash_e53_rustbuffer_from_bytes(
-      ForeignBytes bytes,
-    RustCallStatus *_Nonnull out_status
-    );
-void ffi_zcash_e53_rustbuffer_free(
-      RustBuffer buf,
-    RustCallStatus *_Nonnull out_status
-    );
-RustBuffer ffi_zcash_e53_rustbuffer_reserve(
-      RustBuffer buf,int32_t additional,
-    RustCallStatus *_Nonnull out_status
-    );
+// Callbacks for UniFFI Futures
+typedef void (*UniFfiFutureCallbackUInt8)(const void * _Nonnull, uint8_t, RustCallStatus);
+typedef void (*UniFfiFutureCallbackInt8)(const void * _Nonnull, int8_t, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUInt32)(const void * _Nonnull, uint32_t, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUInt64)(const void * _Nonnull, uint64_t, RustCallStatus);
+typedef void (*UniFfiFutureCallbackInt64)(const void * _Nonnull, int64_t, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackRustBuffer)(const void * _Nonnull, RustBuffer, RustCallStatus);
+
+// Scaffolding functions
+void uniffi_uniffi_zcash_fn_free_secpsecretkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_secpsecretkey_new(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_secpsecretkey_serialize_secret(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_testsupport(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_testsupport_from_csv_file(RustCallStatus *_Nonnull out_status
+    
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_testsupport_get_as_string(void*_Nonnull ptr, RustBuffer key, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_testsupport_get_as_u32(void*_Nonnull ptr, RustBuffer key, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_testsupport_get_as_u32_array(void*_Nonnull ptr, RustBuffer key, RustCallStatus *_Nonnull out_status
+);
+uint64_t uniffi_uniffi_zcash_fn_method_testsupport_get_as_u64(void*_Nonnull ptr, RustBuffer key, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_testsupport_get_as_u64_array(void*_Nonnull ptr, RustBuffer key, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_testsupport_get_as_u8_array(void*_Nonnull ptr, RustBuffer key, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashaccountbalance(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaccountbalance_zero(RustCallStatus *_Nonnull out_status
+    
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountbalance_sapling_spendable_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountbalance_total(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashaccountprivkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaccountprivkey_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaccountprivkey_from_extended_privkey(void*_Nonnull key, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaccountprivkey_from_seed(RustBuffer params, RustBuffer seed, RustBuffer account_id, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountprivkey_derive_external_secret_key(void*_Nonnull ptr, uint32_t child_index, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountprivkey_derive_internal_secret_key(void*_Nonnull ptr, uint32_t child_index, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountprivkey_to_account_pubkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashaccountprivkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashaccountpubkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaccountpubkey_new(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountpubkey_derive_external_ivk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountpubkey_derive_internal_ivk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountpubkey_external_ovk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountpubkey_internal_ovk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashaccountpubkey_ovks_for_shielding(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashaccountpubkey_serialize(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashaddressmetadata(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaddressmetadata_new(RustBuffer account, void*_Nonnull diversifier_index, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashaddressmetadata_account(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaddressmetadata_diversifier_index(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashamount(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashamount_new(int64_t amount, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashamount_zero(RustCallStatus *_Nonnull out_status
+    
+);
+int64_t uniffi_uniffi_zcash_fn_method_zcashamount_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashanchor(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashanchor_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashanchor_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashbackendscan(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashbackendscan_scan_cached_blocks(void*_Nonnull ptr, RustBuffer params, void*_Nonnull z_db_cache, void*_Nonnull z_db_data, void*_Nonnull height, uint32_t limit, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashbalance(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashbalance_zero(RustCallStatus *_Nonnull out_status
+    
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashbalance_total(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashblockhash(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashblockhash_from_slice(RustBuffer from_bytes, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashblockheight(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashblockheight_new(uint32_t v, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashblockheight_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashblockmeta(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashblockmeta_block_file_path(void*_Nonnull ptr, RustBuffer blocks_dir, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashchain(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashchain_init_blockmeta_db(void*_Nonnull ptr, RustBuffer blocks_dir, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashcommitmenttree(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashcommitmenttree_empty(RustCallStatus *_Nonnull out_status
+    
+);
+void uniffi_uniffi_zcash_fn_method_zcashcommitmenttree_append(void*_Nonnull ptr, void*_Nonnull node, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashcommitmenttreeroot(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashcommitmenttreeroot_from_parts(void*_Nonnull subtree_end_height, void*_Nonnull root_hash, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashcommitmenttreeroot_root_hash(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashcommitmenttreeroot_subtree_end_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashdecryptedtransaction(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashdiversifiablefullviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashdiversifiablefullviewingkey_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_address(void*_Nonnull ptr, void*_Nonnull j, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_change_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_decrypt_diversifier(void*_Nonnull ptr, void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_default_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_diversified_address(void*_Nonnull ptr, void*_Nonnull diversifier, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_diversified_change_address(void*_Nonnull ptr, void*_Nonnull diversifier, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_find_address(void*_Nonnull ptr, void*_Nonnull j, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_fvk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_to_ivk(void*_Nonnull ptr, RustBuffer scope, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_to_nk(void*_Nonnull ptr, RustBuffer scope, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashdiversifiablefullviewingkey_to_ovk(void*_Nonnull ptr, RustBuffer scope, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashdiversifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashdiversifier_new(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifier_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashdiversifierindex(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashdiversifierindex_from_u32(uint32_t i, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashdiversifierindex_from_u64(uint64_t i, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashdiversifierindex_new(RustCallStatus *_Nonnull out_status
+    
+);
+void uniffi_uniffi_zcash_fn_method_zcashdiversifierindex_increment(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdiversifierindex_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashdiversifierindex_to_u32(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashdustoutputpolicy(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashdustoutputpolicy_new(RustBuffer action, RustBuffer dust_threshold, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdustoutputpolicy_action(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdustoutputpolicy_dust_threshold(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashexpandedspendingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashexpandedspendingkey_from_bytes(RustBuffer b, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashexpandedspendingkey_from_spending_key(RustBuffer sk, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashexpandedspendingkey_proof_generation_key(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashexpandedspendingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashextendedfullviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedfullviewingkey_decode(RustBuffer params, RustBuffer input, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedfullviewingkey_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedfullviewingkey_address(void*_Nonnull ptr, void*_Nonnull j, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedfullviewingkey_default_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashextendedfullviewingkey_derive_child(void*_Nonnull ptr, RustBuffer i, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashextendedfullviewingkey_derive_internal(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedfullviewingkey_encode(void*_Nonnull ptr, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedfullviewingkey_find_address(void*_Nonnull ptr, void*_Nonnull j, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedfullviewingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashextendedfullviewingkey_to_diversifiable_full_viewing_key(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashextendedprivkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedprivkey_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedprivkey_random(RustCallStatus *_Nonnull out_status
+    
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedprivkey_random_with_seed_size(RustBuffer seed_size, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedprivkey_with_seed(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashextendedprivkey_derive_private_key(void*_Nonnull ptr, void*_Nonnull key_index, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedprivkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashextendedspendingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedspendingkey_decode(RustBuffer params, RustBuffer input, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedspendingkey_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedspendingkey_from_path(void*_Nonnull master, RustBuffer path, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextendedspendingkey_master(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedspendingkey_default_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashextendedspendingkey_derive_child(void*_Nonnull ptr, RustBuffer index, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashextendedspendingkey_derive_internal(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedspendingkey_encode(void*_Nonnull ptr, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextendedspendingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashextendedspendingkey_to_diversifiable_full_viewing_key(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashexternalivk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashexternalivk_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashexternalivk_default_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashexternalivk_derive_address(void*_Nonnull ptr, uint32_t child_index, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashexternalivk_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashexternalovk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashexternalovk_as_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashextractednotecommitment(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashextractednotecommitment_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashextractednotecommitment_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashfixedfeerule(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashfixedfeerule_non_standard(void*_Nonnull fixed_fee, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashfixedfeerule_standard(RustCallStatus *_Nonnull out_status
+    
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashfixedfeerule_fixed_fee(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashfixedsingleoutputchangestrategy(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashfixedsingleoutputchangestrategy_new(void*_Nonnull fee_rule, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashfsblockdb(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashfsblockdb_for_path(RustBuffer fsblockdb_root, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashfsblockdb_find_block(void*_Nonnull ptr, void*_Nonnull height, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashfsblockdb_get_max_cached_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashfsblockdb_write_block_metadata(void*_Nonnull ptr, RustBuffer block_meta, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashfullviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashfullviewingkey_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashfullviewingkey_from_expanded_spending_key(void*_Nonnull expsk, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashfullviewingkey_ovk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashfullviewingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashfullviewingkey_vk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashgreedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashincrementalwitness(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashincrementalwitness_from_tree(void*_Nonnull tree, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashincrementalwitness_append(void*_Nonnull ptr, void*_Nonnull node, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashincrementalwitness_path(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashinternalivk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashinternalivk_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashinternalivk_default_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashinternalivk_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashinternalovk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashinternalovk_as_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashjubjubfr(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashjubjubfr_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashjubjubfr_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashkeyindex(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashkeyindex_from_index(uint32_t i, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashkeyindex_from_u32(uint32_t i, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashkeyindex_hardened_from_normalize_index(uint32_t i, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashkeyindex_is_valid(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashkeyindex_normalize_index(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashkeyindex_raw_index(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashlocaltxprover(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashlocaltxprover_from_bytes(RustBuffer spend_param_bytes, RustBuffer output_param_bytes, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashlocaltxprover_new(RustBuffer spend_path, RustBuffer output_path, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashlocaltxprover_with_default_location(RustCallStatus *_Nonnull out_status
+    
+);
+void uniffi_uniffi_zcash_fn_free_zcashmaingreedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashmaingreedyinputselector_new(void*_Nonnull change_strategy, void*_Nonnull dust_output_policy, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashmemobytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashmemobytes_empty(RustCallStatus *_Nonnull out_status
+    
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashmemobytes_new(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashmemobytes_data(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashnonnegativeamount(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashnonnegativeamount_from_nonnegative_i64(int64_t amount, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashnonnegativeamount_from_u64(uint64_t amount, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashnonnegativeamount_zero(RustCallStatus *_Nonnull out_status
+    
+);
+uint64_t uniffi_uniffi_zcash_fn_method_zcashnonnegativeamount_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashnoteid(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashnoteid_new(void*_Nonnull txid, RustBuffer zsp, uint16_t output_index, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashnullifierderivingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashnullifierderivingkey_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashnullifierderivingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardaction(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardaction_cmx(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardaction_cv_net(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardaction_encrypted_note(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardaction_nullifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardaddress(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardaddress_from_raw_address_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardaddress_diversifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardaddress_to_raw_address_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardbundle(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardbundle_actions(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardbundle_anchor(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardbundle_decrypt_output_with_key(void*_Nonnull ptr, uint64_t action_idx, void*_Nonnull ivk, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardbundle_decrypt_output_with_keys(void*_Nonnull ptr, RustBuffer ivks, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardbundle_flags(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardbundle_recover_output_with_ovk(void*_Nonnull ptr, uint64_t action_idx, void*_Nonnull ovk, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardbundle_recover_outputs_with_ovks(void*_Nonnull ptr, RustBuffer ovks, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardbundle_value_balance(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashorchardbundle_verify_proof(void*_Nonnull ptr, void*_Nonnull key, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorcharddiversifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorcharddiversifier_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorcharddiversifier_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorcharddiversifierindex(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorcharddiversifierindex_from_bytes(RustBuffer b, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorcharddiversifierindex_from_u32(uint32_t i, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorcharddiversifierindex_from_u64(uint64_t i, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorcharddiversifierindex_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardflags(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardflags_from_byte(uint8_t v, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardflags_from_parts(int8_t spends_enabled, int8_t outputs_enabled, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashorchardflags_outputs_enabled(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashorchardflags_spends_enabled(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint8_t uniffi_uniffi_zcash_fn_method_zcashorchardflags_to_byte(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardfullviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardfullviewingkey_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardfullviewingkey_address(void*_Nonnull ptr, void*_Nonnull d, RustBuffer scope, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardfullviewingkey_address_at(void*_Nonnull ptr, void*_Nonnull j, RustBuffer scope, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardfullviewingkey_scope_for_address(void*_Nonnull ptr, void*_Nonnull address, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardfullviewingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardfullviewingkey_to_ivk(void*_Nonnull ptr, RustBuffer scope, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardfullviewingkey_to_ovk(void*_Nonnull ptr, RustBuffer scope, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardincomingviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardincomingviewingkey_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardincomingviewingkey_address(void*_Nonnull ptr, void*_Nonnull diversifier, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardincomingviewingkey_address_at(void*_Nonnull ptr, void*_Nonnull j, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardincomingviewingkey_diversifier_index(void*_Nonnull ptr, void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardincomingviewingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardmerklehash(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardmerklehash_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardmerklehash_from_cmx(void*_Nonnull cmx, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardmerklehash_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardmerklepath(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardmerklepath_from_parts(uint32_t position, RustBuffer auth_path, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardmerklepath_root(void*_Nonnull ptr, void*_Nonnull cmx, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardnote(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardnote_from_parts(void*_Nonnull recipient, void*_Nonnull value, void*_Nonnull rho, void*_Nonnull rseed, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardnote_commitment(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardnote_recipient(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardnote_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardnotecommitment(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardnotecommitment_to_extracted_note_commitment(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardnotevalue(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardnotevalue_from_raw(uint64_t value, RustCallStatus *_Nonnull out_status
+);
+uint64_t uniffi_uniffi_zcash_fn_method_zcashorchardnotevalue_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardnullifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardnullifier_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardnullifier_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardoutgoingviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardoutgoingviewingkey_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardoutgoingviewingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardrandomseed(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardrandomseed_from_bytes(RustBuffer data, void*_Nonnull rho, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardrandomseed_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardspendingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardspendingkey_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardspendingkey_from_zip32_seed(RustBuffer seed, uint32_t coin_type, uint32_t account, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardspendingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardspendingkey_to_fvk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardtransactionbuilder(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashorchardtransactionbuilder_new(RustBuffer parameters, void*_Nonnull target_height, void*_Nonnull expiry_height, void*_Nonnull anchor, void*_Nonnull flags, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashorchardtransactionbuilder_add_recipient(void*_Nonnull ptr, RustBuffer ovk, void*_Nonnull recipient, void*_Nonnull value, RustBuffer memo, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashorchardtransactionbuilder_add_spend(void*_Nonnull ptr, void*_Nonnull fvk, void*_Nonnull note, void*_Nonnull merkle_path, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashorchardtransactionbuilder_build(void*_Nonnull ptr, RustBuffer keys, RustBuffer sighash, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashorchardvaluecommitment(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashorchardvaluecommitment_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashoutpoint(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashoutpoint_new(RustBuffer hash, uint32_t n, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashoutgoingviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashoutgoingviewingkey_from_bytes(RustBuffer b, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashoutgoingviewingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashpaymentaddress(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashpaymentaddress_decode(RustBuffer params, RustBuffer input, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashpaymentaddress_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashpaymentaddress_create_note(void*_Nonnull ptr, uint64_t value, RustBuffer rseed, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashpaymentaddress_diversifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashpaymentaddress_encode(void*_Nonnull ptr, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashpaymentaddress_pk_d(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashpaymentaddress_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashproofgenerationkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashproofgenerationkey_to_viewing_key(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashprovingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashprovingkey_new(RustCallStatus *_Nonnull out_status
+    
+);
+void uniffi_uniffi_zcash_fn_free_zcashratio(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashratio_new(uint64_t numerator, uint64_t denominator, RustCallStatus *_Nonnull out_status
+);
+uint64_t uniffi_uniffi_zcash_fn_method_zcashratio_denominator(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint64_t uniffi_uniffi_zcash_fn_method_zcashratio_numerator(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashrecipientaddress(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashrecipientaddress_decode(RustBuffer params, RustBuffer address, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashrecipientaddress_shielded(void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashrecipientaddress_transparent(void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashrecipientaddress_unified(void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashrecipientaddress_encode(void*_Nonnull ptr, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingbundle(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingbundle_shielded_outputs(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingbundle_shielded_spends(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsaplingbundle_value_balance(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingdiversifiedtransmissionkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingextractednotecommitment(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashsaplingextractednotecommitment_new(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingextractednotecommitment_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingivk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingivk_to_payment_address(void*_Nonnull ptr, void*_Nonnull diversifier, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingivk_to_repr(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingmerklepath(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingmerklepath_auth_path(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint64_t uniffi_uniffi_zcash_fn_method_zcashsaplingmerklepath_position(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingmetadata(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashsaplingmetadata_new(RustCallStatus *_Nonnull out_status
+    
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingmetadata_output_index(void*_Nonnull ptr, uint64_t n, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingmetadata_spend_index(void*_Nonnull ptr, uint64_t n, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingnode(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashsaplingnode_from_cmu(void*_Nonnull cmu, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingnote(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashsaplingnote_from_parts(void*_Nonnull recipient, void*_Nonnull value, RustBuffer rseed, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsaplingnote_cmu(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsaplingnote_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingnotevalue(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashsaplingnotevalue_from_raw(uint64_t data, RustCallStatus *_Nonnull out_status
+);
+uint64_t uniffi_uniffi_zcash_fn_method_zcashsaplingnotevalue_inner(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingnullifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingnullifier_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingoutputdescription(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsaplingoutputdescription_cmu(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsaplingoutputdescription_cv(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingpublickey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingpublickey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingspenddescription(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingspenddescription_anchor(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsaplingspenddescription_cv(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsaplingspenddescription_nullifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsaplingspenddescription_rk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashsaplingvaluecommitment(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsaplingvaluecommitment_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashscanrange(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashscanrange_from_parts(void*_Nonnull start_block, void*_Nonnull end_block, RustBuffer priority, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashscanrange_block_range(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashscanrange_is_empty(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashscanrange_len(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashscanrange_priority(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashscript(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashscript_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashscript_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtestgreedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtestgreedyinputselector_new(void*_Nonnull change_strategy, void*_Nonnull dust_output_policy, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtransaction(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtransaction_from_bytes(RustBuffer data, RustBuffer consensus_branch_id, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransaction_consensus_branch_id(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashtransaction_expiry_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashtransaction_lock_time(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransaction_orchard_bundle(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransaction_sapling_bundle(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransaction_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransaction_transparent_bundle(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashtransaction_txid(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashtransaction_version(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtransactionbuilder(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtransactionbuilder_new(RustBuffer parameters, void*_Nonnull block_height, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashtransactionbuilder_add_sapling_output(void*_Nonnull ptr, RustBuffer ovk, void*_Nonnull to, void*_Nonnull value, void*_Nonnull memo, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashtransactionbuilder_add_sapling_spend(void*_Nonnull ptr, void*_Nonnull extsk, void*_Nonnull diversifier, void*_Nonnull note, void*_Nonnull merkle_path, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashtransactionbuilder_add_transparent_input(void*_Nonnull ptr, void*_Nonnull sk, void*_Nonnull utxo, void*_Nonnull coin, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashtransactionbuilder_add_transparent_output(void*_Nonnull ptr, void*_Nonnull to, void*_Nonnull value, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransactionbuilder_build(void*_Nonnull ptr, void*_Nonnull prover, RustBuffer fee_rule, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtransactionrequest(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtransactionrequest_empty(RustCallStatus *_Nonnull out_status
+    
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtransactionrequest_from_uri(RustBuffer params, RustBuffer uri, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtransactionrequest_new(RustBuffer payments, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransactionrequest_payments(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransactionrequest_to_uri(void*_Nonnull ptr, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtransparentaddress(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtransparentaddress_decode(RustBuffer params, RustBuffer input, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtransparentaddress_from_public_key(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtransparentaddress_from_script(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransparentaddress_encode(void*_Nonnull ptr, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashtransparentaddress_is_public_key(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashtransparentaddress_is_script(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashtransparentaddress_script(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransparentaddress_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtransparentbundle(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashtransparentbundle_is_coinbase(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransparentbundle_vin(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransparentbundle_vout(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtxid(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtxid_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtxid_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtxin(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtxin_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtxout(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtxout_new(void*_Nonnull value, void*_Nonnull script_pubkey, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtxout_recipient_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashtxout_script_pubkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtxout_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashtxout_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtxversion(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtxversion_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtxversion_suggested_for_branch(RustBuffer consensus_branch_id, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashtxversion_has_orchard(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashtxversion_has_overwinter(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashtxversion_has_sapling(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashtxversion_has_sprout(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashtxversion_header(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtxversion_selection(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtxversion_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashtxversion_version_group_id(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashunifiedaddress(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashunifiedaddress_decode(RustBuffer params, RustBuffer address, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashunifiedaddress_new(RustBuffer orchard, RustBuffer sapling, RustBuffer transparent, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedaddress_encode(void*_Nonnull ptr, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedaddress_orchard(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedaddress_sapling(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedaddress_transparent(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashunifiedfullviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashunifiedfullviewingkey_decode(RustBuffer params, RustBuffer encoded, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashunifiedfullviewingkey_new(RustBuffer transparent, RustBuffer sapling, RustBuffer orchard, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedfullviewingkey_address(void*_Nonnull ptr, void*_Nonnull j, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedfullviewingkey_default_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedfullviewingkey_encode(void*_Nonnull ptr, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedfullviewingkey_find_address(void*_Nonnull ptr, void*_Nonnull j, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedfullviewingkey_orchard(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedfullviewingkey_sapling(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedfullviewingkey_transparent(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashunifiedspendingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashunifiedspendingkey_from_bytes(RustBuffer era, RustBuffer encoded, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashunifiedspendingkey_from_seed(RustBuffer params, RustBuffer seed, RustBuffer account_id, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashunifiedspendingkey_orchard(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashunifiedspendingkey_sapling(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashunifiedspendingkey_to_bytes(void*_Nonnull ptr, RustBuffer era, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashunifiedspendingkey_to_unified_full_viewing_key(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashunifiedspendingkey_transparent(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashverifyingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashverifyingkey_new(RustCallStatus *_Nonnull out_status
+    
+);
+void uniffi_uniffi_zcash_fn_free_zcashviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashviewingkey_ivk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashviewingkey_to_payment_address(void*_Nonnull ptr, void*_Nonnull diversifier, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashwallet(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashwallet_init_wallet_db(void*_Nonnull ptr, void*_Nonnull zwdb, RustBuffer seed, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashwalletdb(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashwalletdb_for_path(RustBuffer path, RustBuffer params, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_account_for_ufvk(void*_Nonnull ptr, void*_Nonnull zufvk, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_current_address(void*_Nonnull ptr, RustBuffer aid, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_min_unspent_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_transparent_receivers(void*_Nonnull ptr, RustBuffer aid, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_unspent_transparent_outputs(void*_Nonnull ptr, void*_Nonnull zta, void*_Nonnull zbh, RustBuffer zop, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_wallet_summary(void*_Nonnull ptr, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+int64_t uniffi_uniffi_zcash_fn_method_zcashwalletdb_put_received_transparent_utxo(void*_Nonnull ptr, void*_Nonnull output, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashwalletdb_put_sapling_subtree_roots(void*_Nonnull ptr, uint64_t start_index, RustBuffer roots, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashwalletdb_store_decrypted_tx(void*_Nonnull ptr, void*_Nonnull d_tx, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_suggest_scan_ranges(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashwalletdb_truncate_to_height(void*_Nonnull ptr, uint32_t block_height, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashwalletdb_update_chain_tip(void*_Nonnull ptr, uint32_t tip_height, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashwalletsummary(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashwalletsummary_new(RustBuffer account_balances, void*_Nonnull chain_tip_height, void*_Nonnull fully_scanned_height, RustBuffer scan_progress, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletsummary_account_balances(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwalletsummary_chain_tip_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwalletsummary_fully_scanned_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashwalletsummary_is_synced(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletsummary_scan_progress(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashwallettransparentoutput(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashwallettransparentoutput_from_parts(void*_Nonnull outpoint, void*_Nonnull txout, void*_Nonnull height, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwallettransparentoutput_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwallettransparentoutput_outpoint(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwallettransparentoutput_recipient_address(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwallettransparentoutput_txout(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwallettransparentoutput_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashzip317feerule(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashzip317feerule_non_standard(void*_Nonnull marginal_fee, uint64_t grace_actions, uint64_t p2pkh_standard_input_size, uint64_t p2pkh_standard_output_size, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashzip317feerule_standard(RustCallStatus *_Nonnull out_status
+    
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashzip317feerule_marginal_fee(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashzip317singleoutputchangestrategy(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashzip317singleoutputchangestrategy_new(void*_Nonnull fee_rule, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_decode_extended_full_viewing_key(RustBuffer hrp, RustBuffer s, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_decode_extended_spending_key(RustBuffer hrp, RustBuffer s, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_decode_payment_address(RustBuffer hrp, RustBuffer s, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_decode_transparent_address(RustBuffer pubkey_version, RustBuffer script_version, RustBuffer s, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_func_encode_extended_full_viewing_key(RustBuffer hrp, void*_Nonnull extfvk, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_func_encode_extended_spending_key(RustBuffer hrp, void*_Nonnull extsk, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_func_encode_payment_address(RustBuffer hrp, void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_func_encode_payment_address_p(RustBuffer params, void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_func_encode_transparent_address(RustBuffer pubkey_version, RustBuffer script_version, void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_func_encode_transparent_address_p(RustBuffer params, void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer ffi_uniffi_zcash_rustbuffer_alloc(int32_t size, RustCallStatus *_Nonnull out_status
+);
+RustBuffer ffi_uniffi_zcash_rustbuffer_from_bytes(ForeignBytes bytes, RustCallStatus *_Nonnull out_status
+);
+void ffi_uniffi_zcash_rustbuffer_free(RustBuffer buf, RustCallStatus *_Nonnull out_status
+);
+RustBuffer ffi_uniffi_zcash_rustbuffer_reserve(RustBuffer buf, int32_t additional, RustCallStatus *_Nonnull out_status
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_decode_extended_full_viewing_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_decode_extended_spending_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_decode_payment_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_decode_transparent_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_encode_extended_full_viewing_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_encode_extended_spending_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_encode_payment_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_encode_payment_address_p(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_encode_transparent_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_encode_transparent_address_p(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_secpsecretkey_serialize_secret(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_testsupport_get_as_string(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_testsupport_get_as_u32(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_testsupport_get_as_u32_array(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_testsupport_get_as_u64(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_testsupport_get_as_u64_array(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_testsupport_get_as_u8_array(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountbalance_sapling_spendable_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountbalance_total(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountprivkey_derive_external_secret_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountprivkey_derive_internal_secret_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountprivkey_to_account_pubkey(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountprivkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountpubkey_derive_external_ivk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountpubkey_derive_internal_ivk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountpubkey_external_ovk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountpubkey_internal_ovk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountpubkey_ovks_for_shielding(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountpubkey_serialize(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaddressmetadata_account(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaddressmetadata_diversifier_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashamount_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashanchor_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashbackendscan_scan_cached_blocks(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashbalance_total(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashblockheight_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashblockmeta_block_file_path(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashchain_init_blockmeta_db(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashcommitmenttree_append(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashcommitmenttreeroot_root_hash(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashcommitmenttreeroot_subtree_end_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_change_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_decrypt_diversifier(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_default_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_diversified_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_diversified_change_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_find_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_fvk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_to_ivk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_to_nk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_to_ovk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifier_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifierindex_increment(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifierindex_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifierindex_to_u32(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdustoutputpolicy_action(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdustoutputpolicy_dust_threshold(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashexpandedspendingkey_proof_generation_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashexpandedspendingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedfullviewingkey_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedfullviewingkey_default_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedfullviewingkey_derive_child(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedfullviewingkey_derive_internal(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedfullviewingkey_encode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedfullviewingkey_find_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedfullviewingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedfullviewingkey_to_diversifiable_full_viewing_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedprivkey_derive_private_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedprivkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedspendingkey_default_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedspendingkey_derive_child(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedspendingkey_derive_internal(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedspendingkey_encode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedspendingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextendedspendingkey_to_diversifiable_full_viewing_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashexternalivk_default_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashexternalivk_derive_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashexternalivk_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashexternalovk_as_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashextractednotecommitment_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashfixedfeerule_fixed_fee(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_find_block(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_get_max_cached_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_write_block_metadata(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashfullviewingkey_ovk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashfullviewingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashfullviewingkey_vk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashincrementalwitness_append(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashincrementalwitness_path(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashinternalivk_default_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashinternalivk_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashinternalovk_as_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashjubjubfr_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashkeyindex_is_valid(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashkeyindex_normalize_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashkeyindex_raw_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashmemobytes_data(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashnonnegativeamount_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashnullifierderivingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardaction_cmx(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardaction_cv_net(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardaction_encrypted_note(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardaction_nullifier(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardaddress_diversifier(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardaddress_to_raw_address_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_actions(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_anchor(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_decrypt_output_with_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_decrypt_output_with_keys(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_flags(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_recover_output_with_ovk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_recover_outputs_with_ovks(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_value_balance(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardbundle_verify_proof(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorcharddiversifier_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorcharddiversifierindex_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardflags_outputs_enabled(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardflags_spends_enabled(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardflags_to_byte(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardfullviewingkey_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardfullviewingkey_address_at(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardfullviewingkey_scope_for_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardfullviewingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardfullviewingkey_to_ivk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardfullviewingkey_to_ovk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardincomingviewingkey_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardincomingviewingkey_address_at(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardincomingviewingkey_diversifier_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardincomingviewingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardmerklehash_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardmerklepath_root(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardnote_commitment(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardnote_recipient(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardnote_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardnotecommitment_to_extracted_note_commitment(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardnotevalue_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardnullifier_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardoutgoingviewingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardrandomseed_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardspendingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardspendingkey_to_fvk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardtransactionbuilder_add_recipient(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardtransactionbuilder_add_spend(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardtransactionbuilder_build(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashorchardvaluecommitment_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashoutgoingviewingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashpaymentaddress_create_note(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashpaymentaddress_diversifier(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashpaymentaddress_encode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashpaymentaddress_pk_d(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashpaymentaddress_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashproofgenerationkey_to_viewing_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashratio_denominator(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashratio_numerator(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashrecipientaddress_encode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingbundle_shielded_outputs(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingbundle_shielded_spends(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingbundle_value_balance(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingextractednotecommitment_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingivk_to_payment_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingivk_to_repr(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingmerklepath_auth_path(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingmerklepath_position(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingmetadata_output_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingmetadata_spend_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingnote_cmu(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingnote_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingnotevalue_inner(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingnullifier_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingoutputdescription_cmu(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingoutputdescription_cv(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingpublickey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingspenddescription_anchor(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingspenddescription_cv(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingspenddescription_nullifier(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingspenddescription_rk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsaplingvaluecommitment_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscanrange_block_range(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscanrange_is_empty(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscanrange_len(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscanrange_priority(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscript_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_consensus_branch_id(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_expiry_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_lock_time(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_orchard_bundle(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_sapling_bundle(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_transparent_bundle(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_txid(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_version(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransactionbuilder_add_sapling_output(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransactionbuilder_add_sapling_spend(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransactionbuilder_add_transparent_input(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransactionbuilder_add_transparent_output(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransactionbuilder_build(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransactionrequest_payments(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransactionrequest_to_uri(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentaddress_encode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentaddress_is_public_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentaddress_is_script(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentaddress_script(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentaddress_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentbundle_is_coinbase(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentbundle_vin(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentbundle_vout(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxid_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxin_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxout_recipient_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxout_script_pubkey(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxout_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxout_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxversion_has_orchard(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxversion_has_overwinter(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxversion_has_sapling(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxversion_has_sprout(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxversion_header(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxversion_selection(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxversion_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxversion_version_group_id(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedaddress_encode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedaddress_orchard(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedaddress_sapling(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedaddress_transparent(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedfullviewingkey_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedfullviewingkey_default_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedfullviewingkey_encode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedfullviewingkey_find_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedfullviewingkey_orchard(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedfullviewingkey_sapling(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedfullviewingkey_transparent(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedspendingkey_orchard(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedspendingkey_sapling(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedspendingkey_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedspendingkey_to_unified_full_viewing_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashunifiedspendingkey_transparent(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashviewingkey_ivk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashviewingkey_to_payment_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwallet_init_wallet_db(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_account_for_ufvk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_current_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_min_unspent_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_transparent_receivers(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_unspent_transparent_outputs(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_wallet_summary(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_received_transparent_utxo(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_sapling_subtree_roots(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_store_decrypted_tx(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_suggest_scan_ranges(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_truncate_to_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_update_chain_tip(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletsummary_account_balances(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletsummary_chain_tip_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletsummary_fully_scanned_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletsummary_is_synced(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletsummary_scan_progress(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwallettransparentoutput_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwallettransparentoutput_outpoint(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwallettransparentoutput_recipient_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwallettransparentoutput_txout(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwallettransparentoutput_value(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashzip317feerule_marginal_fee(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_secpsecretkey_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_testsupport_from_csv_file(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaccountbalance_zero(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_extended_privkey(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_seed(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaccountpubkey_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaddressmetadata_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashamount_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashamount_zero(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashanchor_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashbalance_zero(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashblockhash_from_slice(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashblockheight_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashcommitmenttree_empty(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashcommitmenttreeroot_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashdiversifiablefullviewingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashdiversifier_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_from_u32(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_from_u64(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashdustoutputpolicy_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashexpandedspendingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashexpandedspendingkey_from_spending_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedfullviewingkey_decode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedfullviewingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_random(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_random_with_seed_size(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_with_seed(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_decode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_from_path(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_master(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashexternalivk_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashextractednotecommitment_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashfixedfeerule_non_standard(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashfixedfeerule_standard(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashfixedsingleoutputchangestrategy_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashfsblockdb_for_path(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashfullviewingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashfullviewingkey_from_expanded_spending_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashincrementalwitness_from_tree(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashinternalivk_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashjubjubfr_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_from_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_from_u32(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_hardened_from_normalize_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_with_default_location(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashmaingreedyinputselector_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashmemobytes_empty(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashmemobytes_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_from_nonnegative_i64(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_from_u64(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_zero(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashnoteid_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashnullifierderivingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardaddress_from_raw_address_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifier_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_u32(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_u64(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardflags_from_byte(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardflags_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardfullviewingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardincomingviewingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklehash_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklehash_from_cmx(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklepath_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardnote_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardnotevalue_from_raw(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardnullifier_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardoutgoingviewingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardrandomseed_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardspendingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardspendingkey_from_zip32_seed(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashorchardtransactionbuilder_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashoutpoint_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashoutgoingviewingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashpaymentaddress_decode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashpaymentaddress_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashprovingkey_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashratio_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_decode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_shielded(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_transparent(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_unified(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashsaplingextractednotecommitment_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashsaplingmetadata_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnode_from_cmu(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnote_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnotevalue_from_raw(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashscanrange_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashscript_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtestgreedyinputselector_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransaction_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransactionbuilder_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_empty(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_from_uri(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_decode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_public_key(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_script(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtxid_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtxout_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtxversion_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtxversion_suggested_for_branch(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashunifiedaddress_decode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashunifiedaddress_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashunifiedfullviewingkey_decode(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashunifiedfullviewingkey_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashunifiedspendingkey_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashunifiedspendingkey_from_seed(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashverifyingkey_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashwalletdb_for_path(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashwalletsummary_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashwallettransparentoutput_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashzip317feerule_non_standard(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashzip317feerule_standard(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashzip317singleoutputchangestrategy_new(void
+    
+);
+uint32_t ffi_uniffi_zcash_uniffi_contract_version(void
+    
+);
+
