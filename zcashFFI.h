@@ -158,9 +158,27 @@ typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnul
 typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
 typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
 typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
+typedef void (*UniFfiFutureCallbackUnsafeMutableRawPointer)(const void * _Nonnull, void*_Nonnull, RustCallStatus);
 typedef void (*UniFfiFutureCallbackRustBuffer)(const void * _Nonnull, RustBuffer, RustCallStatus);
 
 // Scaffolding functions
+void uniffi_uniffi_zcash_fn_free_merkletreefrontier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_merkletreeposition(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_merkletreeretention(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
 void uniffi_uniffi_zcash_fn_free_secpsecretkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_secpsecretkey_new(RustBuffer data, RustCallStatus *_Nonnull out_status
@@ -184,6 +202,8 @@ RustBuffer uniffi_uniffi_zcash_fn_method_testsupport_get_as_u64_array(void*_Nonn
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_testsupport_get_as_u8_array(void*_Nonnull ptr, RustBuffer key, RustCallStatus *_Nonnull out_status
 );
+void uniffi_uniffi_zcash_fn_free_timeoffsetdatetime(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
 void uniffi_uniffi_zcash_fn_free_zcashaccountbalance(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaccountbalance_zero(RustCallStatus *_Nonnull out_status
@@ -192,6 +212,18 @@ void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaccountbalance_zero(RustCa
 void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountbalance_sapling_spendable_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountbalance_total(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountbalance_unshielded(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashaccountbirthday(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashaccountbirthday_from_treestate(void*_Nonnull treestate, RustBuffer recover_until, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountbirthday_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashaccountbirthday_recover_until(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashaccountbirthday_sapling_frontier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashaccountprivkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
@@ -248,10 +280,6 @@ void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashanchor_from_bytes(RustBuff
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashanchor_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
-void uniffi_uniffi_zcash_fn_free_zcashbackendscan(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
-);
-void uniffi_uniffi_zcash_fn_method_zcashbackendscan_scan_cached_blocks(void*_Nonnull ptr, RustBuffer params, void*_Nonnull z_db_cache, void*_Nonnull z_db_data, void*_Nonnull height, uint32_t limit, RustCallStatus *_Nonnull out_status
-);
 void uniffi_uniffi_zcash_fn_free_zcashbalance(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashbalance_zero(RustCallStatus *_Nonnull out_status
@@ -271,11 +299,19 @@ uint32_t uniffi_uniffi_zcash_fn_method_zcashblockheight_value(void*_Nonnull ptr,
 );
 void uniffi_uniffi_zcash_fn_free_zcashblockmeta(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashblockmeta_new(void*_Nonnull height, void*_Nonnull block_hash, uint32_t block_time, uint32_t sapling_outputs_count, uint32_t orchard_actions_count, RustCallStatus *_Nonnull out_status
+);
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashblockmeta_block_file_path(void*_Nonnull ptr, RustBuffer blocks_dir, RustCallStatus *_Nonnull out_status
 );
-void uniffi_uniffi_zcash_fn_free_zcashchain(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+void uniffi_uniffi_zcash_fn_free_zcashblockmetadata(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
-void uniffi_uniffi_zcash_fn_method_zcashchain_init_blockmeta_db(void*_Nonnull ptr, RustBuffer blocks_dir, RustCallStatus *_Nonnull out_status
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashblockmetadata_from_parts(void*_Nonnull block_height, void*_Nonnull block_hash, uint32_t sapling_tree_size, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashblockmetadata_block_hash(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashblockmetadata_block_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashblockmetadata_sapling_tree_size(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashcommitmenttree(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
@@ -291,6 +327,18 @@ void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashcommitmenttreeroot_from_pa
 void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashcommitmenttreeroot_root_hash(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashcommitmenttreeroot_subtree_end_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashdecryptedoutput(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_account(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint64_t uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_index(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_memo(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_note(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_transfer_type(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashdecryptedtransaction(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
@@ -461,6 +509,8 @@ RustBuffer uniffi_uniffi_zcash_fn_method_zcashfsblockdb_find_block(void*_Nonnull
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashfsblockdb_get_max_cached_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
+void uniffi_uniffi_zcash_fn_method_zcashfsblockdb_initialize(void*_Nonnull ptr, RustBuffer blocks_dir, RustCallStatus *_Nonnull out_status
+);
 void uniffi_uniffi_zcash_fn_method_zcashfsblockdb_write_block_metadata(void*_Nonnull ptr, RustBuffer block_meta, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashfullviewingkey(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
@@ -474,8 +524,6 @@ void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashfullviewingkey_ovk(void*_Nonnul
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashfullviewingkey_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashfullviewingkey_vk(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
-);
-void uniffi_uniffi_zcash_fn_free_zcashgreedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashincrementalwitness(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
@@ -526,9 +574,13 @@ void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashlocaltxprover_new(RustBuff
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashlocaltxprover_with_default_location(RustCallStatus *_Nonnull out_status
     
 );
-void uniffi_uniffi_zcash_fn_free_zcashmaingreedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+void uniffi_uniffi_zcash_fn_free_zcashmainfixedgreedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
-void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashmaingreedyinputselector_new(void*_Nonnull change_strategy, void*_Nonnull dust_output_policy, RustCallStatus *_Nonnull out_status
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashmainfixedgreedyinputselector_new(void*_Nonnull change_strategy, void*_Nonnull dust_output_policy, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashmainzip317greedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashmainzip317greedyinputselector_new(void*_Nonnull change_strategy, void*_Nonnull dust_output_policy, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashmemobytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
@@ -773,6 +825,18 @@ uint64_t uniffi_uniffi_zcash_fn_method_zcashratio_denominator(void*_Nonnull ptr,
 );
 uint64_t uniffi_uniffi_zcash_fn_method_zcashratio_numerator(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
+void uniffi_uniffi_zcash_fn_free_zcashreceivednoteid(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashreceivedsaplingnote(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashreceivedsaplingnote_diversifier(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashreceivedsaplingnote_internal_note_id(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashreceivedsaplingnote_note_commitment_tree_position(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashreceivedsaplingnote_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
 void uniffi_uniffi_zcash_fn_free_zcashrecipientaddress(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashrecipientaddress_decode(RustBuffer params, RustBuffer address, RustCallStatus *_Nonnull out_status
@@ -880,15 +944,51 @@ uint32_t uniffi_uniffi_zcash_fn_method_zcashscanrange_len(void*_Nonnull ptr, Rus
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashscanrange_priority(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
+void uniffi_uniffi_zcash_fn_free_zcashscannedblock(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashscannedblock_from_parts(void*_Nonnull metadata, uint32_t block_time, RustBuffer transactions, RustBuffer sapling_nullifier_map, RustBuffer sapling_commitments, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashscannedblock_block_hash(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashscannedblock_block_time(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashscannedblock_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashscannedblock_metadata(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashscannedblock_sapling_commitments(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashscannedblock_sapling_nullifier_map(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashscannedblock_transactions(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
 void uniffi_uniffi_zcash_fn_free_zcashscript(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashscript_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashscript_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
-void uniffi_uniffi_zcash_fn_free_zcashtestgreedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+void uniffi_uniffi_zcash_fn_free_zcashsenttransactionoutput(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
-void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtestgreedyinputselector_new(void*_Nonnull change_strategy, void*_Nonnull dust_output_policy, RustCallStatus *_Nonnull out_status
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashsenttransactionoutput_from_parts(uint32_t output_index, RustBuffer recipient, void*_Nonnull value, RustBuffer memo, RustBuffer sapling_change_to, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_memo(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+uint32_t uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_output_index(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_recipient(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_sapling_change_to(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtestfixedgreedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtestfixedgreedyinputselector_new(void*_Nonnull change_strategy, void*_Nonnull dust_output_policy, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashtestzip317greedyinputselector(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtestzip317greedyinputselector_new(void*_Nonnull change_strategy, void*_Nonnull dust_output_policy, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashtransaction(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
@@ -965,11 +1065,19 @@ RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransparentbundle_vin(void*_Nonnul
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashtransparentbundle_vout(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
+void uniffi_uniffi_zcash_fn_free_zcashtreestate(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtreestate_from_bytes(RustBuffer bytes, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtreestate_new(RustBuffer network, uint64_t height, RustBuffer hash, uint32_t time, RustBuffer sapling_tree, RustBuffer orchard_tree, RustCallStatus *_Nonnull out_status
+);
 void uniffi_uniffi_zcash_fn_free_zcashtxid(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashtxid_from_bytes(RustBuffer data, RustCallStatus *_Nonnull out_status
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashtxid_to_bytes(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashtxid_to_hex_string(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashtxin(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
@@ -1070,37 +1178,83 @@ void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashviewingkey_ivk(void*_Nonnull pt
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashviewingkey_to_payment_address(void*_Nonnull ptr, void*_Nonnull diversifier, RustCallStatus *_Nonnull out_status
 );
-void uniffi_uniffi_zcash_fn_free_zcashwallet(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
-);
-void uniffi_uniffi_zcash_fn_method_zcashwallet_init_wallet_db(void*_Nonnull ptr, void*_Nonnull zwdb, RustBuffer seed, RustBuffer params, RustCallStatus *_Nonnull out_status
-);
 void uniffi_uniffi_zcash_fn_free_zcashwalletdb(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashwalletdb_for_path(RustBuffer path, RustBuffer params, RustCallStatus *_Nonnull out_status
 );
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_block_fully_scanned(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_block_max_scanned(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_block_metadata(void*_Nonnull ptr, void*_Nonnull height, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_chain_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_create_account(void*_Nonnull ptr, RustBuffer seed, void*_Nonnull birthday, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_account_birthday(void*_Nonnull ptr, RustBuffer account, RustCallStatus *_Nonnull out_status
+);
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_account_for_ufvk(void*_Nonnull ptr, void*_Nonnull zufvk, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_block_hash(void*_Nonnull ptr, void*_Nonnull height, RustCallStatus *_Nonnull out_status
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_current_address(void*_Nonnull ptr, RustBuffer aid, RustCallStatus *_Nonnull out_status
 );
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_max_height_hash(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_memo(void*_Nonnull ptr, void*_Nonnull id_note, RustCallStatus *_Nonnull out_status
+);
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_min_unspent_height(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_next_available_address(void*_Nonnull ptr, RustBuffer account, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_sapling_nullifiers(void*_Nonnull ptr, RustBuffer query, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_spendable_sapling_notes(void*_Nonnull ptr, RustBuffer account, void*_Nonnull anchor_height, RustBuffer exclude, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_target_and_anchor_heights(void*_Nonnull ptr, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_transaction(void*_Nonnull ptr, void*_Nonnull txid, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_transparent_balances(void*_Nonnull ptr, RustBuffer account, void*_Nonnull max_height, RustCallStatus *_Nonnull out_status
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_transparent_receivers(void*_Nonnull ptr, RustBuffer aid, RustCallStatus *_Nonnull out_status
 );
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_tx_height(void*_Nonnull ptr, void*_Nonnull txid, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_unified_full_viewing_keys(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_unspent_transparent_outputs(void*_Nonnull ptr, void*_Nonnull zta, void*_Nonnull zbh, RustBuffer zop, RustCallStatus *_Nonnull out_status
 );
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_wallet_birthday(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_wallet_summary(void*_Nonnull ptr, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashwalletdb_initialize(void*_Nonnull ptr, RustBuffer seed, RustCallStatus *_Nonnull out_status
+);
+int8_t uniffi_uniffi_zcash_fn_method_zcashwalletdb_is_valid_account_extfvk(void*_Nonnull ptr, RustBuffer account, void*_Nonnull extfvk, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashwalletdb_put_blocks(void*_Nonnull ptr, RustBuffer blocks, RustCallStatus *_Nonnull out_status
 );
 int64_t uniffi_uniffi_zcash_fn_method_zcashwalletdb_put_received_transparent_utxo(void*_Nonnull ptr, void*_Nonnull output, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_method_zcashwalletdb_put_sapling_subtree_roots(void*_Nonnull ptr, uint64_t start_index, RustBuffer roots, RustCallStatus *_Nonnull out_status
 );
+RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_select_spendable_sapling_notes(void*_Nonnull ptr, RustBuffer account, void*_Nonnull target_value, void*_Nonnull anchor_height, RustBuffer exclude, RustCallStatus *_Nonnull out_status
+);
 void uniffi_uniffi_zcash_fn_method_zcashwalletdb_store_decrypted_tx(void*_Nonnull ptr, void*_Nonnull d_tx, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_method_zcashwalletdb_store_sent_tx(void*_Nonnull ptr, RustBuffer sent_tx, RustCallStatus *_Nonnull out_status
 );
 RustBuffer uniffi_uniffi_zcash_fn_method_zcashwalletdb_suggest_scan_ranges(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_method_zcashwalletdb_truncate_to_height(void*_Nonnull ptr, uint32_t block_height, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_method_zcashwalletdb_update_chain_tip(void*_Nonnull ptr, uint32_t tip_height, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashwalletsaplingoutput(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_free_zcashwalletsaplingspend(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void uniffi_uniffi_zcash_fn_free_zcashwalletsummary(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
@@ -1130,6 +1284,10 @@ void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwallettransparentoutput_txout(v
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_method_zcashwallettransparentoutput_value(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
+void uniffi_uniffi_zcash_fn_free_zcashwallettx(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashwallettx_new(void*_Nonnull txid, uint32_t index, RustBuffer sapling_spends, RustBuffer sapling_outputs, RustCallStatus *_Nonnull out_status
+);
 void uniffi_uniffi_zcash_fn_free_zcashzip317feerule(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_constructor_zcashzip317feerule_non_standard(void*_Nonnull marginal_fee, uint64_t grace_actions, uint64_t p2pkh_standard_input_size, uint64_t p2pkh_standard_output_size, RustCallStatus *_Nonnull out_status
@@ -1151,6 +1309,10 @@ void*_Nonnull uniffi_uniffi_zcash_fn_func_decode_payment_address(RustBuffer hrp,
 );
 void*_Nonnull uniffi_uniffi_zcash_fn_func_decode_transparent_address(RustBuffer pubkey_version, RustBuffer script_version, RustBuffer s, RustCallStatus *_Nonnull out_status
 );
+void uniffi_uniffi_zcash_fn_func_decrypt_and_store_transaction(RustBuffer params, void*_Nonnull z_db_data, void*_Nonnull tx, RustCallStatus *_Nonnull out_status
+);
+RustBuffer uniffi_uniffi_zcash_fn_func_decrypt_transaction(RustBuffer params, void*_Nonnull height, void*_Nonnull tx, RustBuffer ufvks, RustCallStatus *_Nonnull out_status
+);
 RustBuffer uniffi_uniffi_zcash_fn_func_encode_extended_full_viewing_key(RustBuffer hrp, void*_Nonnull extfvk, RustCallStatus *_Nonnull out_status
 );
 RustBuffer uniffi_uniffi_zcash_fn_func_encode_extended_spending_key(RustBuffer hrp, void*_Nonnull extsk, RustCallStatus *_Nonnull out_status
@@ -1162,6 +1324,24 @@ RustBuffer uniffi_uniffi_zcash_fn_func_encode_payment_address_p(RustBuffer param
 RustBuffer uniffi_uniffi_zcash_fn_func_encode_transparent_address(RustBuffer pubkey_version, RustBuffer script_version, void*_Nonnull addr, RustCallStatus *_Nonnull out_status
 );
 RustBuffer uniffi_uniffi_zcash_fn_func_encode_transparent_address_p(RustBuffer params, void*_Nonnull addr, RustCallStatus *_Nonnull out_status
+);
+void uniffi_uniffi_zcash_fn_func_scan_cached_blocks(RustBuffer params, RustBuffer fsblockdb_root, RustBuffer db_data_path, void*_Nonnull height, uint32_t limit, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_shield_transparent_funds_main_fixed(void*_Nonnull z_db_data, RustBuffer params, void*_Nonnull prover, void*_Nonnull input_selector, uint64_t shielding_threshold, void*_Nonnull usk, RustBuffer from_addrs, void*_Nonnull memo, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_shield_transparent_funds_main_zip317(void*_Nonnull z_db_data, RustBuffer params, void*_Nonnull prover, void*_Nonnull input_selector, uint64_t shielding_threshold, void*_Nonnull usk, RustBuffer from_addrs, void*_Nonnull memo, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_shield_transparent_funds_test_fixed(void*_Nonnull z_db_data, RustBuffer params, void*_Nonnull prover, void*_Nonnull input_selector, uint64_t shielding_threshold, void*_Nonnull usk, RustBuffer from_addrs, void*_Nonnull memo, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_shield_transparent_funds_test_zip317(void*_Nonnull z_db_data, RustBuffer params, void*_Nonnull prover, void*_Nonnull input_selector, uint64_t shielding_threshold, void*_Nonnull usk, RustBuffer from_addrs, void*_Nonnull memo, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_spend_main_fixed(void*_Nonnull z_db_data, RustBuffer params, void*_Nonnull prover, void*_Nonnull input_selector, void*_Nonnull usk, void*_Nonnull request, RustBuffer ovk_policy, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_spend_main_zip317(void*_Nonnull z_db_data, RustBuffer params, void*_Nonnull prover, void*_Nonnull input_selector, void*_Nonnull usk, void*_Nonnull request, RustBuffer ovk_policy, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_spend_test_fixed(void*_Nonnull z_db_data, RustBuffer params, void*_Nonnull prover, void*_Nonnull input_selector, void*_Nonnull usk, void*_Nonnull request, RustBuffer ovk_policy, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
+);
+void*_Nonnull uniffi_uniffi_zcash_fn_func_spend_test_zip317(void*_Nonnull z_db_data, RustBuffer params, void*_Nonnull prover, void*_Nonnull input_selector, void*_Nonnull usk, void*_Nonnull request, RustBuffer ovk_policy, uint32_t min_confirmations, RustCallStatus *_Nonnull out_status
 );
 RustBuffer ffi_uniffi_zcash_rustbuffer_alloc(int32_t size, RustCallStatus *_Nonnull out_status
 );
@@ -1183,6 +1363,12 @@ uint16_t uniffi_uniffi_zcash_checksum_func_decode_payment_address(void
 uint16_t uniffi_uniffi_zcash_checksum_func_decode_transparent_address(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_func_decrypt_and_store_transaction(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_decrypt_transaction(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_func_encode_extended_full_viewing_key(void
     
 );
@@ -1199,6 +1385,33 @@ uint16_t uniffi_uniffi_zcash_checksum_func_encode_transparent_address(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_func_encode_transparent_address_p(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_scan_cached_blocks(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_shield_transparent_funds_main_fixed(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_shield_transparent_funds_main_zip317(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_shield_transparent_funds_test_fixed(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_shield_transparent_funds_test_zip317(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_spend_main_fixed(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_spend_main_zip317(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_spend_test_fixed(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_func_spend_test_zip317(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_secpsecretkey_serialize_secret(void
@@ -1226,6 +1439,18 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountbalance_sapling_spendab
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountbalance_total(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountbalance_unshielded(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountbirthday_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountbirthday_recover_until(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountbirthday_sapling_frontier(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashaccountprivkey_derive_external_secret_key(void
@@ -1270,9 +1495,6 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashamount_value(void
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashanchor_to_bytes(void
     
 );
-uint16_t uniffi_uniffi_zcash_checksum_method_zcashbackendscan_scan_cached_blocks(void
-    
-);
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashbalance_total(void
     
 );
@@ -1282,7 +1504,13 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashblockheight_value(void
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashblockmeta_block_file_path(void
     
 );
-uint16_t uniffi_uniffi_zcash_checksum_method_zcashchain_init_blockmeta_db(void
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashblockmetadata_block_hash(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashblockmetadata_block_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashblockmetadata_sapling_tree_size(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashcommitmenttree_append(void
@@ -1292,6 +1520,21 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashcommitmenttreeroot_root_hash(v
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashcommitmenttreeroot_subtree_end_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_account(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_memo(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_note(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_transfer_type(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_address(void
@@ -1424,6 +1667,9 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_find_block(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_get_max_cached_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_initialize(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_write_block_metadata(void
@@ -1639,6 +1885,18 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashratio_denominator(void
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashratio_numerator(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashreceivedsaplingnote_diversifier(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashreceivedsaplingnote_internal_note_id(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashreceivedsaplingnote_note_commitment_tree_position(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashreceivedsaplingnote_value(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashrecipientaddress_encode(void
     
 );
@@ -1720,7 +1978,43 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashscanrange_len(void
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashscanrange_priority(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscannedblock_block_hash(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscannedblock_block_time(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscannedblock_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscannedblock_metadata(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscannedblock_sapling_commitments(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscannedblock_sapling_nullifier_map(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashscannedblock_transactions(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashscript_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_memo(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_output_index(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_recipient(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_sapling_change_to(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_value(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransaction_consensus_branch_id(void
@@ -1796,6 +2090,9 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashtransparentbundle_vout(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxid_to_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxid_to_hex_string(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashtxin_to_bytes(void
@@ -1891,25 +2188,85 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashviewingkey_ivk(void
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashviewingkey_to_payment_address(void
     
 );
-uint16_t uniffi_uniffi_zcash_checksum_method_zcashwallet_init_wallet_db(void
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_block_fully_scanned(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_block_max_scanned(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_block_metadata(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_chain_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_create_account(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_account_birthday(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_account_for_ufvk(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_block_hash(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_current_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_max_height_hash(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_memo(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_min_unspent_height(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_next_available_address(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_sapling_nullifiers(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_spendable_sapling_notes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_target_and_anchor_heights(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_transaction(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_transparent_balances(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_transparent_receivers(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_tx_height(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_unified_full_viewing_keys(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_unspent_transparent_outputs(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_wallet_birthday(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_wallet_summary(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_initialize(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_is_valid_account_extfvk(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_blocks(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_received_transparent_utxo(void
@@ -1918,7 +2275,13 @@ uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_received_transpar
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_sapling_subtree_roots(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_select_spendable_sapling_notes(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_store_decrypted_tx(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_store_sent_tx(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_method_zcashwalletdb_suggest_scan_ranges(void
@@ -1972,6 +2335,9 @@ uint16_t uniffi_uniffi_zcash_checksum_constructor_testsupport_from_csv_file(void
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaccountbalance_zero(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaccountbirthday_from_treestate(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_bytes(void
     
 );
@@ -2003,6 +2369,12 @@ uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashblockhash_from_slice(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashblockheight_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashblockmeta_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashblockmetadata_from_parts(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashcommitmenttree_empty(void
@@ -2116,7 +2488,10 @@ uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_new(void
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_with_default_location(void
     
 );
-uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashmaingreedyinputselector_new(void
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashmainfixedgreedyinputselector_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashmainzip317greedyinputselector_new(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashmemobytes_empty(void
@@ -2248,10 +2623,19 @@ uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnotevalue_from_raw
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashscanrange_from_parts(void
     
 );
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashscannedblock_from_parts(void
+    
+);
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashscript_from_bytes(void
     
 );
-uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtestgreedyinputselector_new(void
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashsenttransactionoutput_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtestfixedgreedyinputselector_new(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtestzip317greedyinputselector_new(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransaction_from_bytes(void
@@ -2276,6 +2660,12 @@ uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_p
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_script(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtreestate_from_bytes(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtreestate_new(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashtxid_from_bytes(void
@@ -2318,6 +2708,9 @@ uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashwalletsummary_new(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashwallettransparentoutput_from_parts(void
+    
+);
+uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashwallettx_new(void
     
 );
 uint16_t uniffi_uniffi_zcash_checksum_constructor_zcashzip317feerule_non_standard(void

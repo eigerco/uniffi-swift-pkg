@@ -418,6 +418,171 @@ private struct FfiConverterString: FfiConverter {
     }
 }
 
+public protocol MerkleTreeFrontierProtocol {}
+
+public class MerkleTreeFrontier: MerkleTreeFrontierProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_merkletreefrontier(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeMerkleTreeFrontier: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = MerkleTreeFrontier
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> MerkleTreeFrontier {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: MerkleTreeFrontier, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> MerkleTreeFrontier {
+        return MerkleTreeFrontier(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: MerkleTreeFrontier) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeMerkleTreeFrontier_lift(_ pointer: UnsafeMutableRawPointer) throws -> MerkleTreeFrontier {
+    return try FfiConverterTypeMerkleTreeFrontier.lift(pointer)
+}
+
+public func FfiConverterTypeMerkleTreeFrontier_lower(_ value: MerkleTreeFrontier) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeMerkleTreeFrontier.lower(value)
+}
+
+public protocol MerkleTreePositionProtocol {}
+
+public class MerkleTreePosition: MerkleTreePositionProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_merkletreeposition(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeMerkleTreePosition: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = MerkleTreePosition
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> MerkleTreePosition {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: MerkleTreePosition, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> MerkleTreePosition {
+        return MerkleTreePosition(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: MerkleTreePosition) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeMerkleTreePosition_lift(_ pointer: UnsafeMutableRawPointer) throws -> MerkleTreePosition {
+    return try FfiConverterTypeMerkleTreePosition.lift(pointer)
+}
+
+public func FfiConverterTypeMerkleTreePosition_lower(_ value: MerkleTreePosition) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeMerkleTreePosition.lower(value)
+}
+
+public protocol MerkleTreeRetentionProtocol {}
+
+public class MerkleTreeRetention: MerkleTreeRetentionProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_merkletreeretention(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeMerkleTreeRetention: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = MerkleTreeRetention
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> MerkleTreeRetention {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: MerkleTreeRetention, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> MerkleTreeRetention {
+        return MerkleTreeRetention(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: MerkleTreeRetention) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeMerkleTreeRetention_lift(_ pointer: UnsafeMutableRawPointer) throws -> MerkleTreeRetention {
+    return try FfiConverterTypeMerkleTreeRetention.lift(pointer)
+}
+
+public func FfiConverterTypeMerkleTreeRetention_lower(_ value: MerkleTreeRetention) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeMerkleTreeRetention.lower(value)
+}
+
 public protocol SecpSecretKeyProtocol {
     func serializeSecret() -> [UInt8]
 }
@@ -625,10 +790,67 @@ public func FfiConverterTypeTestSupport_lower(_ value: TestSupport) -> UnsafeMut
     return FfiConverterTypeTestSupport.lower(value)
 }
 
+public protocol TimeOffsetDateTimeProtocol {}
+
+public class TimeOffsetDateTime: TimeOffsetDateTimeProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_timeoffsetdatetime(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeTimeOffsetDateTime: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = TimeOffsetDateTime
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> TimeOffsetDateTime {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: TimeOffsetDateTime, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> TimeOffsetDateTime {
+        return TimeOffsetDateTime(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: TimeOffsetDateTime) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeTimeOffsetDateTime_lift(_ pointer: UnsafeMutableRawPointer) throws -> TimeOffsetDateTime {
+    return try FfiConverterTypeTimeOffsetDateTime.lift(pointer)
+}
+
+public func FfiConverterTypeTimeOffsetDateTime_lower(_ value: TimeOffsetDateTime) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeTimeOffsetDateTime.lower(value)
+}
+
 public protocol ZcashAccountBalanceProtocol {
     func saplingSpendableValue() -> ZcashNonNegativeAmount
 
     func total() -> ZcashNonNegativeAmount
+
+    func unshielded() -> ZcashNonNegativeAmount
 }
 
 public class ZcashAccountBalance: ZcashAccountBalanceProtocol {
@@ -665,6 +887,15 @@ public class ZcashAccountBalance: ZcashAccountBalanceProtocol {
             try!
                 rustCall {
                     uniffi_uniffi_zcash_fn_method_zcashaccountbalance_total(self.pointer, $0)
+                }
+        )
+    }
+
+    public func unshielded() -> ZcashNonNegativeAmount {
+        return try! FfiConverterTypeZcashNonNegativeAmount.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashaccountbalance_unshielded(self.pointer, $0)
                 }
         )
     }
@@ -706,6 +937,103 @@ public func FfiConverterTypeZcashAccountBalance_lift(_ pointer: UnsafeMutableRaw
 
 public func FfiConverterTypeZcashAccountBalance_lower(_ value: ZcashAccountBalance) -> UnsafeMutableRawPointer {
     return FfiConverterTypeZcashAccountBalance.lower(value)
+}
+
+public protocol ZcashAccountBirthdayProtocol {
+    func height() -> ZcashBlockHeight
+
+    func recoverUntil() -> ZcashBlockHeight?
+
+    func saplingFrontier() -> MerkleTreeFrontier
+}
+
+public class ZcashAccountBirthday: ZcashAccountBirthdayProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashaccountbirthday(pointer, $0) }
+    }
+
+    public static func fromTreestate(treestate: ZcashTreeState, recoverUntil: ZcashBlockHeight?) throws -> ZcashAccountBirthday {
+        return try ZcashAccountBirthday(unsafeFromRawPointer: rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_constructor_zcashaccountbirthday_from_treestate(
+                FfiConverterTypeZcashTreeState.lower(treestate),
+                FfiConverterOptionTypeZcashBlockHeight.lower(recoverUntil), $0
+            )
+        })
+    }
+
+    public func height() -> ZcashBlockHeight {
+        return try! FfiConverterTypeZcashBlockHeight.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashaccountbirthday_height(self.pointer, $0)
+                }
+        )
+    }
+
+    public func recoverUntil() -> ZcashBlockHeight? {
+        return try! FfiConverterOptionTypeZcashBlockHeight.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashaccountbirthday_recover_until(self.pointer, $0)
+                }
+        )
+    }
+
+    public func saplingFrontier() -> MerkleTreeFrontier {
+        return try! FfiConverterTypeMerkleTreeFrontier.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashaccountbirthday_sapling_frontier(self.pointer, $0)
+                }
+        )
+    }
+}
+
+public struct FfiConverterTypeZcashAccountBirthday: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashAccountBirthday
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashAccountBirthday {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashAccountBirthday, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashAccountBirthday {
+        return ZcashAccountBirthday(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashAccountBirthday) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashAccountBirthday_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashAccountBirthday {
+    return try FfiConverterTypeZcashAccountBirthday.lift(pointer)
+}
+
+public func FfiConverterTypeZcashAccountBirthday_lower(_ value: ZcashAccountBirthday) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashAccountBirthday.lower(value)
 }
 
 public protocol ZcashAccountPrivKeyProtocol {
@@ -1200,75 +1528,6 @@ public func FfiConverterTypeZcashAnchor_lower(_ value: ZcashAnchor) -> UnsafeMut
     return FfiConverterTypeZcashAnchor.lower(value)
 }
 
-public protocol ZcashBackendScanProtocol {
-    func scanCachedBlocks(params: ZcashConsensusParameters, zDbCache: ZcashFsBlockDb, zDbData: ZcashWalletDb, height: ZcashBlockHeight, limit: UInt32) throws
-}
-
-public class ZcashBackendScan: ZcashBackendScanProtocol {
-    fileprivate let pointer: UnsafeMutableRawPointer
-
-    // TODO: We'd like this to be `private` but for Swifty reasons,
-    // we can't implement `FfiConverter` without making this `required` and we can't
-    // make it `required` without making it `public`.
-    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
-        self.pointer = pointer
-    }
-
-    deinit {
-        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashbackendscan(pointer, $0) }
-    }
-
-    public func scanCachedBlocks(params: ZcashConsensusParameters, zDbCache: ZcashFsBlockDb, zDbData: ZcashWalletDb, height: ZcashBlockHeight, limit: UInt32) throws {
-        try
-            rustCallWithError(FfiConverterTypeZcashError.lift) {
-                uniffi_uniffi_zcash_fn_method_zcashbackendscan_scan_cached_blocks(self.pointer,
-                                                                                  FfiConverterTypeZcashConsensusParameters.lower(params),
-                                                                                  FfiConverterTypeZcashFsBlockDb.lower(zDbCache),
-                                                                                  FfiConverterTypeZcashWalletDb.lower(zDbData),
-                                                                                  FfiConverterTypeZcashBlockHeight.lower(height),
-                                                                                  FfiConverterUInt32.lower(limit), $0)
-            }
-    }
-}
-
-public struct FfiConverterTypeZcashBackendScan: FfiConverter {
-    typealias FfiType = UnsafeMutableRawPointer
-    typealias SwiftType = ZcashBackendScan
-
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashBackendScan {
-        let v: UInt64 = try readInt(&buf)
-        // The Rust code won't compile if a pointer won't fit in a UInt64.
-        // We have to go via `UInt` because that's the thing that's the size of a pointer.
-        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
-        if ptr == nil {
-            throw UniffiInternalError.unexpectedNullPointer
-        }
-        return try lift(ptr!)
-    }
-
-    public static func write(_ value: ZcashBackendScan, into buf: inout [UInt8]) {
-        // This fiddling is because `Int` is the thing that's the same size as a pointer.
-        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
-        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
-    }
-
-    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashBackendScan {
-        return ZcashBackendScan(unsafeFromRawPointer: pointer)
-    }
-
-    public static func lower(_ value: ZcashBackendScan) -> UnsafeMutableRawPointer {
-        return value.pointer
-    }
-}
-
-public func FfiConverterTypeZcashBackendScan_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashBackendScan {
-    return try FfiConverterTypeZcashBackendScan.lift(pointer)
-}
-
-public func FfiConverterTypeZcashBackendScan_lower(_ value: ZcashBackendScan) -> UnsafeMutableRawPointer {
-    return FfiConverterTypeZcashBackendScan.lower(value)
-}
-
 public protocol ZcashBalanceProtocol {
     func total() -> ZcashNonNegativeAmount
 }
@@ -1492,6 +1751,18 @@ public class ZcashBlockMeta: ZcashBlockMetaProtocol {
         self.pointer = pointer
     }
 
+    public convenience init(height: ZcashBlockHeight, blockHash: ZcashBlockHash, blockTime: UInt32, saplingOutputsCount: UInt32, orchardActionsCount: UInt32) {
+        self.init(unsafeFromRawPointer: try! rustCall {
+            uniffi_uniffi_zcash_fn_constructor_zcashblockmeta_new(
+                FfiConverterTypeZcashBlockHeight.lower(height),
+                FfiConverterTypeZcashBlockHash.lower(blockHash),
+                FfiConverterUInt32.lower(blockTime),
+                FfiConverterUInt32.lower(saplingOutputsCount),
+                FfiConverterUInt32.lower(orchardActionsCount), $0
+            )
+        })
+    }
+
     deinit {
         try! rustCall { uniffi_uniffi_zcash_fn_free_zcashblockmeta(pointer, $0) }
     }
@@ -1545,11 +1816,15 @@ public func FfiConverterTypeZcashBlockMeta_lower(_ value: ZcashBlockMeta) -> Uns
     return FfiConverterTypeZcashBlockMeta.lower(value)
 }
 
-public protocol ZcashChainProtocol {
-    func initBlockmetaDb(blocksDir: String) throws
+public protocol ZcashBlockMetadataProtocol {
+    func blockHash() -> ZcashBlockHash
+
+    func blockHeight() -> ZcashBlockHeight
+
+    func saplingTreeSize() -> UInt32
 }
 
-public class ZcashChain: ZcashChainProtocol {
+public class ZcashBlockMetadata: ZcashBlockMetadataProtocol {
     fileprivate let pointer: UnsafeMutableRawPointer
 
     // TODO: We'd like this to be `private` but for Swifty reasons,
@@ -1560,23 +1835,52 @@ public class ZcashChain: ZcashChainProtocol {
     }
 
     deinit {
-        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashchain(pointer, $0) }
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashblockmetadata(pointer, $0) }
     }
 
-    public func initBlockmetaDb(blocksDir: String) throws {
-        try
-            rustCallWithError(FfiConverterTypeZcashError.lift) {
-                uniffi_uniffi_zcash_fn_method_zcashchain_init_blockmeta_db(self.pointer,
-                                                                           FfiConverterString.lower(blocksDir), $0)
-            }
+    public static func fromParts(blockHeight: ZcashBlockHeight, blockHash: ZcashBlockHash, saplingTreeSize: UInt32) -> ZcashBlockMetadata {
+        return ZcashBlockMetadata(unsafeFromRawPointer: try! rustCall {
+            uniffi_uniffi_zcash_fn_constructor_zcashblockmetadata_from_parts(
+                FfiConverterTypeZcashBlockHeight.lower(blockHeight),
+                FfiConverterTypeZcashBlockHash.lower(blockHash),
+                FfiConverterUInt32.lower(saplingTreeSize), $0
+            )
+        })
+    }
+
+    public func blockHash() -> ZcashBlockHash {
+        return try! FfiConverterTypeZcashBlockHash.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashblockmetadata_block_hash(self.pointer, $0)
+                }
+        )
+    }
+
+    public func blockHeight() -> ZcashBlockHeight {
+        return try! FfiConverterTypeZcashBlockHeight.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashblockmetadata_block_height(self.pointer, $0)
+                }
+        )
+    }
+
+    public func saplingTreeSize() -> UInt32 {
+        return try! FfiConverterUInt32.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashblockmetadata_sapling_tree_size(self.pointer, $0)
+                }
+        )
     }
 }
 
-public struct FfiConverterTypeZcashChain: FfiConverter {
+public struct FfiConverterTypeZcashBlockMetadata: FfiConverter {
     typealias FfiType = UnsafeMutableRawPointer
-    typealias SwiftType = ZcashChain
+    typealias SwiftType = ZcashBlockMetadata
 
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashChain {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashBlockMetadata {
         let v: UInt64 = try readInt(&buf)
         // The Rust code won't compile if a pointer won't fit in a UInt64.
         // We have to go via `UInt` because that's the thing that's the size of a pointer.
@@ -1587,27 +1891,27 @@ public struct FfiConverterTypeZcashChain: FfiConverter {
         return try lift(ptr!)
     }
 
-    public static func write(_ value: ZcashChain, into buf: inout [UInt8]) {
+    public static func write(_ value: ZcashBlockMetadata, into buf: inout [UInt8]) {
         // This fiddling is because `Int` is the thing that's the same size as a pointer.
         // The Rust code won't compile if a pointer won't fit in a `UInt64`.
         writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
     }
 
-    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashChain {
-        return ZcashChain(unsafeFromRawPointer: pointer)
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashBlockMetadata {
+        return ZcashBlockMetadata(unsafeFromRawPointer: pointer)
     }
 
-    public static func lower(_ value: ZcashChain) -> UnsafeMutableRawPointer {
+    public static func lower(_ value: ZcashBlockMetadata) -> UnsafeMutableRawPointer {
         return value.pointer
     }
 }
 
-public func FfiConverterTypeZcashChain_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashChain {
-    return try FfiConverterTypeZcashChain.lift(pointer)
+public func FfiConverterTypeZcashBlockMetadata_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashBlockMetadata {
+    return try FfiConverterTypeZcashBlockMetadata.lift(pointer)
 }
 
-public func FfiConverterTypeZcashChain_lower(_ value: ZcashChain) -> UnsafeMutableRawPointer {
-    return FfiConverterTypeZcashChain.lower(value)
+public func FfiConverterTypeZcashBlockMetadata_lower(_ value: ZcashBlockMetadata) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashBlockMetadata.lower(value)
 }
 
 public protocol ZcashCommitmentTreeProtocol {
@@ -1765,6 +2069,116 @@ public func FfiConverterTypeZcashCommitmentTreeRoot_lift(_ pointer: UnsafeMutabl
 
 public func FfiConverterTypeZcashCommitmentTreeRoot_lower(_ value: ZcashCommitmentTreeRoot) -> UnsafeMutableRawPointer {
     return FfiConverterTypeZcashCommitmentTreeRoot.lower(value)
+}
+
+public protocol ZcashDecryptedOutputProtocol {
+    func account() -> ZcashAccountId
+
+    func index() -> UInt64
+
+    func memo() -> ZcashMemoBytes
+
+    func note() -> ZcashSaplingNote
+
+    func transferType() -> ZcashTransferType
+}
+
+public class ZcashDecryptedOutput: ZcashDecryptedOutputProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashdecryptedoutput(pointer, $0) }
+    }
+
+    public func account() -> ZcashAccountId {
+        return try! FfiConverterTypeZcashAccountId.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_account(self.pointer, $0)
+                }
+        )
+    }
+
+    public func index() -> UInt64 {
+        return try! FfiConverterUInt64.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_index(self.pointer, $0)
+                }
+        )
+    }
+
+    public func memo() -> ZcashMemoBytes {
+        return try! FfiConverterTypeZcashMemoBytes.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_memo(self.pointer, $0)
+                }
+        )
+    }
+
+    public func note() -> ZcashSaplingNote {
+        return try! FfiConverterTypeZcashSaplingNote.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_note(self.pointer, $0)
+                }
+        )
+    }
+
+    public func transferType() -> ZcashTransferType {
+        return try! FfiConverterTypeZcashTransferType.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashdecryptedoutput_transfer_type(self.pointer, $0)
+                }
+        )
+    }
+}
+
+public struct FfiConverterTypeZcashDecryptedOutput: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashDecryptedOutput
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashDecryptedOutput {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashDecryptedOutput, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashDecryptedOutput {
+        return ZcashDecryptedOutput(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashDecryptedOutput) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashDecryptedOutput_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashDecryptedOutput {
+    return try FfiConverterTypeZcashDecryptedOutput.lift(pointer)
+}
+
+public func FfiConverterTypeZcashDecryptedOutput_lower(_ value: ZcashDecryptedOutput) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashDecryptedOutput.lower(value)
 }
 
 public protocol ZcashDecryptedTransactionProtocol {}
@@ -3196,6 +3610,8 @@ public protocol ZcashFsBlockDbProtocol {
 
     func getMaxCachedHeight() throws -> ZcashBlockHeight?
 
+    func initialize(blocksDir: String) throws
+
     func writeBlockMetadata(blockMeta: [ZcashBlockMeta]) throws
 }
 
@@ -3236,6 +3652,14 @@ public class ZcashFsBlockDb: ZcashFsBlockDbProtocol {
                 uniffi_uniffi_zcash_fn_method_zcashfsblockdb_get_max_cached_height(self.pointer, $0)
             }
         )
+    }
+
+    public func initialize(blocksDir: String) throws {
+        try
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashfsblockdb_initialize(self.pointer,
+                                                                        FfiConverterString.lower(blocksDir), $0)
+            }
     }
 
     public func writeBlockMetadata(blockMeta: [ZcashBlockMeta]) throws {
@@ -3387,61 +3811,6 @@ public func FfiConverterTypeZcashFullViewingKey_lift(_ pointer: UnsafeMutableRaw
 
 public func FfiConverterTypeZcashFullViewingKey_lower(_ value: ZcashFullViewingKey) -> UnsafeMutableRawPointer {
     return FfiConverterTypeZcashFullViewingKey.lower(value)
-}
-
-public protocol ZcashGreedyInputSelectorProtocol {}
-
-public class ZcashGreedyInputSelector: ZcashGreedyInputSelectorProtocol {
-    fileprivate let pointer: UnsafeMutableRawPointer
-
-    // TODO: We'd like this to be `private` but for Swifty reasons,
-    // we can't implement `FfiConverter` without making this `required` and we can't
-    // make it `required` without making it `public`.
-    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
-        self.pointer = pointer
-    }
-
-    deinit {
-        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashgreedyinputselector(pointer, $0) }
-    }
-}
-
-public struct FfiConverterTypeZcashGreedyInputSelector: FfiConverter {
-    typealias FfiType = UnsafeMutableRawPointer
-    typealias SwiftType = ZcashGreedyInputSelector
-
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashGreedyInputSelector {
-        let v: UInt64 = try readInt(&buf)
-        // The Rust code won't compile if a pointer won't fit in a UInt64.
-        // We have to go via `UInt` because that's the thing that's the size of a pointer.
-        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
-        if ptr == nil {
-            throw UniffiInternalError.unexpectedNullPointer
-        }
-        return try lift(ptr!)
-    }
-
-    public static func write(_ value: ZcashGreedyInputSelector, into buf: inout [UInt8]) {
-        // This fiddling is because `Int` is the thing that's the same size as a pointer.
-        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
-        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
-    }
-
-    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashGreedyInputSelector {
-        return ZcashGreedyInputSelector(unsafeFromRawPointer: pointer)
-    }
-
-    public static func lower(_ value: ZcashGreedyInputSelector) -> UnsafeMutableRawPointer {
-        return value.pointer
-    }
-}
-
-public func FfiConverterTypeZcashGreedyInputSelector_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashGreedyInputSelector {
-    return try FfiConverterTypeZcashGreedyInputSelector.lift(pointer)
-}
-
-public func FfiConverterTypeZcashGreedyInputSelector_lower(_ value: ZcashGreedyInputSelector) -> UnsafeMutableRawPointer {
-    return FfiConverterTypeZcashGreedyInputSelector.lower(value)
 }
 
 public protocol ZcashIncrementalWitnessProtocol {
@@ -3944,9 +4313,9 @@ public func FfiConverterTypeZcashLocalTxProver_lower(_ value: ZcashLocalTxProver
     return FfiConverterTypeZcashLocalTxProver.lower(value)
 }
 
-public protocol ZcashMainGreedyInputSelectorProtocol {}
+public protocol ZcashMainFixedGreedyInputSelectorProtocol {}
 
-public class ZcashMainGreedyInputSelector: ZcashMainGreedyInputSelectorProtocol {
+public class ZcashMainFixedGreedyInputSelector: ZcashMainFixedGreedyInputSelectorProtocol {
     fileprivate let pointer: UnsafeMutableRawPointer
 
     // TODO: We'd like this to be `private` but for Swifty reasons,
@@ -3958,7 +4327,7 @@ public class ZcashMainGreedyInputSelector: ZcashMainGreedyInputSelectorProtocol 
 
     public convenience init(changeStrategy: ZcashFixedSingleOutputChangeStrategy, dustOutputPolicy: ZcashDustOutputPolicy) {
         self.init(unsafeFromRawPointer: try! rustCall {
-            uniffi_uniffi_zcash_fn_constructor_zcashmaingreedyinputselector_new(
+            uniffi_uniffi_zcash_fn_constructor_zcashmainfixedgreedyinputselector_new(
                 FfiConverterTypeZcashFixedSingleOutputChangeStrategy.lower(changeStrategy),
                 FfiConverterTypeZcashDustOutputPolicy.lower(dustOutputPolicy), $0
             )
@@ -3966,15 +4335,15 @@ public class ZcashMainGreedyInputSelector: ZcashMainGreedyInputSelectorProtocol 
     }
 
     deinit {
-        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashmaingreedyinputselector(pointer, $0) }
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashmainfixedgreedyinputselector(pointer, $0) }
     }
 }
 
-public struct FfiConverterTypeZcashMainGreedyInputSelector: FfiConverter {
+public struct FfiConverterTypeZcashMainFixedGreedyInputSelector: FfiConverter {
     typealias FfiType = UnsafeMutableRawPointer
-    typealias SwiftType = ZcashMainGreedyInputSelector
+    typealias SwiftType = ZcashMainFixedGreedyInputSelector
 
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashMainGreedyInputSelector {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashMainFixedGreedyInputSelector {
         let v: UInt64 = try readInt(&buf)
         // The Rust code won't compile if a pointer won't fit in a UInt64.
         // We have to go via `UInt` because that's the thing that's the size of a pointer.
@@ -3985,27 +4354,91 @@ public struct FfiConverterTypeZcashMainGreedyInputSelector: FfiConverter {
         return try lift(ptr!)
     }
 
-    public static func write(_ value: ZcashMainGreedyInputSelector, into buf: inout [UInt8]) {
+    public static func write(_ value: ZcashMainFixedGreedyInputSelector, into buf: inout [UInt8]) {
         // This fiddling is because `Int` is the thing that's the same size as a pointer.
         // The Rust code won't compile if a pointer won't fit in a `UInt64`.
         writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
     }
 
-    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashMainGreedyInputSelector {
-        return ZcashMainGreedyInputSelector(unsafeFromRawPointer: pointer)
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashMainFixedGreedyInputSelector {
+        return ZcashMainFixedGreedyInputSelector(unsafeFromRawPointer: pointer)
     }
 
-    public static func lower(_ value: ZcashMainGreedyInputSelector) -> UnsafeMutableRawPointer {
+    public static func lower(_ value: ZcashMainFixedGreedyInputSelector) -> UnsafeMutableRawPointer {
         return value.pointer
     }
 }
 
-public func FfiConverterTypeZcashMainGreedyInputSelector_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashMainGreedyInputSelector {
-    return try FfiConverterTypeZcashMainGreedyInputSelector.lift(pointer)
+public func FfiConverterTypeZcashMainFixedGreedyInputSelector_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashMainFixedGreedyInputSelector {
+    return try FfiConverterTypeZcashMainFixedGreedyInputSelector.lift(pointer)
 }
 
-public func FfiConverterTypeZcashMainGreedyInputSelector_lower(_ value: ZcashMainGreedyInputSelector) -> UnsafeMutableRawPointer {
-    return FfiConverterTypeZcashMainGreedyInputSelector.lower(value)
+public func FfiConverterTypeZcashMainFixedGreedyInputSelector_lower(_ value: ZcashMainFixedGreedyInputSelector) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashMainFixedGreedyInputSelector.lower(value)
+}
+
+public protocol ZcashMainZip317GreedyInputSelectorProtocol {}
+
+public class ZcashMainZip317GreedyInputSelector: ZcashMainZip317GreedyInputSelectorProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    public convenience init(changeStrategy: ZcashZip317SingleOutputChangeStrategy, dustOutputPolicy: ZcashDustOutputPolicy) {
+        self.init(unsafeFromRawPointer: try! rustCall {
+            uniffi_uniffi_zcash_fn_constructor_zcashmainzip317greedyinputselector_new(
+                FfiConverterTypeZcashZip317SingleOutputChangeStrategy.lower(changeStrategy),
+                FfiConverterTypeZcashDustOutputPolicy.lower(dustOutputPolicy), $0
+            )
+        })
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashmainzip317greedyinputselector(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeZcashMainZip317GreedyInputSelector: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashMainZip317GreedyInputSelector
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashMainZip317GreedyInputSelector {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashMainZip317GreedyInputSelector, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashMainZip317GreedyInputSelector {
+        return ZcashMainZip317GreedyInputSelector(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashMainZip317GreedyInputSelector) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashMainZip317GreedyInputSelector_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashMainZip317GreedyInputSelector {
+    return try FfiConverterTypeZcashMainZip317GreedyInputSelector.lift(pointer)
+}
+
+public func FfiConverterTypeZcashMainZip317GreedyInputSelector_lower(_ value: ZcashMainZip317GreedyInputSelector) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashMainZip317GreedyInputSelector.lower(value)
 }
 
 public protocol ZcashMemoBytesProtocol {
@@ -6536,6 +6969,160 @@ public func FfiConverterTypeZcashRatio_lower(_ value: ZcashRatio) -> UnsafeMutab
     return FfiConverterTypeZcashRatio.lower(value)
 }
 
+public protocol ZcashReceivedNoteIdProtocol {}
+
+public class ZcashReceivedNoteId: ZcashReceivedNoteIdProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashreceivednoteid(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeZcashReceivedNoteId: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashReceivedNoteId
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashReceivedNoteId {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashReceivedNoteId, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashReceivedNoteId {
+        return ZcashReceivedNoteId(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashReceivedNoteId) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashReceivedNoteId_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashReceivedNoteId {
+    return try FfiConverterTypeZcashReceivedNoteId.lift(pointer)
+}
+
+public func FfiConverterTypeZcashReceivedNoteId_lower(_ value: ZcashReceivedNoteId) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashReceivedNoteId.lower(value)
+}
+
+public protocol ZcashReceivedSaplingNoteProtocol {
+    func diversifier() -> ZcashDiversifier
+
+    func internalNoteId() -> ZcashReceivedNoteId
+
+    func noteCommitmentTreePosition() -> MerkleTreePosition
+
+    func value() -> ZcashAmount
+}
+
+public class ZcashReceivedSaplingNote: ZcashReceivedSaplingNoteProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashreceivedsaplingnote(pointer, $0) }
+    }
+
+    public func diversifier() -> ZcashDiversifier {
+        return try! FfiConverterTypeZcashDiversifier.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashreceivedsaplingnote_diversifier(self.pointer, $0)
+                }
+        )
+    }
+
+    public func internalNoteId() -> ZcashReceivedNoteId {
+        return try! FfiConverterTypeZcashReceivedNoteId.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashreceivedsaplingnote_internal_note_id(self.pointer, $0)
+                }
+        )
+    }
+
+    public func noteCommitmentTreePosition() -> MerkleTreePosition {
+        return try! FfiConverterTypeMerkleTreePosition.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashreceivedsaplingnote_note_commitment_tree_position(self.pointer, $0)
+                }
+        )
+    }
+
+    public func value() -> ZcashAmount {
+        return try! FfiConverterTypeZcashAmount.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashreceivedsaplingnote_value(self.pointer, $0)
+                }
+        )
+    }
+}
+
+public struct FfiConverterTypeZcashReceivedSaplingNote: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashReceivedSaplingNote
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashReceivedSaplingNote {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashReceivedSaplingNote, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashReceivedSaplingNote {
+        return ZcashReceivedSaplingNote(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashReceivedSaplingNote) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashReceivedSaplingNote_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashReceivedSaplingNote {
+    return try FfiConverterTypeZcashReceivedSaplingNote.lift(pointer)
+}
+
+public func FfiConverterTypeZcashReceivedSaplingNote_lower(_ value: ZcashReceivedSaplingNote) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashReceivedSaplingNote.lower(value)
+}
+
 public protocol ZcashRecipientAddressProtocol {
     func encode(params: ZcashConsensusParameters) -> String
 }
@@ -7799,6 +8386,150 @@ public func FfiConverterTypeZcashScanRange_lower(_ value: ZcashScanRange) -> Uns
     return FfiConverterTypeZcashScanRange.lower(value)
 }
 
+public protocol ZcashScannedBlockProtocol {
+    func blockHash() -> ZcashBlockHash
+
+    func blockTime() -> UInt32
+
+    func height() -> ZcashBlockHeight
+
+    func metadata() -> ZcashBlockMetadata
+
+    func saplingCommitments() -> [TupleSaplingCommitments]
+
+    func saplingNullifierMap() -> [TripleSaplingNullifierMap]
+
+    func transactions() -> [ZcashWalletTx]
+}
+
+public class ZcashScannedBlock: ZcashScannedBlockProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashscannedblock(pointer, $0) }
+    }
+
+    public static func fromParts(metadata: ZcashBlockMetadata, blockTime: UInt32, transactions: [ZcashWalletTx], saplingNullifierMap: [TripleSaplingNullifierMap], saplingCommitments: [TupleSaplingCommitments]) -> ZcashScannedBlock {
+        return ZcashScannedBlock(unsafeFromRawPointer: try! rustCall {
+            uniffi_uniffi_zcash_fn_constructor_zcashscannedblock_from_parts(
+                FfiConverterTypeZcashBlockMetadata.lower(metadata),
+                FfiConverterUInt32.lower(blockTime),
+                FfiConverterSequenceTypeZcashWalletTx.lower(transactions),
+                FfiConverterSequenceTypeTripleSaplingNullifierMap.lower(saplingNullifierMap),
+                FfiConverterSequenceTypeTupleSaplingCommitments.lower(saplingCommitments), $0
+            )
+        })
+    }
+
+    public func blockHash() -> ZcashBlockHash {
+        return try! FfiConverterTypeZcashBlockHash.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashscannedblock_block_hash(self.pointer, $0)
+                }
+        )
+    }
+
+    public func blockTime() -> UInt32 {
+        return try! FfiConverterUInt32.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashscannedblock_block_time(self.pointer, $0)
+                }
+        )
+    }
+
+    public func height() -> ZcashBlockHeight {
+        return try! FfiConverterTypeZcashBlockHeight.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashscannedblock_height(self.pointer, $0)
+                }
+        )
+    }
+
+    public func metadata() -> ZcashBlockMetadata {
+        return try! FfiConverterTypeZcashBlockMetadata.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashscannedblock_metadata(self.pointer, $0)
+                }
+        )
+    }
+
+    public func saplingCommitments() -> [TupleSaplingCommitments] {
+        return try! FfiConverterSequenceTypeTupleSaplingCommitments.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashscannedblock_sapling_commitments(self.pointer, $0)
+                }
+        )
+    }
+
+    public func saplingNullifierMap() -> [TripleSaplingNullifierMap] {
+        return try! FfiConverterSequenceTypeTripleSaplingNullifierMap.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashscannedblock_sapling_nullifier_map(self.pointer, $0)
+                }
+        )
+    }
+
+    public func transactions() -> [ZcashWalletTx] {
+        return try! FfiConverterSequenceTypeZcashWalletTx.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashscannedblock_transactions(self.pointer, $0)
+                }
+        )
+    }
+}
+
+public struct FfiConverterTypeZcashScannedBlock: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashScannedBlock
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashScannedBlock {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashScannedBlock, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashScannedBlock {
+        return ZcashScannedBlock(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashScannedBlock) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashScannedBlock_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashScannedBlock {
+    return try FfiConverterTypeZcashScannedBlock.lift(pointer)
+}
+
+public func FfiConverterTypeZcashScannedBlock_lower(_ value: ZcashScannedBlock) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashScannedBlock.lower(value)
+}
+
 public protocol ZcashScriptProtocol {
     func toBytes() throws -> [UInt8]
 }
@@ -7872,9 +8603,131 @@ public func FfiConverterTypeZcashScript_lower(_ value: ZcashScript) -> UnsafeMut
     return FfiConverterTypeZcashScript.lower(value)
 }
 
-public protocol ZcashTestGreedyInputSelectorProtocol {}
+public protocol ZcashSentTransactionOutputProtocol {
+    func memo() -> ZcashMemoBytes?
 
-public class ZcashTestGreedyInputSelector: ZcashTestGreedyInputSelectorProtocol {
+    func outputIndex() -> UInt32
+
+    func recipient() -> ZcashRecipient
+
+    func saplingChangeTo() -> TupleAccountIdAndSaplingNote?
+
+    func value() -> ZcashAmount
+}
+
+public class ZcashSentTransactionOutput: ZcashSentTransactionOutputProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashsenttransactionoutput(pointer, $0) }
+    }
+
+    public static func fromParts(outputIndex: UInt32, recipient: ZcashRecipient, value: ZcashAmount, memo: ZcashMemoBytes?, saplingChangeTo: TupleAccountIdAndSaplingNote?) -> ZcashSentTransactionOutput {
+        return ZcashSentTransactionOutput(unsafeFromRawPointer: try! rustCall {
+            uniffi_uniffi_zcash_fn_constructor_zcashsenttransactionoutput_from_parts(
+                FfiConverterUInt32.lower(outputIndex),
+                FfiConverterTypeZcashRecipient.lower(recipient),
+                FfiConverterTypeZcashAmount.lower(value),
+                FfiConverterOptionTypeZcashMemoBytes.lower(memo),
+                FfiConverterOptionTypeTupleAccountIdAndSaplingNote.lower(saplingChangeTo), $0
+            )
+        })
+    }
+
+    public func memo() -> ZcashMemoBytes? {
+        return try! FfiConverterOptionTypeZcashMemoBytes.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_memo(self.pointer, $0)
+                }
+        )
+    }
+
+    public func outputIndex() -> UInt32 {
+        return try! FfiConverterUInt32.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_output_index(self.pointer, $0)
+                }
+        )
+    }
+
+    public func recipient() -> ZcashRecipient {
+        return try! FfiConverterTypeZcashRecipient.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_recipient(self.pointer, $0)
+                }
+        )
+    }
+
+    public func saplingChangeTo() -> TupleAccountIdAndSaplingNote? {
+        return try! FfiConverterOptionTypeTupleAccountIdAndSaplingNote.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_sapling_change_to(self.pointer, $0)
+                }
+        )
+    }
+
+    public func value() -> ZcashAmount {
+        return try! FfiConverterTypeZcashAmount.lift(
+            try!
+                rustCall {
+                    uniffi_uniffi_zcash_fn_method_zcashsenttransactionoutput_value(self.pointer, $0)
+                }
+        )
+    }
+}
+
+public struct FfiConverterTypeZcashSentTransactionOutput: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashSentTransactionOutput
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashSentTransactionOutput {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashSentTransactionOutput, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashSentTransactionOutput {
+        return ZcashSentTransactionOutput(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashSentTransactionOutput) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashSentTransactionOutput_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashSentTransactionOutput {
+    return try FfiConverterTypeZcashSentTransactionOutput.lift(pointer)
+}
+
+public func FfiConverterTypeZcashSentTransactionOutput_lower(_ value: ZcashSentTransactionOutput) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashSentTransactionOutput.lower(value)
+}
+
+public protocol ZcashTestFixedGreedyInputSelectorProtocol {}
+
+public class ZcashTestFixedGreedyInputSelector: ZcashTestFixedGreedyInputSelectorProtocol {
     fileprivate let pointer: UnsafeMutableRawPointer
 
     // TODO: We'd like this to be `private` but for Swifty reasons,
@@ -7886,7 +8739,7 @@ public class ZcashTestGreedyInputSelector: ZcashTestGreedyInputSelectorProtocol 
 
     public convenience init(changeStrategy: ZcashFixedSingleOutputChangeStrategy, dustOutputPolicy: ZcashDustOutputPolicy) {
         self.init(unsafeFromRawPointer: try! rustCall {
-            uniffi_uniffi_zcash_fn_constructor_zcashtestgreedyinputselector_new(
+            uniffi_uniffi_zcash_fn_constructor_zcashtestfixedgreedyinputselector_new(
                 FfiConverterTypeZcashFixedSingleOutputChangeStrategy.lower(changeStrategy),
                 FfiConverterTypeZcashDustOutputPolicy.lower(dustOutputPolicy), $0
             )
@@ -7894,15 +8747,15 @@ public class ZcashTestGreedyInputSelector: ZcashTestGreedyInputSelectorProtocol 
     }
 
     deinit {
-        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashtestgreedyinputselector(pointer, $0) }
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashtestfixedgreedyinputselector(pointer, $0) }
     }
 }
 
-public struct FfiConverterTypeZcashTestGreedyInputSelector: FfiConverter {
+public struct FfiConverterTypeZcashTestFixedGreedyInputSelector: FfiConverter {
     typealias FfiType = UnsafeMutableRawPointer
-    typealias SwiftType = ZcashTestGreedyInputSelector
+    typealias SwiftType = ZcashTestFixedGreedyInputSelector
 
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashTestGreedyInputSelector {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashTestFixedGreedyInputSelector {
         let v: UInt64 = try readInt(&buf)
         // The Rust code won't compile if a pointer won't fit in a UInt64.
         // We have to go via `UInt` because that's the thing that's the size of a pointer.
@@ -7913,27 +8766,91 @@ public struct FfiConverterTypeZcashTestGreedyInputSelector: FfiConverter {
         return try lift(ptr!)
     }
 
-    public static func write(_ value: ZcashTestGreedyInputSelector, into buf: inout [UInt8]) {
+    public static func write(_ value: ZcashTestFixedGreedyInputSelector, into buf: inout [UInt8]) {
         // This fiddling is because `Int` is the thing that's the same size as a pointer.
         // The Rust code won't compile if a pointer won't fit in a `UInt64`.
         writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
     }
 
-    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashTestGreedyInputSelector {
-        return ZcashTestGreedyInputSelector(unsafeFromRawPointer: pointer)
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashTestFixedGreedyInputSelector {
+        return ZcashTestFixedGreedyInputSelector(unsafeFromRawPointer: pointer)
     }
 
-    public static func lower(_ value: ZcashTestGreedyInputSelector) -> UnsafeMutableRawPointer {
+    public static func lower(_ value: ZcashTestFixedGreedyInputSelector) -> UnsafeMutableRawPointer {
         return value.pointer
     }
 }
 
-public func FfiConverterTypeZcashTestGreedyInputSelector_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashTestGreedyInputSelector {
-    return try FfiConverterTypeZcashTestGreedyInputSelector.lift(pointer)
+public func FfiConverterTypeZcashTestFixedGreedyInputSelector_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashTestFixedGreedyInputSelector {
+    return try FfiConverterTypeZcashTestFixedGreedyInputSelector.lift(pointer)
 }
 
-public func FfiConverterTypeZcashTestGreedyInputSelector_lower(_ value: ZcashTestGreedyInputSelector) -> UnsafeMutableRawPointer {
-    return FfiConverterTypeZcashTestGreedyInputSelector.lower(value)
+public func FfiConverterTypeZcashTestFixedGreedyInputSelector_lower(_ value: ZcashTestFixedGreedyInputSelector) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashTestFixedGreedyInputSelector.lower(value)
+}
+
+public protocol ZcashTestZip317GreedyInputSelectorProtocol {}
+
+public class ZcashTestZip317GreedyInputSelector: ZcashTestZip317GreedyInputSelectorProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    public convenience init(changeStrategy: ZcashZip317SingleOutputChangeStrategy, dustOutputPolicy: ZcashDustOutputPolicy) {
+        self.init(unsafeFromRawPointer: try! rustCall {
+            uniffi_uniffi_zcash_fn_constructor_zcashtestzip317greedyinputselector_new(
+                FfiConverterTypeZcashZip317SingleOutputChangeStrategy.lower(changeStrategy),
+                FfiConverterTypeZcashDustOutputPolicy.lower(dustOutputPolicy), $0
+            )
+        })
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashtestzip317greedyinputselector(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeZcashTestZip317GreedyInputSelector: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashTestZip317GreedyInputSelector
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashTestZip317GreedyInputSelector {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashTestZip317GreedyInputSelector, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashTestZip317GreedyInputSelector {
+        return ZcashTestZip317GreedyInputSelector(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashTestZip317GreedyInputSelector) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashTestZip317GreedyInputSelector_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashTestZip317GreedyInputSelector {
+    return try FfiConverterTypeZcashTestZip317GreedyInputSelector.lift(pointer)
+}
+
+public func FfiConverterTypeZcashTestZip317GreedyInputSelector_lower(_ value: ZcashTestZip317GreedyInputSelector) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashTestZip317GreedyInputSelector.lower(value)
 }
 
 public protocol ZcashTransactionProtocol {
@@ -8548,8 +9465,86 @@ public func FfiConverterTypeZcashTransparentBundle_lower(_ value: ZcashTranspare
     return FfiConverterTypeZcashTransparentBundle.lower(value)
 }
 
+public protocol ZcashTreeStateProtocol {}
+
+public class ZcashTreeState: ZcashTreeStateProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    public convenience init(network: String, height: UInt64, hash: String, time: UInt32, saplingTree: String, orchardTree: String) {
+        self.init(unsafeFromRawPointer: try! rustCall {
+            uniffi_uniffi_zcash_fn_constructor_zcashtreestate_new(
+                FfiConverterString.lower(network),
+                FfiConverterUInt64.lower(height),
+                FfiConverterString.lower(hash),
+                FfiConverterUInt32.lower(time),
+                FfiConverterString.lower(saplingTree),
+                FfiConverterString.lower(orchardTree), $0
+            )
+        })
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashtreestate(pointer, $0) }
+    }
+
+    public static func fromBytes(bytes: [UInt8]) throws -> ZcashTreeState {
+        return try ZcashTreeState(unsafeFromRawPointer: rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_constructor_zcashtreestate_from_bytes(
+                FfiConverterSequenceUInt8.lower(bytes), $0
+            )
+        })
+    }
+}
+
+public struct FfiConverterTypeZcashTreeState: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashTreeState
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashTreeState {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashTreeState, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashTreeState {
+        return ZcashTreeState(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashTreeState) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashTreeState_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashTreeState {
+    return try FfiConverterTypeZcashTreeState.lift(pointer)
+}
+
+public func FfiConverterTypeZcashTreeState_lower(_ value: ZcashTreeState) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashTreeState.lower(value)
+}
+
 public protocol ZcashTxIdProtocol {
     func toBytes() throws -> [UInt8]
+
+    func toHexString() throws -> String
 }
 
 public class ZcashTxId: ZcashTxIdProtocol {
@@ -8578,6 +9573,14 @@ public class ZcashTxId: ZcashTxIdProtocol {
         return try FfiConverterSequenceUInt8.lift(
             rustCallWithError(FfiConverterTypeZcashError.lift) {
                 uniffi_uniffi_zcash_fn_method_zcashtxid_to_bytes(self.pointer, $0)
+            }
+        )
+    }
+
+    public func toHexString() throws -> String {
+        return try FfiConverterString.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashtxid_to_hex_string(self.pointer, $0)
             }
         )
     }
@@ -9493,91 +10496,70 @@ public func FfiConverterTypeZcashViewingKey_lower(_ value: ZcashViewingKey) -> U
     return FfiConverterTypeZcashViewingKey.lower(value)
 }
 
-public protocol ZcashWalletProtocol {
-    func initWalletDb(zwdb: ZcashWalletDb, seed: [UInt8], params: ZcashConsensusParameters) throws
-}
-
-public class ZcashWallet: ZcashWalletProtocol {
-    fileprivate let pointer: UnsafeMutableRawPointer
-
-    // TODO: We'd like this to be `private` but for Swifty reasons,
-    // we can't implement `FfiConverter` without making this `required` and we can't
-    // make it `required` without making it `public`.
-    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
-        self.pointer = pointer
-    }
-
-    deinit {
-        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashwallet(pointer, $0) }
-    }
-
-    public func initWalletDb(zwdb: ZcashWalletDb, seed: [UInt8], params: ZcashConsensusParameters) throws {
-        try
-            rustCallWithError(FfiConverterTypeZcashError.lift) {
-                uniffi_uniffi_zcash_fn_method_zcashwallet_init_wallet_db(self.pointer,
-                                                                         FfiConverterTypeZcashWalletDb.lower(zwdb),
-                                                                         FfiConverterSequenceUInt8.lower(seed),
-                                                                         FfiConverterTypeZcashConsensusParameters.lower(params), $0)
-            }
-    }
-}
-
-public struct FfiConverterTypeZcashWallet: FfiConverter {
-    typealias FfiType = UnsafeMutableRawPointer
-    typealias SwiftType = ZcashWallet
-
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashWallet {
-        let v: UInt64 = try readInt(&buf)
-        // The Rust code won't compile if a pointer won't fit in a UInt64.
-        // We have to go via `UInt` because that's the thing that's the size of a pointer.
-        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
-        if ptr == nil {
-            throw UniffiInternalError.unexpectedNullPointer
-        }
-        return try lift(ptr!)
-    }
-
-    public static func write(_ value: ZcashWallet, into buf: inout [UInt8]) {
-        // This fiddling is because `Int` is the thing that's the same size as a pointer.
-        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
-        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
-    }
-
-    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashWallet {
-        return ZcashWallet(unsafeFromRawPointer: pointer)
-    }
-
-    public static func lower(_ value: ZcashWallet) -> UnsafeMutableRawPointer {
-        return value.pointer
-    }
-}
-
-public func FfiConverterTypeZcashWallet_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashWallet {
-    return try FfiConverterTypeZcashWallet.lift(pointer)
-}
-
-public func FfiConverterTypeZcashWallet_lower(_ value: ZcashWallet) -> UnsafeMutableRawPointer {
-    return FfiConverterTypeZcashWallet.lower(value)
-}
-
 public protocol ZcashWalletDbProtocol {
+    func blockFullyScanned() throws -> ZcashBlockMetadata?
+
+    func blockMaxScanned() throws -> ZcashBlockMetadata?
+
+    func blockMetadata(height: ZcashBlockHeight) throws -> ZcashBlockMetadata?
+
+    func chainHeight() throws -> ZcashBlockHeight?
+
+    func createAccount(seed: [UInt8], birthday: ZcashAccountBirthday) throws -> TupleAccountIdAndUnifiedSpendingKey
+
+    func getAccountBirthday(account: ZcashAccountId) throws -> ZcashBlockHeight
+
     func getAccountForUfvk(zufvk: ZcashUnifiedFullViewingKey) throws -> ZcashAccountId?
+
+    func getBlockHash(height: ZcashBlockHeight) throws -> ZcashBlockHash?
 
     func getCurrentAddress(aid: ZcashAccountId) throws -> ZcashUnifiedAddress?
 
+    func getMaxHeightHash() throws -> TupleBlockHeightAndHash?
+
+    func getMemo(idNote: ZcashNoteId) throws -> ZcashMemo
+
     func getMinUnspentHeight() throws -> ZcashBlockHeight?
+
+    func getNextAvailableAddress(account: ZcashAccountId) throws -> ZcashUnifiedAddress?
+
+    func getSaplingNullifiers(query: ZcashNullifierQuery) throws -> [TupleAccountIdAndSaplingNullifier]
+
+    func getSpendableSaplingNotes(account: ZcashAccountId, anchorHeight: ZcashBlockHeight, exclude: [ZcashReceivedNoteId]) throws -> [ZcashReceivedSaplingNote]
+
+    func getTargetAndAnchorHeights(minConfirmations: UInt32) throws -> TupleTargetAndAnchorHeight?
+
+    func getTransaction(txid: ZcashTxId) throws -> ZcashTransaction
+
+    func getTransparentBalances(account: ZcashAccountId, maxHeight: ZcashBlockHeight) throws -> [String: ZcashAmount]
 
     func getTransparentReceivers(aid: ZcashAccountId) throws -> [String: ZcashAddressMetadata]
 
+    func getTxHeight(txid: ZcashTxId) throws -> ZcashBlockHeight?
+
+    func getUnifiedFullViewingKeys() throws -> [ZcashAccountId: ZcashUnifiedFullViewingKey]
+
     func getUnspentTransparentOutputs(zta: ZcashTransparentAddress, zbh: ZcashBlockHeight, zop: [ZcashOutPoint]) throws -> [ZcashWalletTransparentOutput]
 
+    func getWalletBirthday() throws -> ZcashBlockHeight?
+
     func getWalletSummary(minConfirmations: UInt32) throws -> ZcashWalletSummary?
+
+    func initialize(seed: [UInt8]) throws
+
+    func isValidAccountExtfvk(account: ZcashAccountId, extfvk: ZcashExtendedFullViewingKey) throws -> Bool
+
+    func putBlocks(blocks: [ZcashScannedBlock]) throws
 
     func putReceivedTransparentUtxo(output: ZcashWalletTransparentOutput) throws -> Int64
 
     func putSaplingSubtreeRoots(startIndex: UInt64, roots: [ZcashCommitmentTreeRoot]) throws
 
+    func selectSpendableSaplingNotes(account: ZcashAccountId, targetValue: ZcashAmount, anchorHeight: ZcashBlockHeight, exclude: [ZcashReceivedNoteId]) throws -> [ZcashReceivedSaplingNote]
+
     func storeDecryptedTx(dTx: ZcashDecryptedTransaction) throws
+
+    func storeSentTx(sentTx: ZcashSentTransaction) throws
 
     func suggestScanRanges() throws -> [ZcashScanRange]
 
@@ -9609,11 +10591,72 @@ public class ZcashWalletDb: ZcashWalletDbProtocol {
         })
     }
 
+    public func blockFullyScanned() throws -> ZcashBlockMetadata? {
+        return try FfiConverterOptionTypeZcashBlockMetadata.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_block_fully_scanned(self.pointer, $0)
+            }
+        )
+    }
+
+    public func blockMaxScanned() throws -> ZcashBlockMetadata? {
+        return try FfiConverterOptionTypeZcashBlockMetadata.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_block_max_scanned(self.pointer, $0)
+            }
+        )
+    }
+
+    public func blockMetadata(height: ZcashBlockHeight) throws -> ZcashBlockMetadata? {
+        return try FfiConverterOptionTypeZcashBlockMetadata.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_block_metadata(self.pointer,
+                                                                           FfiConverterTypeZcashBlockHeight.lower(height), $0)
+            }
+        )
+    }
+
+    public func chainHeight() throws -> ZcashBlockHeight? {
+        return try FfiConverterOptionTypeZcashBlockHeight.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_chain_height(self.pointer, $0)
+            }
+        )
+    }
+
+    public func createAccount(seed: [UInt8], birthday: ZcashAccountBirthday) throws -> TupleAccountIdAndUnifiedSpendingKey {
+        return try FfiConverterTypeTupleAccountIdAndUnifiedSpendingKey.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_create_account(self.pointer,
+                                                                           FfiConverterSequenceUInt8.lower(seed),
+                                                                           FfiConverterTypeZcashAccountBirthday.lower(birthday), $0)
+            }
+        )
+    }
+
+    public func getAccountBirthday(account: ZcashAccountId) throws -> ZcashBlockHeight {
+        return try FfiConverterTypeZcashBlockHeight.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_account_birthday(self.pointer,
+                                                                                 FfiConverterTypeZcashAccountId.lower(account), $0)
+            }
+        )
+    }
+
     public func getAccountForUfvk(zufvk: ZcashUnifiedFullViewingKey) throws -> ZcashAccountId? {
         return try FfiConverterOptionTypeZcashAccountId.lift(
             rustCallWithError(FfiConverterTypeZcashError.lift) {
                 uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_account_for_ufvk(self.pointer,
                                                                                  FfiConverterTypeZcashUnifiedFullViewingKey.lower(zufvk), $0)
+            }
+        )
+    }
+
+    public func getBlockHash(height: ZcashBlockHeight) throws -> ZcashBlockHash? {
+        return try FfiConverterOptionTypeZcashBlockHash.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_block_hash(self.pointer,
+                                                                           FfiConverterTypeZcashBlockHeight.lower(height), $0)
             }
         )
     }
@@ -9627,10 +10670,84 @@ public class ZcashWalletDb: ZcashWalletDbProtocol {
         )
     }
 
+    public func getMaxHeightHash() throws -> TupleBlockHeightAndHash? {
+        return try FfiConverterOptionTypeTupleBlockHeightAndHash.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_max_height_hash(self.pointer, $0)
+            }
+        )
+    }
+
+    public func getMemo(idNote: ZcashNoteId) throws -> ZcashMemo {
+        return try FfiConverterTypeZcashMemo.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_memo(self.pointer,
+                                                                     FfiConverterTypeZcashNoteId.lower(idNote), $0)
+            }
+        )
+    }
+
     public func getMinUnspentHeight() throws -> ZcashBlockHeight? {
         return try FfiConverterOptionTypeZcashBlockHeight.lift(
             rustCallWithError(FfiConverterTypeZcashError.lift) {
                 uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_min_unspent_height(self.pointer, $0)
+            }
+        )
+    }
+
+    public func getNextAvailableAddress(account: ZcashAccountId) throws -> ZcashUnifiedAddress? {
+        return try FfiConverterOptionTypeZcashUnifiedAddress.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_next_available_address(self.pointer,
+                                                                                       FfiConverterTypeZcashAccountId.lower(account), $0)
+            }
+        )
+    }
+
+    public func getSaplingNullifiers(query: ZcashNullifierQuery) throws -> [TupleAccountIdAndSaplingNullifier] {
+        return try FfiConverterSequenceTypeTupleAccountIdAndSaplingNullifier.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_sapling_nullifiers(self.pointer,
+                                                                                   FfiConverterTypeZcashNullifierQuery.lower(query), $0)
+            }
+        )
+    }
+
+    public func getSpendableSaplingNotes(account: ZcashAccountId, anchorHeight: ZcashBlockHeight, exclude: [ZcashReceivedNoteId]) throws -> [ZcashReceivedSaplingNote] {
+        return try FfiConverterSequenceTypeZcashReceivedSaplingNote.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_spendable_sapling_notes(self.pointer,
+                                                                                        FfiConverterTypeZcashAccountId.lower(account),
+                                                                                        FfiConverterTypeZcashBlockHeight.lower(anchorHeight),
+                                                                                        FfiConverterSequenceTypeZcashReceivedNoteId.lower(exclude), $0)
+            }
+        )
+    }
+
+    public func getTargetAndAnchorHeights(minConfirmations: UInt32) throws -> TupleTargetAndAnchorHeight? {
+        return try FfiConverterOptionTypeTupleTargetAndAnchorHeight.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_target_and_anchor_heights(self.pointer,
+                                                                                          FfiConverterUInt32.lower(minConfirmations), $0)
+            }
+        )
+    }
+
+    public func getTransaction(txid: ZcashTxId) throws -> ZcashTransaction {
+        return try FfiConverterTypeZcashTransaction.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_transaction(self.pointer,
+                                                                            FfiConverterTypeZcashTxId.lower(txid), $0)
+            }
+        )
+    }
+
+    public func getTransparentBalances(account: ZcashAccountId, maxHeight: ZcashBlockHeight) throws -> [String: ZcashAmount] {
+        return try FfiConverterDictionaryStringTypeZcashAmount.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_transparent_balances(self.pointer,
+                                                                                     FfiConverterTypeZcashAccountId.lower(account),
+                                                                                     FfiConverterTypeZcashBlockHeight.lower(maxHeight), $0)
             }
         )
     }
@@ -9640,6 +10757,23 @@ public class ZcashWalletDb: ZcashWalletDbProtocol {
             rustCallWithError(FfiConverterTypeZcashError.lift) {
                 uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_transparent_receivers(self.pointer,
                                                                                       FfiConverterTypeZcashAccountId.lower(aid), $0)
+            }
+        )
+    }
+
+    public func getTxHeight(txid: ZcashTxId) throws -> ZcashBlockHeight? {
+        return try FfiConverterOptionTypeZcashBlockHeight.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_tx_height(self.pointer,
+                                                                          FfiConverterTypeZcashTxId.lower(txid), $0)
+            }
+        )
+    }
+
+    public func getUnifiedFullViewingKeys() throws -> [ZcashAccountId: ZcashUnifiedFullViewingKey] {
+        return try FfiConverterDictionaryTypeZcashAccountIdTypeZcashUnifiedFullViewingKey.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_unified_full_viewing_keys(self.pointer, $0)
             }
         )
     }
@@ -9655,6 +10789,14 @@ public class ZcashWalletDb: ZcashWalletDbProtocol {
         )
     }
 
+    public func getWalletBirthday() throws -> ZcashBlockHeight? {
+        return try FfiConverterOptionTypeZcashBlockHeight.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_get_wallet_birthday(self.pointer, $0)
+            }
+        )
+    }
+
     public func getWalletSummary(minConfirmations: UInt32) throws -> ZcashWalletSummary? {
         return try FfiConverterOptionTypeZcashWalletSummary.lift(
             rustCallWithError(FfiConverterTypeZcashError.lift) {
@@ -9662,6 +10804,32 @@ public class ZcashWalletDb: ZcashWalletDbProtocol {
                                                                                FfiConverterUInt32.lower(minConfirmations), $0)
             }
         )
+    }
+
+    public func initialize(seed: [UInt8]) throws {
+        try
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_initialize(self.pointer,
+                                                                       FfiConverterSequenceUInt8.lower(seed), $0)
+            }
+    }
+
+    public func isValidAccountExtfvk(account: ZcashAccountId, extfvk: ZcashExtendedFullViewingKey) throws -> Bool {
+        return try FfiConverterBool.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_is_valid_account_extfvk(self.pointer,
+                                                                                    FfiConverterTypeZcashAccountId.lower(account),
+                                                                                    FfiConverterTypeZcashExtendedFullViewingKey.lower(extfvk), $0)
+            }
+        )
+    }
+
+    public func putBlocks(blocks: [ZcashScannedBlock]) throws {
+        try
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_put_blocks(self.pointer,
+                                                                       FfiConverterSequenceTypeZcashScannedBlock.lower(blocks), $0)
+            }
     }
 
     public func putReceivedTransparentUtxo(output: ZcashWalletTransparentOutput) throws -> Int64 {
@@ -9682,11 +10850,31 @@ public class ZcashWalletDb: ZcashWalletDbProtocol {
             }
     }
 
+    public func selectSpendableSaplingNotes(account: ZcashAccountId, targetValue: ZcashAmount, anchorHeight: ZcashBlockHeight, exclude: [ZcashReceivedNoteId]) throws -> [ZcashReceivedSaplingNote] {
+        return try FfiConverterSequenceTypeZcashReceivedSaplingNote.lift(
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_select_spendable_sapling_notes(self.pointer,
+                                                                                           FfiConverterTypeZcashAccountId.lower(account),
+                                                                                           FfiConverterTypeZcashAmount.lower(targetValue),
+                                                                                           FfiConverterTypeZcashBlockHeight.lower(anchorHeight),
+                                                                                           FfiConverterSequenceTypeZcashReceivedNoteId.lower(exclude), $0)
+            }
+        )
+    }
+
     public func storeDecryptedTx(dTx: ZcashDecryptedTransaction) throws {
         try
             rustCallWithError(FfiConverterTypeZcashError.lift) {
                 uniffi_uniffi_zcash_fn_method_zcashwalletdb_store_decrypted_tx(self.pointer,
                                                                                FfiConverterTypeZcashDecryptedTransaction.lower(dTx), $0)
+            }
+    }
+
+    public func storeSentTx(sentTx: ZcashSentTransaction) throws {
+        try
+            rustCallWithError(FfiConverterTypeZcashError.lift) {
+                uniffi_uniffi_zcash_fn_method_zcashwalletdb_store_sent_tx(self.pointer,
+                                                                          FfiConverterTypeZcashSentTransaction.lower(sentTx), $0)
             }
     }
 
@@ -9751,6 +10939,116 @@ public func FfiConverterTypeZcashWalletDb_lift(_ pointer: UnsafeMutableRawPointe
 
 public func FfiConverterTypeZcashWalletDb_lower(_ value: ZcashWalletDb) -> UnsafeMutableRawPointer {
     return FfiConverterTypeZcashWalletDb.lower(value)
+}
+
+public protocol ZcashWalletSaplingOutputProtocol {}
+
+public class ZcashWalletSaplingOutput: ZcashWalletSaplingOutputProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashwalletsaplingoutput(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeZcashWalletSaplingOutput: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashWalletSaplingOutput
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashWalletSaplingOutput {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashWalletSaplingOutput, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashWalletSaplingOutput {
+        return ZcashWalletSaplingOutput(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashWalletSaplingOutput) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashWalletSaplingOutput_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashWalletSaplingOutput {
+    return try FfiConverterTypeZcashWalletSaplingOutput.lift(pointer)
+}
+
+public func FfiConverterTypeZcashWalletSaplingOutput_lower(_ value: ZcashWalletSaplingOutput) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashWalletSaplingOutput.lower(value)
+}
+
+public protocol ZcashWalletSaplingSpendProtocol {}
+
+public class ZcashWalletSaplingSpend: ZcashWalletSaplingSpendProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashwalletsaplingspend(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeZcashWalletSaplingSpend: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashWalletSaplingSpend
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashWalletSaplingSpend {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashWalletSaplingSpend, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashWalletSaplingSpend {
+        return ZcashWalletSaplingSpend(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashWalletSaplingSpend) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashWalletSaplingSpend_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashWalletSaplingSpend {
+    return try FfiConverterTypeZcashWalletSaplingSpend.lift(pointer)
+}
+
+public func FfiConverterTypeZcashWalletSaplingSpend_lower(_ value: ZcashWalletSaplingSpend) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashWalletSaplingSpend.lower(value)
 }
 
 public protocol ZcashWalletSummaryProtocol {
@@ -9994,6 +11292,72 @@ public func FfiConverterTypeZcashWalletTransparentOutput_lower(_ value: ZcashWal
     return FfiConverterTypeZcashWalletTransparentOutput.lower(value)
 }
 
+public protocol ZcashWalletTxProtocol {}
+
+public class ZcashWalletTx: ZcashWalletTxProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    public convenience init(txid: ZcashTxId, index: UInt32, saplingSpends: [ZcashWalletSaplingSpend], saplingOutputs: [ZcashWalletSaplingOutput]) {
+        self.init(unsafeFromRawPointer: try! rustCall {
+            uniffi_uniffi_zcash_fn_constructor_zcashwallettx_new(
+                FfiConverterTypeZcashTxId.lower(txid),
+                FfiConverterUInt32.lower(index),
+                FfiConverterSequenceTypeZcashWalletSaplingSpend.lower(saplingSpends),
+                FfiConverterSequenceTypeZcashWalletSaplingOutput.lower(saplingOutputs), $0
+            )
+        })
+    }
+
+    deinit {
+        try! rustCall { uniffi_uniffi_zcash_fn_free_zcashwallettx(pointer, $0) }
+    }
+}
+
+public struct FfiConverterTypeZcashWalletTx: FfiConverter {
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = ZcashWalletTx
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashWalletTx {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if ptr == nil {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: ZcashWalletTx, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashWalletTx {
+        return ZcashWalletTx(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: ZcashWalletTx) -> UnsafeMutableRawPointer {
+        return value.pointer
+    }
+}
+
+public func FfiConverterTypeZcashWalletTx_lift(_ pointer: UnsafeMutableRawPointer) throws -> ZcashWalletTx {
+    return try FfiConverterTypeZcashWalletTx.lift(pointer)
+}
+
+public func FfiConverterTypeZcashWalletTx_lower(_ value: ZcashWalletTx) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeZcashWalletTx.lower(value)
+}
+
 public protocol ZcashZip317FeeRuleProtocol {
     func marginalFee() -> ZcashAmount
 }
@@ -10138,6 +11502,248 @@ public func FfiConverterTypeZcashZip317SingleOutputChangeStrategy_lift(_ pointer
 
 public func FfiConverterTypeZcashZip317SingleOutputChangeStrategy_lower(_ value: ZcashZip317SingleOutputChangeStrategy) -> UnsafeMutableRawPointer {
     return FfiConverterTypeZcashZip317SingleOutputChangeStrategy.lower(value)
+}
+
+public struct TripleSaplingNullifierMap {
+    public var txid: ZcashTxId
+    public var txIdx: UInt16
+    public var nullifiers: [ZcashSaplingNullifier]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(txid: ZcashTxId, txIdx: UInt16, nullifiers: [ZcashSaplingNullifier]) {
+        self.txid = txid
+        self.txIdx = txIdx
+        self.nullifiers = nullifiers
+    }
+}
+
+public struct FfiConverterTypeTripleSaplingNullifierMap: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> TripleSaplingNullifierMap {
+        return try TripleSaplingNullifierMap(
+            txid: FfiConverterTypeZcashTxId.read(from: &buf),
+            txIdx: FfiConverterUInt16.read(from: &buf),
+            nullifiers: FfiConverterSequenceTypeZcashSaplingNullifier.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: TripleSaplingNullifierMap, into buf: inout [UInt8]) {
+        FfiConverterTypeZcashTxId.write(value.txid, into: &buf)
+        FfiConverterUInt16.write(value.txIdx, into: &buf)
+        FfiConverterSequenceTypeZcashSaplingNullifier.write(value.nullifiers, into: &buf)
+    }
+}
+
+public func FfiConverterTypeTripleSaplingNullifierMap_lift(_ buf: RustBuffer) throws -> TripleSaplingNullifierMap {
+    return try FfiConverterTypeTripleSaplingNullifierMap.lift(buf)
+}
+
+public func FfiConverterTypeTripleSaplingNullifierMap_lower(_ value: TripleSaplingNullifierMap) -> RustBuffer {
+    return FfiConverterTypeTripleSaplingNullifierMap.lower(value)
+}
+
+public struct TupleAccountIdAndSaplingNote {
+    public var accountId: ZcashAccountId
+    public var saplingNote: ZcashSaplingNote
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(accountId: ZcashAccountId, saplingNote: ZcashSaplingNote) {
+        self.accountId = accountId
+        self.saplingNote = saplingNote
+    }
+}
+
+public struct FfiConverterTypeTupleAccountIdAndSaplingNote: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> TupleAccountIdAndSaplingNote {
+        return try TupleAccountIdAndSaplingNote(
+            accountId: FfiConverterTypeZcashAccountId.read(from: &buf),
+            saplingNote: FfiConverterTypeZcashSaplingNote.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: TupleAccountIdAndSaplingNote, into buf: inout [UInt8]) {
+        FfiConverterTypeZcashAccountId.write(value.accountId, into: &buf)
+        FfiConverterTypeZcashSaplingNote.write(value.saplingNote, into: &buf)
+    }
+}
+
+public func FfiConverterTypeTupleAccountIdAndSaplingNote_lift(_ buf: RustBuffer) throws -> TupleAccountIdAndSaplingNote {
+    return try FfiConverterTypeTupleAccountIdAndSaplingNote.lift(buf)
+}
+
+public func FfiConverterTypeTupleAccountIdAndSaplingNote_lower(_ value: TupleAccountIdAndSaplingNote) -> RustBuffer {
+    return FfiConverterTypeTupleAccountIdAndSaplingNote.lower(value)
+}
+
+public struct TupleAccountIdAndSaplingNullifier {
+    public var accountId: ZcashAccountId
+    public var saplingNullifier: ZcashSaplingNullifier
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(accountId: ZcashAccountId, saplingNullifier: ZcashSaplingNullifier) {
+        self.accountId = accountId
+        self.saplingNullifier = saplingNullifier
+    }
+}
+
+public struct FfiConverterTypeTupleAccountIdAndSaplingNullifier: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> TupleAccountIdAndSaplingNullifier {
+        return try TupleAccountIdAndSaplingNullifier(
+            accountId: FfiConverterTypeZcashAccountId.read(from: &buf),
+            saplingNullifier: FfiConverterTypeZcashSaplingNullifier.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: TupleAccountIdAndSaplingNullifier, into buf: inout [UInt8]) {
+        FfiConverterTypeZcashAccountId.write(value.accountId, into: &buf)
+        FfiConverterTypeZcashSaplingNullifier.write(value.saplingNullifier, into: &buf)
+    }
+}
+
+public func FfiConverterTypeTupleAccountIdAndSaplingNullifier_lift(_ buf: RustBuffer) throws -> TupleAccountIdAndSaplingNullifier {
+    return try FfiConverterTypeTupleAccountIdAndSaplingNullifier.lift(buf)
+}
+
+public func FfiConverterTypeTupleAccountIdAndSaplingNullifier_lower(_ value: TupleAccountIdAndSaplingNullifier) -> RustBuffer {
+    return FfiConverterTypeTupleAccountIdAndSaplingNullifier.lower(value)
+}
+
+public struct TupleAccountIdAndUnifiedSpendingKey {
+    public var accountId: ZcashAccountId
+    public var unifiedSpendingKey: ZcashUnifiedSpendingKey
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(accountId: ZcashAccountId, unifiedSpendingKey: ZcashUnifiedSpendingKey) {
+        self.accountId = accountId
+        self.unifiedSpendingKey = unifiedSpendingKey
+    }
+}
+
+public struct FfiConverterTypeTupleAccountIdAndUnifiedSpendingKey: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> TupleAccountIdAndUnifiedSpendingKey {
+        return try TupleAccountIdAndUnifiedSpendingKey(
+            accountId: FfiConverterTypeZcashAccountId.read(from: &buf),
+            unifiedSpendingKey: FfiConverterTypeZcashUnifiedSpendingKey.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: TupleAccountIdAndUnifiedSpendingKey, into buf: inout [UInt8]) {
+        FfiConverterTypeZcashAccountId.write(value.accountId, into: &buf)
+        FfiConverterTypeZcashUnifiedSpendingKey.write(value.unifiedSpendingKey, into: &buf)
+    }
+}
+
+public func FfiConverterTypeTupleAccountIdAndUnifiedSpendingKey_lift(_ buf: RustBuffer) throws -> TupleAccountIdAndUnifiedSpendingKey {
+    return try FfiConverterTypeTupleAccountIdAndUnifiedSpendingKey.lift(buf)
+}
+
+public func FfiConverterTypeTupleAccountIdAndUnifiedSpendingKey_lower(_ value: TupleAccountIdAndUnifiedSpendingKey) -> RustBuffer {
+    return FfiConverterTypeTupleAccountIdAndUnifiedSpendingKey.lower(value)
+}
+
+public struct TupleBlockHeightAndHash {
+    public var blockHeight: ZcashBlockHeight
+    public var blockHash: ZcashBlockHash
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(blockHeight: ZcashBlockHeight, blockHash: ZcashBlockHash) {
+        self.blockHeight = blockHeight
+        self.blockHash = blockHash
+    }
+}
+
+public struct FfiConverterTypeTupleBlockHeightAndHash: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> TupleBlockHeightAndHash {
+        return try TupleBlockHeightAndHash(
+            blockHeight: FfiConverterTypeZcashBlockHeight.read(from: &buf),
+            blockHash: FfiConverterTypeZcashBlockHash.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: TupleBlockHeightAndHash, into buf: inout [UInt8]) {
+        FfiConverterTypeZcashBlockHeight.write(value.blockHeight, into: &buf)
+        FfiConverterTypeZcashBlockHash.write(value.blockHash, into: &buf)
+    }
+}
+
+public func FfiConverterTypeTupleBlockHeightAndHash_lift(_ buf: RustBuffer) throws -> TupleBlockHeightAndHash {
+    return try FfiConverterTypeTupleBlockHeightAndHash.lift(buf)
+}
+
+public func FfiConverterTypeTupleBlockHeightAndHash_lower(_ value: TupleBlockHeightAndHash) -> RustBuffer {
+    return FfiConverterTypeTupleBlockHeightAndHash.lower(value)
+}
+
+public struct TupleSaplingCommitments {
+    public var node: ZcashSaplingNode
+    public var retention: MerkleTreeRetention
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(node: ZcashSaplingNode, retention: MerkleTreeRetention) {
+        self.node = node
+        self.retention = retention
+    }
+}
+
+public struct FfiConverterTypeTupleSaplingCommitments: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> TupleSaplingCommitments {
+        return try TupleSaplingCommitments(
+            node: FfiConverterTypeZcashSaplingNode.read(from: &buf),
+            retention: FfiConverterTypeMerkleTreeRetention.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: TupleSaplingCommitments, into buf: inout [UInt8]) {
+        FfiConverterTypeZcashSaplingNode.write(value.node, into: &buf)
+        FfiConverterTypeMerkleTreeRetention.write(value.retention, into: &buf)
+    }
+}
+
+public func FfiConverterTypeTupleSaplingCommitments_lift(_ buf: RustBuffer) throws -> TupleSaplingCommitments {
+    return try FfiConverterTypeTupleSaplingCommitments.lift(buf)
+}
+
+public func FfiConverterTypeTupleSaplingCommitments_lower(_ value: TupleSaplingCommitments) -> RustBuffer {
+    return FfiConverterTypeTupleSaplingCommitments.lower(value)
+}
+
+public struct TupleTargetAndAnchorHeight {
+    public var targetHeight: ZcashBlockHeight
+    public var anchorHeight: ZcashBlockHeight
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(targetHeight: ZcashBlockHeight, anchorHeight: ZcashBlockHeight) {
+        self.targetHeight = targetHeight
+        self.anchorHeight = anchorHeight
+    }
+}
+
+public struct FfiConverterTypeTupleTargetAndAnchorHeight: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> TupleTargetAndAnchorHeight {
+        return try TupleTargetAndAnchorHeight(
+            targetHeight: FfiConverterTypeZcashBlockHeight.read(from: &buf),
+            anchorHeight: FfiConverterTypeZcashBlockHeight.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: TupleTargetAndAnchorHeight, into buf: inout [UInt8]) {
+        FfiConverterTypeZcashBlockHeight.write(value.targetHeight, into: &buf)
+        FfiConverterTypeZcashBlockHeight.write(value.anchorHeight, into: &buf)
+    }
+}
+
+public func FfiConverterTypeTupleTargetAndAnchorHeight_lift(_ buf: RustBuffer) throws -> TupleTargetAndAnchorHeight {
+    return try FfiConverterTypeTupleTargetAndAnchorHeight.lift(buf)
+}
+
+public func FfiConverterTypeTupleTargetAndAnchorHeight_lower(_ value: TupleTargetAndAnchorHeight) -> RustBuffer {
+    return FfiConverterTypeTupleTargetAndAnchorHeight.lower(value)
 }
 
 public struct ZcashAccountId {
@@ -10603,6 +12209,56 @@ public func FfiConverterTypeZcashPaymentParam_lift(_ buf: RustBuffer) throws -> 
 
 public func FfiConverterTypeZcashPaymentParam_lower(_ value: ZcashPaymentParam) -> RustBuffer {
     return FfiConverterTypeZcashPaymentParam.lower(value)
+}
+
+public struct ZcashSentTransaction {
+    public var tx: ZcashTransaction
+    public var created: TimeOffsetDateTime
+    public var account: ZcashAccountId
+    public var outputs: [ZcashSentTransactionOutput]
+    public var feeAmount: ZcashAmount
+    public var utxosSpent: [ZcashOutPoint]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(tx: ZcashTransaction, created: TimeOffsetDateTime, account: ZcashAccountId, outputs: [ZcashSentTransactionOutput], feeAmount: ZcashAmount, utxosSpent: [ZcashOutPoint]) {
+        self.tx = tx
+        self.created = created
+        self.account = account
+        self.outputs = outputs
+        self.feeAmount = feeAmount
+        self.utxosSpent = utxosSpent
+    }
+}
+
+public struct FfiConverterTypeZcashSentTransaction: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashSentTransaction {
+        return try ZcashSentTransaction(
+            tx: FfiConverterTypeZcashTransaction.read(from: &buf),
+            created: FfiConverterTypeTimeOffsetDateTime.read(from: &buf),
+            account: FfiConverterTypeZcashAccountId.read(from: &buf),
+            outputs: FfiConverterSequenceTypeZcashSentTransactionOutput.read(from: &buf),
+            feeAmount: FfiConverterTypeZcashAmount.read(from: &buf),
+            utxosSpent: FfiConverterSequenceTypeZcashOutPoint.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: ZcashSentTransaction, into buf: inout [UInt8]) {
+        FfiConverterTypeZcashTransaction.write(value.tx, into: &buf)
+        FfiConverterTypeTimeOffsetDateTime.write(value.created, into: &buf)
+        FfiConverterTypeZcashAccountId.write(value.account, into: &buf)
+        FfiConverterSequenceTypeZcashSentTransactionOutput.write(value.outputs, into: &buf)
+        FfiConverterTypeZcashAmount.write(value.feeAmount, into: &buf)
+        FfiConverterSequenceTypeZcashOutPoint.write(value.utxosSpent, into: &buf)
+    }
+}
+
+public func FfiConverterTypeZcashSentTransaction_lift(_ buf: RustBuffer) throws -> ZcashSentTransaction {
+    return try FfiConverterTypeZcashSentTransaction.lift(buf)
+}
+
+public func FfiConverterTypeZcashSentTransaction_lower(_ value: ZcashSentTransaction) -> RustBuffer {
+    return FfiConverterTypeZcashSentTransaction.lower(value)
 }
 
 public struct ZcashTransactionAndSaplingMetadata {
@@ -11316,6 +12972,117 @@ extension ZcashKeysEra: Equatable, Hashable {}
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
 
+public enum ZcashMemo {
+    case empty
+
+    case text(v: String)
+
+    case future(v: [UInt8])
+
+    case arbitrary(v: [UInt8])
+}
+
+public struct FfiConverterTypeZcashMemo: FfiConverterRustBuffer {
+    typealias SwiftType = ZcashMemo
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashMemo {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        case 1: return .empty
+
+        case 2: return try .text(
+                v: FfiConverterString.read(from: &buf)
+            )
+
+        case 3: return try .future(
+                v: FfiConverterSequenceUInt8.read(from: &buf)
+            )
+
+        case 4: return try .arbitrary(
+                v: FfiConverterSequenceUInt8.read(from: &buf)
+            )
+
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: ZcashMemo, into buf: inout [UInt8]) {
+        switch value {
+        case .empty:
+            writeInt(&buf, Int32(1))
+
+        case let .text(v):
+            writeInt(&buf, Int32(2))
+            FfiConverterString.write(v, into: &buf)
+
+        case let .future(v):
+            writeInt(&buf, Int32(3))
+            FfiConverterSequenceUInt8.write(v, into: &buf)
+
+        case let .arbitrary(v):
+            writeInt(&buf, Int32(4))
+            FfiConverterSequenceUInt8.write(v, into: &buf)
+        }
+    }
+}
+
+public func FfiConverterTypeZcashMemo_lift(_ buf: RustBuffer) throws -> ZcashMemo {
+    return try FfiConverterTypeZcashMemo.lift(buf)
+}
+
+public func FfiConverterTypeZcashMemo_lower(_ value: ZcashMemo) -> RustBuffer {
+    return FfiConverterTypeZcashMemo.lower(value)
+}
+
+extension ZcashMemo: Equatable, Hashable {}
+
+// Note that we don't yet support `indirect` for enums.
+// See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
+
+public enum ZcashNullifierQuery {
+    case unspent
+
+    case all
+}
+
+public struct FfiConverterTypeZcashNullifierQuery: FfiConverterRustBuffer {
+    typealias SwiftType = ZcashNullifierQuery
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashNullifierQuery {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        case 1: return .unspent
+
+        case 2: return .all
+
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: ZcashNullifierQuery, into buf: inout [UInt8]) {
+        switch value {
+        case .unspent:
+            writeInt(&buf, Int32(1))
+
+        case .all:
+            writeInt(&buf, Int32(2))
+        }
+    }
+}
+
+public func FfiConverterTypeZcashNullifierQuery_lift(_ buf: RustBuffer) throws -> ZcashNullifierQuery {
+    return try FfiConverterTypeZcashNullifierQuery.lift(buf)
+}
+
+public func FfiConverterTypeZcashNullifierQuery_lower(_ value: ZcashNullifierQuery) -> RustBuffer {
+    return FfiConverterTypeZcashNullifierQuery.lower(value)
+}
+
+extension ZcashNullifierQuery: Equatable, Hashable {}
+
+// Note that we don't yet support `indirect` for enums.
+// See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
+
 public enum ZcashOrchardScope {
     case external
 
@@ -11410,6 +13177,129 @@ public func FfiConverterTypeZcashOvkPolicy_lower(_ value: ZcashOvkPolicy) -> Rus
 }
 
 extension ZcashOvkPolicy: Equatable, Hashable {}
+
+// Note that we don't yet support `indirect` for enums.
+// See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
+
+public enum ZcashPoolType {
+    case transparent
+
+    case shielded(v: ZcashShieldedProtocol)
+}
+
+public struct FfiConverterTypeZcashPoolType: FfiConverterRustBuffer {
+    typealias SwiftType = ZcashPoolType
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashPoolType {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        case 1: return .transparent
+
+        case 2: return try .shielded(
+                v: FfiConverterTypeZcashShieldedProtocol.read(from: &buf)
+            )
+
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: ZcashPoolType, into buf: inout [UInt8]) {
+        switch value {
+        case .transparent:
+            writeInt(&buf, Int32(1))
+
+        case let .shielded(v):
+            writeInt(&buf, Int32(2))
+            FfiConverterTypeZcashShieldedProtocol.write(v, into: &buf)
+        }
+    }
+}
+
+public func FfiConverterTypeZcashPoolType_lift(_ buf: RustBuffer) throws -> ZcashPoolType {
+    return try FfiConverterTypeZcashPoolType.lift(buf)
+}
+
+public func FfiConverterTypeZcashPoolType_lower(_ value: ZcashPoolType) -> RustBuffer {
+    return FfiConverterTypeZcashPoolType.lower(value)
+}
+
+extension ZcashPoolType: Equatable, Hashable {}
+
+// Note that we don't yet support `indirect` for enums.
+// See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
+
+public enum ZcashRecipient {
+    case transparent(script: [UInt8])
+
+    case sapling(paymentAddressBytes: [UInt8])
+
+    case unified(uae: String, params: ZcashConsensusParameters, zpt: ZcashPoolType)
+
+    case internalAccount(aid: ZcashAccountId, zpt: ZcashPoolType)
+}
+
+public struct FfiConverterTypeZcashRecipient: FfiConverterRustBuffer {
+    typealias SwiftType = ZcashRecipient
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashRecipient {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        case 1: return try .transparent(
+                script: FfiConverterSequenceUInt8.read(from: &buf)
+            )
+
+        case 2: return try .sapling(
+                paymentAddressBytes: FfiConverterSequenceUInt8.read(from: &buf)
+            )
+
+        case 3: return try .unified(
+                uae: FfiConverterString.read(from: &buf),
+                params: FfiConverterTypeZcashConsensusParameters.read(from: &buf),
+                zpt: FfiConverterTypeZcashPoolType.read(from: &buf)
+            )
+
+        case 4: return try .internalAccount(
+                aid: FfiConverterTypeZcashAccountId.read(from: &buf),
+                zpt: FfiConverterTypeZcashPoolType.read(from: &buf)
+            )
+
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: ZcashRecipient, into buf: inout [UInt8]) {
+        switch value {
+        case let .transparent(script):
+            writeInt(&buf, Int32(1))
+            FfiConverterSequenceUInt8.write(script, into: &buf)
+
+        case let .sapling(paymentAddressBytes):
+            writeInt(&buf, Int32(2))
+            FfiConverterSequenceUInt8.write(paymentAddressBytes, into: &buf)
+
+        case let .unified(uae, params, zpt):
+            writeInt(&buf, Int32(3))
+            FfiConverterString.write(uae, into: &buf)
+            FfiConverterTypeZcashConsensusParameters.write(params, into: &buf)
+            FfiConverterTypeZcashPoolType.write(zpt, into: &buf)
+
+        case let .internalAccount(aid, zpt):
+            writeInt(&buf, Int32(4))
+            FfiConverterTypeZcashAccountId.write(aid, into: &buf)
+            FfiConverterTypeZcashPoolType.write(zpt, into: &buf)
+        }
+    }
+}
+
+public func FfiConverterTypeZcashRecipient_lift(_ buf: RustBuffer) throws -> ZcashRecipient {
+    return try FfiConverterTypeZcashRecipient.lift(buf)
+}
+
+public func FfiConverterTypeZcashRecipient_lower(_ value: ZcashRecipient) -> RustBuffer {
+    return FfiConverterTypeZcashRecipient.lower(value)
+}
+
+extension ZcashRecipient: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
@@ -11620,6 +13510,57 @@ public func FfiConverterTypeZcashShieldedProtocol_lower(_ value: ZcashShieldedPr
 }
 
 extension ZcashShieldedProtocol: Equatable, Hashable {}
+
+// Note that we don't yet support `indirect` for enums.
+// See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
+
+public enum ZcashTransferType {
+    case incoming
+
+    case walletInternal
+
+    case outgoing
+}
+
+public struct FfiConverterTypeZcashTransferType: FfiConverterRustBuffer {
+    typealias SwiftType = ZcashTransferType
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashTransferType {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        case 1: return .incoming
+
+        case 2: return .walletInternal
+
+        case 3: return .outgoing
+
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: ZcashTransferType, into buf: inout [UInt8]) {
+        switch value {
+        case .incoming:
+            writeInt(&buf, Int32(1))
+
+        case .walletInternal:
+            writeInt(&buf, Int32(2))
+
+        case .outgoing:
+            writeInt(&buf, Int32(3))
+        }
+    }
+}
+
+public func FfiConverterTypeZcashTransferType_lift(_ buf: RustBuffer) throws -> ZcashTransferType {
+    return try FfiConverterTypeZcashTransferType.lift(buf)
+}
+
+public func FfiConverterTypeZcashTransferType_lower(_ value: ZcashTransferType) -> RustBuffer {
+    return FfiConverterTypeZcashTransferType.lower(value)
+}
+
+extension ZcashTransferType: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
@@ -11889,6 +13830,27 @@ private struct FfiConverterOptionTypeZcashAmount: FfiConverterRustBuffer {
     }
 }
 
+private struct FfiConverterOptionTypeZcashBlockHash: FfiConverterRustBuffer {
+    typealias SwiftType = ZcashBlockHash?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeZcashBlockHash.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeZcashBlockHash.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
 private struct FfiConverterOptionTypeZcashBlockHeight: FfiConverterRustBuffer {
     typealias SwiftType = ZcashBlockHeight?
 
@@ -11926,6 +13888,27 @@ private struct FfiConverterOptionTypeZcashBlockMeta: FfiConverterRustBuffer {
         switch try readInt(&buf) as Int8 {
         case 0: return nil
         case 1: return try FfiConverterTypeZcashBlockMeta.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+private struct FfiConverterOptionTypeZcashBlockMetadata: FfiConverterRustBuffer {
+    typealias SwiftType = ZcashBlockMetadata?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeZcashBlockMetadata.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeZcashBlockMetadata.read(from: &buf)
         default: throw UniffiInternalError.unexpectedOptionalTag
         }
     }
@@ -12267,6 +14250,69 @@ private struct FfiConverterOptionTypeZcashWalletSummary: FfiConverterRustBuffer 
     }
 }
 
+private struct FfiConverterOptionTypeTupleAccountIdAndSaplingNote: FfiConverterRustBuffer {
+    typealias SwiftType = TupleAccountIdAndSaplingNote?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeTupleAccountIdAndSaplingNote.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeTupleAccountIdAndSaplingNote.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+private struct FfiConverterOptionTypeTupleBlockHeightAndHash: FfiConverterRustBuffer {
+    typealias SwiftType = TupleBlockHeightAndHash?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeTupleBlockHeightAndHash.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeTupleBlockHeightAndHash.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+private struct FfiConverterOptionTypeTupleTargetAndAnchorHeight: FfiConverterRustBuffer {
+    typealias SwiftType = TupleTargetAndAnchorHeight?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeTupleTargetAndAnchorHeight.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeTupleTargetAndAnchorHeight.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
 private struct FfiConverterOptionTypeZcashAccountId: FfiConverterRustBuffer {
     typealias SwiftType = ZcashAccountId?
 
@@ -12525,6 +14571,28 @@ private struct FfiConverterSequenceTypeZcashCommitmentTreeRoot: FfiConverterRust
     }
 }
 
+private struct FfiConverterSequenceTypeZcashDecryptedOutput: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashDecryptedOutput]
+
+    public static func write(_ value: [ZcashDecryptedOutput], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashDecryptedOutput.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashDecryptedOutput] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashDecryptedOutput]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashDecryptedOutput.read(from: &buf))
+        }
+        return seq
+    }
+}
+
 private struct FfiConverterSequenceTypeZcashOrchardAction: FfiConverterRustBuffer {
     typealias SwiftType = [ZcashOrchardAction]
 
@@ -12657,6 +14725,72 @@ private struct FfiConverterSequenceTypeZcashOutPoint: FfiConverterRustBuffer {
     }
 }
 
+private struct FfiConverterSequenceTypeZcashReceivedNoteId: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashReceivedNoteId]
+
+    public static func write(_ value: [ZcashReceivedNoteId], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashReceivedNoteId.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashReceivedNoteId] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashReceivedNoteId]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashReceivedNoteId.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeZcashReceivedSaplingNote: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashReceivedSaplingNote]
+
+    public static func write(_ value: [ZcashReceivedSaplingNote], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashReceivedSaplingNote.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashReceivedSaplingNote] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashReceivedSaplingNote]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashReceivedSaplingNote.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeZcashSaplingNullifier: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashSaplingNullifier]
+
+    public static func write(_ value: [ZcashSaplingNullifier], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashSaplingNullifier.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashSaplingNullifier] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashSaplingNullifier]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashSaplingNullifier.read(from: &buf))
+        }
+        return seq
+    }
+}
+
 private struct FfiConverterSequenceTypeZcashSaplingOutputDescription: FfiConverterRustBuffer {
     typealias SwiftType = [ZcashSaplingOutputDescription]
 
@@ -12723,6 +14857,72 @@ private struct FfiConverterSequenceTypeZcashScanRange: FfiConverterRustBuffer {
     }
 }
 
+private struct FfiConverterSequenceTypeZcashScannedBlock: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashScannedBlock]
+
+    public static func write(_ value: [ZcashScannedBlock], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashScannedBlock.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashScannedBlock] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashScannedBlock]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashScannedBlock.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeZcashSentTransactionOutput: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashSentTransactionOutput]
+
+    public static func write(_ value: [ZcashSentTransactionOutput], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashSentTransactionOutput.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashSentTransactionOutput] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashSentTransactionOutput]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashSentTransactionOutput.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeZcashTransparentAddress: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashTransparentAddress]
+
+    public static func write(_ value: [ZcashTransparentAddress], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashTransparentAddress.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashTransparentAddress] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashTransparentAddress]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashTransparentAddress.read(from: &buf))
+        }
+        return seq
+    }
+}
+
 private struct FfiConverterSequenceTypeZcashTxIn: FfiConverterRustBuffer {
     typealias SwiftType = [ZcashTxIn]
 
@@ -12767,6 +14967,50 @@ private struct FfiConverterSequenceTypeZcashTxOut: FfiConverterRustBuffer {
     }
 }
 
+private struct FfiConverterSequenceTypeZcashWalletSaplingOutput: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashWalletSaplingOutput]
+
+    public static func write(_ value: [ZcashWalletSaplingOutput], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashWalletSaplingOutput.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashWalletSaplingOutput] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashWalletSaplingOutput]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashWalletSaplingOutput.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeZcashWalletSaplingSpend: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashWalletSaplingSpend]
+
+    public static func write(_ value: [ZcashWalletSaplingSpend], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashWalletSaplingSpend.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashWalletSaplingSpend] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashWalletSaplingSpend]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashWalletSaplingSpend.read(from: &buf))
+        }
+        return seq
+    }
+}
+
 private struct FfiConverterSequenceTypeZcashWalletTransparentOutput: FfiConverterRustBuffer {
     typealias SwiftType = [ZcashWalletTransparentOutput]
 
@@ -12784,6 +15028,94 @@ private struct FfiConverterSequenceTypeZcashWalletTransparentOutput: FfiConverte
         seq.reserveCapacity(Int(len))
         for _ in 0 ..< len {
             try seq.append(FfiConverterTypeZcashWalletTransparentOutput.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeZcashWalletTx: FfiConverterRustBuffer {
+    typealias SwiftType = [ZcashWalletTx]
+
+    public static func write(_ value: [ZcashWalletTx], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeZcashWalletTx.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashWalletTx] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ZcashWalletTx]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeZcashWalletTx.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeTripleSaplingNullifierMap: FfiConverterRustBuffer {
+    typealias SwiftType = [TripleSaplingNullifierMap]
+
+    public static func write(_ value: [TripleSaplingNullifierMap], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeTripleSaplingNullifierMap.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [TripleSaplingNullifierMap] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [TripleSaplingNullifierMap]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeTripleSaplingNullifierMap.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeTupleAccountIdAndSaplingNullifier: FfiConverterRustBuffer {
+    typealias SwiftType = [TupleAccountIdAndSaplingNullifier]
+
+    public static func write(_ value: [TupleAccountIdAndSaplingNullifier], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeTupleAccountIdAndSaplingNullifier.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [TupleAccountIdAndSaplingNullifier] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [TupleAccountIdAndSaplingNullifier]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeTupleAccountIdAndSaplingNullifier.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+private struct FfiConverterSequenceTypeTupleSaplingCommitments: FfiConverterRustBuffer {
+    typealias SwiftType = [TupleSaplingCommitments]
+
+    public static func write(_ value: [TupleSaplingCommitments], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeTupleSaplingCommitments.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [TupleSaplingCommitments] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [TupleSaplingCommitments]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            try seq.append(FfiConverterTypeTupleSaplingCommitments.read(from: &buf))
         }
         return seq
     }
@@ -12967,6 +15299,52 @@ private struct FfiConverterDictionaryStringTypeZcashAddressMetadata: FfiConverte
     }
 }
 
+private struct FfiConverterDictionaryStringTypeZcashAmount: FfiConverterRustBuffer {
+    public static func write(_ value: [String: ZcashAmount], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for (key, value) in value {
+            FfiConverterString.write(key, into: &buf)
+            FfiConverterTypeZcashAmount.write(value, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [String: ZcashAmount] {
+        let len: Int32 = try readInt(&buf)
+        var dict = [String: ZcashAmount]()
+        dict.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            let key = try FfiConverterString.read(from: &buf)
+            let value = try FfiConverterTypeZcashAmount.read(from: &buf)
+            dict[key] = value
+        }
+        return dict
+    }
+}
+
+private struct FfiConverterDictionaryTypeZcashAccountIdTypeZcashUnifiedFullViewingKey: FfiConverterRustBuffer {
+    public static func write(_ value: [ZcashAccountId: ZcashUnifiedFullViewingKey], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for (key, value) in value {
+            FfiConverterTypeZcashAccountId.write(key, into: &buf)
+            FfiConverterTypeZcashUnifiedFullViewingKey.write(value, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ZcashAccountId: ZcashUnifiedFullViewingKey] {
+        let len: Int32 = try readInt(&buf)
+        var dict = [ZcashAccountId: ZcashUnifiedFullViewingKey]()
+        dict.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            let key = try FfiConverterTypeZcashAccountId.read(from: &buf)
+            let value = try FfiConverterTypeZcashUnifiedFullViewingKey.read(from: &buf)
+            dict[key] = value
+        }
+        return dict
+    }
+}
+
 public func decodeExtendedFullViewingKey(hrp: String, s: String) throws -> ZcashExtendedFullViewingKey {
     return try FfiConverterTypeZcashExtendedFullViewingKey.lift(
         rustCallWithError(FfiConverterTypeZcashError.lift) {
@@ -13007,6 +15385,29 @@ public func decodeTransparentAddress(pubkeyVersion: [UInt8], scriptVersion: [UIn
                 FfiConverterSequenceUInt8.lower(pubkeyVersion),
                 FfiConverterSequenceUInt8.lower(scriptVersion),
                 FfiConverterString.lower(s), $0
+            )
+        }
+    )
+}
+
+public func decryptAndStoreTransaction(params: ZcashConsensusParameters, zDbData: ZcashWalletDb, tx: ZcashTransaction) throws {
+    try rustCallWithError(FfiConverterTypeZcashError.lift) {
+        uniffi_uniffi_zcash_fn_func_decrypt_and_store_transaction(
+            FfiConverterTypeZcashConsensusParameters.lower(params),
+            FfiConverterTypeZcashWalletDb.lower(zDbData),
+            FfiConverterTypeZcashTransaction.lower(tx), $0
+        )
+    }
+}
+
+public func decryptTransaction(params: ZcashConsensusParameters, height: ZcashBlockHeight, tx: ZcashTransaction, ufvks: [ZcashAccountId: ZcashUnifiedFullViewingKey]) -> [ZcashDecryptedOutput] {
+    return try! FfiConverterSequenceTypeZcashDecryptedOutput.lift(
+        try! rustCall {
+            uniffi_uniffi_zcash_fn_func_decrypt_transaction(
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashBlockHeight.lower(height),
+                FfiConverterTypeZcashTransaction.lower(tx),
+                FfiConverterDictionaryTypeZcashAccountIdTypeZcashUnifiedFullViewingKey.lower(ufvks), $0
             )
         }
     )
@@ -13079,6 +15480,158 @@ public func encodeTransparentAddressP(params: ZcashConsensusParameters, addr: Zc
     )
 }
 
+public func scanCachedBlocks(params: ZcashConsensusParameters, fsblockdbRoot: String, dbDataPath: String, height: ZcashBlockHeight, limit: UInt32) throws {
+    try rustCallWithError(FfiConverterTypeZcashError.lift) {
+        uniffi_uniffi_zcash_fn_func_scan_cached_blocks(
+            FfiConverterTypeZcashConsensusParameters.lower(params),
+            FfiConverterString.lower(fsblockdbRoot),
+            FfiConverterString.lower(dbDataPath),
+            FfiConverterTypeZcashBlockHeight.lower(height),
+            FfiConverterUInt32.lower(limit), $0
+        )
+    }
+}
+
+public func shieldTransparentFundsMainFixed(zDbData: ZcashWalletDb, params: ZcashConsensusParameters, prover: ZcashLocalTxProver, inputSelector: ZcashMainFixedGreedyInputSelector, shieldingThreshold: UInt64, usk: ZcashUnifiedSpendingKey, fromAddrs: [ZcashTransparentAddress], memo: ZcashMemoBytes, minConfirmations: UInt32) throws -> ZcashTxId {
+    return try FfiConverterTypeZcashTxId.lift(
+        rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_func_shield_transparent_funds_main_fixed(
+                FfiConverterTypeZcashWalletDb.lower(zDbData),
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashLocalTxProver.lower(prover),
+                FfiConverterTypeZcashMainFixedGreedyInputSelector.lower(inputSelector),
+                FfiConverterUInt64.lower(shieldingThreshold),
+                FfiConverterTypeZcashUnifiedSpendingKey.lower(usk),
+                FfiConverterSequenceTypeZcashTransparentAddress.lower(fromAddrs),
+                FfiConverterTypeZcashMemoBytes.lower(memo),
+                FfiConverterUInt32.lower(minConfirmations), $0
+            )
+        }
+    )
+}
+
+public func shieldTransparentFundsMainZip317(zDbData: ZcashWalletDb, params: ZcashConsensusParameters, prover: ZcashLocalTxProver, inputSelector: ZcashMainZip317GreedyInputSelector, shieldingThreshold: UInt64, usk: ZcashUnifiedSpendingKey, fromAddrs: [ZcashTransparentAddress], memo: ZcashMemoBytes, minConfirmations: UInt32) throws -> ZcashTxId {
+    return try FfiConverterTypeZcashTxId.lift(
+        rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_func_shield_transparent_funds_main_zip317(
+                FfiConverterTypeZcashWalletDb.lower(zDbData),
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashLocalTxProver.lower(prover),
+                FfiConverterTypeZcashMainZip317GreedyInputSelector.lower(inputSelector),
+                FfiConverterUInt64.lower(shieldingThreshold),
+                FfiConverterTypeZcashUnifiedSpendingKey.lower(usk),
+                FfiConverterSequenceTypeZcashTransparentAddress.lower(fromAddrs),
+                FfiConverterTypeZcashMemoBytes.lower(memo),
+                FfiConverterUInt32.lower(minConfirmations), $0
+            )
+        }
+    )
+}
+
+public func shieldTransparentFundsTestFixed(zDbData: ZcashWalletDb, params: ZcashConsensusParameters, prover: ZcashLocalTxProver, inputSelector: ZcashTestFixedGreedyInputSelector, shieldingThreshold: UInt64, usk: ZcashUnifiedSpendingKey, fromAddrs: [ZcashTransparentAddress], memo: ZcashMemoBytes, minConfirmations: UInt32) throws -> ZcashTxId {
+    return try FfiConverterTypeZcashTxId.lift(
+        rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_func_shield_transparent_funds_test_fixed(
+                FfiConverterTypeZcashWalletDb.lower(zDbData),
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashLocalTxProver.lower(prover),
+                FfiConverterTypeZcashTestFixedGreedyInputSelector.lower(inputSelector),
+                FfiConverterUInt64.lower(shieldingThreshold),
+                FfiConverterTypeZcashUnifiedSpendingKey.lower(usk),
+                FfiConverterSequenceTypeZcashTransparentAddress.lower(fromAddrs),
+                FfiConverterTypeZcashMemoBytes.lower(memo),
+                FfiConverterUInt32.lower(minConfirmations), $0
+            )
+        }
+    )
+}
+
+public func shieldTransparentFundsTestZip317(zDbData: ZcashWalletDb, params: ZcashConsensusParameters, prover: ZcashLocalTxProver, inputSelector: ZcashTestZip317GreedyInputSelector, shieldingThreshold: UInt64, usk: ZcashUnifiedSpendingKey, fromAddrs: [ZcashTransparentAddress], memo: ZcashMemoBytes, minConfirmations: UInt32) throws -> ZcashTxId {
+    return try FfiConverterTypeZcashTxId.lift(
+        rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_func_shield_transparent_funds_test_zip317(
+                FfiConverterTypeZcashWalletDb.lower(zDbData),
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashLocalTxProver.lower(prover),
+                FfiConverterTypeZcashTestZip317GreedyInputSelector.lower(inputSelector),
+                FfiConverterUInt64.lower(shieldingThreshold),
+                FfiConverterTypeZcashUnifiedSpendingKey.lower(usk),
+                FfiConverterSequenceTypeZcashTransparentAddress.lower(fromAddrs),
+                FfiConverterTypeZcashMemoBytes.lower(memo),
+                FfiConverterUInt32.lower(minConfirmations), $0
+            )
+        }
+    )
+}
+
+public func spendMainFixed(zDbData: ZcashWalletDb, params: ZcashConsensusParameters, prover: ZcashLocalTxProver, inputSelector: ZcashMainFixedGreedyInputSelector, usk: ZcashUnifiedSpendingKey, request: ZcashTransactionRequest, ovkPolicy: ZcashOvkPolicy, minConfirmations: UInt32) throws -> ZcashTxId {
+    return try FfiConverterTypeZcashTxId.lift(
+        rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_func_spend_main_fixed(
+                FfiConverterTypeZcashWalletDb.lower(zDbData),
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashLocalTxProver.lower(prover),
+                FfiConverterTypeZcashMainFixedGreedyInputSelector.lower(inputSelector),
+                FfiConverterTypeZcashUnifiedSpendingKey.lower(usk),
+                FfiConverterTypeZcashTransactionRequest.lower(request),
+                FfiConverterTypeZcashOvkPolicy.lower(ovkPolicy),
+                FfiConverterUInt32.lower(minConfirmations), $0
+            )
+        }
+    )
+}
+
+public func spendMainZip317(zDbData: ZcashWalletDb, params: ZcashConsensusParameters, prover: ZcashLocalTxProver, inputSelector: ZcashMainZip317GreedyInputSelector, usk: ZcashUnifiedSpendingKey, request: ZcashTransactionRequest, ovkPolicy: ZcashOvkPolicy, minConfirmations: UInt32) throws -> ZcashTxId {
+    return try FfiConverterTypeZcashTxId.lift(
+        rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_func_spend_main_zip317(
+                FfiConverterTypeZcashWalletDb.lower(zDbData),
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashLocalTxProver.lower(prover),
+                FfiConverterTypeZcashMainZip317GreedyInputSelector.lower(inputSelector),
+                FfiConverterTypeZcashUnifiedSpendingKey.lower(usk),
+                FfiConverterTypeZcashTransactionRequest.lower(request),
+                FfiConverterTypeZcashOvkPolicy.lower(ovkPolicy),
+                FfiConverterUInt32.lower(minConfirmations), $0
+            )
+        }
+    )
+}
+
+public func spendTestFixed(zDbData: ZcashWalletDb, params: ZcashConsensusParameters, prover: ZcashLocalTxProver, inputSelector: ZcashTestFixedGreedyInputSelector, usk: ZcashUnifiedSpendingKey, request: ZcashTransactionRequest, ovkPolicy: ZcashOvkPolicy, minConfirmations: UInt32) throws -> ZcashTxId {
+    return try FfiConverterTypeZcashTxId.lift(
+        rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_func_spend_test_fixed(
+                FfiConverterTypeZcashWalletDb.lower(zDbData),
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashLocalTxProver.lower(prover),
+                FfiConverterTypeZcashTestFixedGreedyInputSelector.lower(inputSelector),
+                FfiConverterTypeZcashUnifiedSpendingKey.lower(usk),
+                FfiConverterTypeZcashTransactionRequest.lower(request),
+                FfiConverterTypeZcashOvkPolicy.lower(ovkPolicy),
+                FfiConverterUInt32.lower(minConfirmations), $0
+            )
+        }
+    )
+}
+
+public func spendTestZip317(zDbData: ZcashWalletDb, params: ZcashConsensusParameters, prover: ZcashLocalTxProver, inputSelector: ZcashTestZip317GreedyInputSelector, usk: ZcashUnifiedSpendingKey, request: ZcashTransactionRequest, ovkPolicy: ZcashOvkPolicy, minConfirmations: UInt32) throws -> ZcashTxId {
+    return try FfiConverterTypeZcashTxId.lift(
+        rustCallWithError(FfiConverterTypeZcashError.lift) {
+            uniffi_uniffi_zcash_fn_func_spend_test_zip317(
+                FfiConverterTypeZcashWalletDb.lower(zDbData),
+                FfiConverterTypeZcashConsensusParameters.lower(params),
+                FfiConverterTypeZcashLocalTxProver.lower(prover),
+                FfiConverterTypeZcashTestZip317GreedyInputSelector.lower(inputSelector),
+                FfiConverterTypeZcashUnifiedSpendingKey.lower(usk),
+                FfiConverterTypeZcashTransactionRequest.lower(request),
+                FfiConverterTypeZcashOvkPolicy.lower(ovkPolicy),
+                FfiConverterUInt32.lower(minConfirmations), $0
+            )
+        }
+    )
+}
+
 private enum InitializationResult {
     case ok
     case contractVersionMismatch
@@ -13107,6 +15660,12 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_func_decode_transparent_address() != 14315 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_func_decrypt_and_store_transaction() != 19730 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_decrypt_transaction() != 36024 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_func_encode_extended_full_viewing_key() != 9529 {
         return InitializationResult.apiChecksumMismatch
     }
@@ -13123,6 +15682,33 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_func_encode_transparent_address_p() != 44460 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_scan_cached_blocks() != 35281 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_shield_transparent_funds_main_fixed() != 851 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_shield_transparent_funds_main_zip317() != 17359 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_shield_transparent_funds_test_fixed() != 45543 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_shield_transparent_funds_test_zip317() != 49020 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_spend_main_fixed() != 37082 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_spend_main_zip317() != 3081 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_spend_test_fixed() != 65033 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_func_spend_test_zip317() != 40544 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_secpsecretkey_serialize_secret() != 54704 {
@@ -13150,6 +15736,18 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashaccountbalance_total() != 46654 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashaccountbalance_unshielded() != 51730 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashaccountbirthday_height() != 13020 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashaccountbirthday_recover_until() != 29885 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashaccountbirthday_sapling_frontier() != 20585 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashaccountprivkey_derive_external_secret_key() != 23016 {
@@ -13194,9 +15792,6 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_method_zcashanchor_to_bytes() != 60719 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_method_zcashbackendscan_scan_cached_blocks() != 43893 {
-        return InitializationResult.apiChecksumMismatch
-    }
     if uniffi_uniffi_zcash_checksum_method_zcashbalance_total() != 19876 {
         return InitializationResult.apiChecksumMismatch
     }
@@ -13206,7 +15801,13 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_method_zcashblockmeta_block_file_path() != 47636 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_method_zcashchain_init_blockmeta_db() != 26933 {
+    if uniffi_uniffi_zcash_checksum_method_zcashblockmetadata_block_hash() != 43310 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashblockmetadata_block_height() != 45627 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashblockmetadata_sapling_tree_size() != 35477 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashcommitmenttree_append() != 9731 {
@@ -13216,6 +15817,21 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashcommitmenttreeroot_subtree_end_height() != 42288 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_account() != 46420 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_index() != 47662 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_memo() != 60659 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_note() != 1564 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashdecryptedoutput_transfer_type() != 60998 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashdiversifiablefullviewingkey_address() != 56872 {
@@ -13348,6 +15964,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_get_max_cached_height() != 51557 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_initialize() != 11661 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashfsblockdb_write_block_metadata() != 23343 {
@@ -13563,6 +16182,18 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_method_zcashratio_numerator() != 13950 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_method_zcashreceivedsaplingnote_diversifier() != 38012 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashreceivedsaplingnote_internal_note_id() != 60026 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashreceivedsaplingnote_note_commitment_tree_position() != 2095 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashreceivedsaplingnote_value() != 45731 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_method_zcashrecipientaddress_encode() != 6086 {
         return InitializationResult.apiChecksumMismatch
     }
@@ -13644,7 +16275,43 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_method_zcashscanrange_priority() != 8375 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_method_zcashscannedblock_block_hash() != 40407 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashscannedblock_block_time() != 20298 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashscannedblock_height() != 2205 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashscannedblock_metadata() != 36584 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashscannedblock_sapling_commitments() != 58796 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashscannedblock_sapling_nullifier_map() != 45180 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashscannedblock_transactions() != 55439 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_method_zcashscript_to_bytes() != 23762 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_memo() != 54233 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_output_index() != 31214 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_recipient() != 22353 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_sapling_change_to() != 33437 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashsenttransactionoutput_value() != 23595 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashtransaction_consensus_branch_id() != 18318 {
@@ -13720,6 +16387,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashtxid_to_bytes() != 38587 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashtxid_to_hex_string() != 3594 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashtxin_to_bytes() != 4105 {
@@ -13815,25 +16485,85 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_method_zcashviewingkey_to_payment_address() != 36128 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_method_zcashwallet_init_wallet_db() != 11523 {
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_block_fully_scanned() != 17616 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_block_max_scanned() != 16403 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_block_metadata() != 63726 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_chain_height() != 32301 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_create_account() != 39567 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_account_birthday() != 36042 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_account_for_ufvk() != 16427 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_block_hash() != 5968 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_current_address() != 6512 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_max_height_hash() != 32097 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_memo() != 60807 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_min_unspent_height() != 44311 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_next_available_address() != 832 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_sapling_nullifiers() != 34710 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_spendable_sapling_notes() != 55091 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_target_and_anchor_heights() != 39736 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_transaction() != 36828 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_transparent_balances() != 29772 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_transparent_receivers() != 44783 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_tx_height() != 32698 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_unified_full_viewing_keys() != 3950 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_unspent_transparent_outputs() != 63544 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_wallet_birthday() != 20677 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_get_wallet_summary() != 7833 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_initialize() != 50021 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_is_valid_account_extfvk() != 30457 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_blocks() != 41884 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_received_transparent_utxo() != 7966 {
@@ -13842,7 +16572,13 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_put_sapling_subtree_roots() != 59990 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_select_spendable_sapling_notes() != 11902 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_store_decrypted_tx() != 39162 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_store_sent_tx() != 50042 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_method_zcashwalletdb_suggest_scan_ranges() != 13781 {
@@ -13896,6 +16632,9 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_constructor_zcashaccountbalance_zero() != 33487 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountbirthday_from_treestate() != 15382 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_bytes() != 26651 {
         return InitializationResult.apiChecksumMismatch
     }
@@ -13927,6 +16666,12 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_constructor_zcashblockheight_new() != 45578 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashblockmeta_new() != 6192 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashblockmetadata_from_parts() != 35064 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_constructor_zcashcommitmenttree_empty() != 623 {
@@ -14040,7 +16785,10 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_with_default_location() != 59894 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashmaingreedyinputselector_new() != 791 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashmainfixedgreedyinputselector_new() != 6847 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashmainzip317greedyinputselector_new() != 20331 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_constructor_zcashmemobytes_empty() != 65126 {
@@ -14172,10 +16920,19 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_constructor_zcashscanrange_from_parts() != 14720 {
         return InitializationResult.apiChecksumMismatch
     }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashscannedblock_from_parts() != 4873 {
+        return InitializationResult.apiChecksumMismatch
+    }
     if uniffi_uniffi_zcash_checksum_constructor_zcashscript_from_bytes() != 8889 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtestgreedyinputselector_new() != 45241 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashsenttransactionoutput_from_parts() != 48100 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtestfixedgreedyinputselector_new() != 34859 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtestzip317greedyinputselector_new() != 17043 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_constructor_zcashtransaction_from_bytes() != 51056 {
@@ -14200,6 +16957,12 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_script() != 29163 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtreestate_from_bytes() != 9245 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtreestate_new() != 64658 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_constructor_zcashtxid_from_bytes() != 481 {
@@ -14242,6 +17005,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_constructor_zcashwallettransparentoutput_from_parts() != 12073 {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if uniffi_uniffi_zcash_checksum_constructor_zcashwallettx_new() != 63654 {
         return InitializationResult.apiChecksumMismatch
     }
     if uniffi_uniffi_zcash_checksum_constructor_zcashzip317feerule_non_standard() != 29630 {
