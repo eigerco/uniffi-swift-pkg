@@ -224,6 +224,7 @@ private enum UniffiInternalError: LocalizedError {
 private let CALL_SUCCESS: Int8 = 0
 private let CALL_ERROR: Int8 = 1
 private let CALL_PANIC: Int8 = 2
+private let CALL_CANCELLED: Int8 = 3
 
 private extension RustCallStatus {
     init() {
@@ -286,6 +287,9 @@ private func uniffiCheckCallStatus(
             callStatus.errorBuf.deallocate()
             throw UniffiInternalError.rustPanic("Rust panic")
         }
+
+    case CALL_CANCELLED:
+        throw CancellationError()
 
     default:
         throw UniffiInternalError.unexpectedRustCallStatusCode
@@ -659,15 +663,10 @@ public func FfiConverterTypeSecpSecretKey_lower(_ value: SecpSecretKey) -> Unsaf
 
 public protocol TestSupportProtocol {
     func getAsString(key: String) -> String
-
     func getAsU32(key: String) -> UInt32
-
     func getAsU32Array(key: String) -> [UInt32]
-
     func getAsU64(key: String) -> UInt64
-
     func getAsU64Array(key: String) -> [UInt64]
-
     func getAsU8Array(key: String) -> [UInt8]
 }
 
@@ -847,9 +846,7 @@ public func FfiConverterTypeTimeOffsetDateTime_lower(_ value: TimeOffsetDateTime
 
 public protocol ZcashAccountBalanceProtocol {
     func saplingSpendableValue() -> ZcashNonNegativeAmount
-
     func total() -> ZcashNonNegativeAmount
-
     func unshielded() -> ZcashNonNegativeAmount
 }
 
@@ -941,9 +938,7 @@ public func FfiConverterTypeZcashAccountBalance_lower(_ value: ZcashAccountBalan
 
 public protocol ZcashAccountBirthdayProtocol {
     func height() -> ZcashBlockHeight
-
     func recoverUntil() -> ZcashBlockHeight?
-
     func saplingFrontier() -> MerkleTreeFrontier
 }
 
@@ -1038,11 +1033,8 @@ public func FfiConverterTypeZcashAccountBirthday_lower(_ value: ZcashAccountBirt
 
 public protocol ZcashAccountPrivKeyProtocol {
     func deriveExternalSecretKey(childIndex: UInt32) throws -> SecpSecretKey
-
     func deriveInternalSecretKey(childIndex: UInt32) throws -> SecpSecretKey
-
     func toAccountPubkey() -> ZcashAccountPubKey
-
     func toBytes() -> [UInt8]
 }
 
@@ -1163,15 +1155,10 @@ public func FfiConverterTypeZcashAccountPrivKey_lower(_ value: ZcashAccountPrivK
 
 public protocol ZcashAccountPubKeyProtocol {
     func deriveExternalIvk() throws -> ZcashExternalIvk
-
     func deriveInternalIvk() throws -> ZcashInternalIvk
-
     func externalOvk() -> ZcashExternalOvk
-
     func internalOvk() -> ZcashInternalOvk
-
     func ovksForShielding() -> ZcashInternalOvkExternalOvk
-
     func serialize() -> [UInt8]
 }
 
@@ -1290,7 +1277,6 @@ public func FfiConverterTypeZcashAccountPubKey_lower(_ value: ZcashAccountPubKey
 
 public protocol ZcashAddressMetadataProtocol {
     func account() -> ZcashAccountId
-
     func diversifierIndex() -> ZcashDiversifierIndex
 }
 
@@ -1818,9 +1804,7 @@ public func FfiConverterTypeZcashBlockMeta_lower(_ value: ZcashBlockMeta) -> Uns
 
 public protocol ZcashBlockMetadataProtocol {
     func blockHash() -> ZcashBlockHash
-
     func blockHeight() -> ZcashBlockHeight
-
     func saplingTreeSize() -> UInt32
 }
 
@@ -1987,7 +1971,6 @@ public func FfiConverterTypeZcashCommitmentTree_lower(_ value: ZcashCommitmentTr
 
 public protocol ZcashCommitmentTreeRootProtocol {
     func rootHash() -> ZcashSaplingNode
-
     func subtreeEndHeight() -> ZcashBlockHeight
 }
 
@@ -2073,13 +2056,9 @@ public func FfiConverterTypeZcashCommitmentTreeRoot_lower(_ value: ZcashCommitme
 
 public protocol ZcashDecryptedOutputProtocol {
     func account() -> ZcashAccountId
-
     func index() -> UInt64
-
     func memo() -> ZcashMemoBytes
-
     func note() -> ZcashSaplingNote
-
     func transferType() -> ZcashTransferType
 }
 
@@ -2238,27 +2217,16 @@ public func FfiConverterTypeZcashDecryptedTransaction_lower(_ value: ZcashDecryp
 
 public protocol ZcashDiversifiableFullViewingKeyProtocol {
     func address(j: ZcashDiversifierIndex) -> ZcashPaymentAddress?
-
     func changeAddress() -> ZcashDiversifierIndexAndPaymentAddress
-
     func decryptDiversifier(addr: ZcashPaymentAddress) -> ZcashDiversifierIndexAndScope?
-
     func defaultAddress() -> ZcashDiversifierIndexAndPaymentAddress
-
     func diversifiedAddress(diversifier: ZcashDiversifier) -> ZcashPaymentAddress?
-
     func diversifiedChangeAddress(diversifier: ZcashDiversifier) -> ZcashPaymentAddress?
-
     func findAddress(j: ZcashDiversifierIndex) -> ZcashDiversifierIndexAndPaymentAddress?
-
     func fvk() -> ZcashFullViewingKey
-
     func toBytes() -> [UInt8]
-
     func toIvk(scope: ZcashScope) -> ZcashSaplingIvk
-
     func toNk(scope: ZcashScope) -> ZcashNullifierDerivingKey
-
     func toOvk(scope: ZcashScope) -> ZcashOutgoingViewingKey
 }
 
@@ -2515,9 +2483,7 @@ public func FfiConverterTypeZcashDiversifier_lower(_ value: ZcashDiversifier) ->
 
 public protocol ZcashDiversifierIndexProtocol {
     func increment() throws
-
     func toBytes() -> [UInt8]
-
     func toU32() throws -> UInt32
 }
 
@@ -2622,7 +2588,6 @@ public func FfiConverterTypeZcashDiversifierIndex_lower(_ value: ZcashDiversifie
 
 public protocol ZcashDustOutputPolicyProtocol {
     func action() -> ZcashDustAction
-
     func dustThreshold() -> ZcashAmount?
 }
 
@@ -2708,7 +2673,6 @@ public func FfiConverterTypeZcashDustOutputPolicy_lower(_ value: ZcashDustOutput
 
 public protocol ZcashExpandedSpendingKeyProtocol {
     func proofGenerationKey() -> ZcashProofGenerationKey
-
     func toBytes() -> [UInt8]
 }
 
@@ -2801,19 +2765,12 @@ public func FfiConverterTypeZcashExpandedSpendingKey_lower(_ value: ZcashExpande
 
 public protocol ZcashExtendedFullViewingKeyProtocol {
     func address(j: ZcashDiversifierIndex) -> ZcashPaymentAddress?
-
     func defaultAddress() -> ZcashDiversifierIndexAndPaymentAddress
-
     func deriveChild(i: ZcashChildIndex) throws -> ZcashExtendedFullViewingKey
-
     func deriveInternal() -> ZcashExtendedFullViewingKey
-
     func encode(params: ZcashConsensusParameters) -> String
-
     func findAddress(j: ZcashDiversifierIndex) -> ZcashDiversifierIndexAndPaymentAddress?
-
     func toBytes() -> [UInt8]
-
     func toDiversifiableFullViewingKey() -> ZcashDiversifiableFullViewingKey
 }
 
@@ -2964,7 +2921,6 @@ public func FfiConverterTypeZcashExtendedFullViewingKey_lower(_ value: ZcashExte
 
 public protocol ZcashExtendedPrivKeyProtocol {
     func derivePrivateKey(keyIndex: ZcashKeyIndex) throws -> ZcashExtendedPrivKey
-
     func toBytes() -> [UInt8]
 }
 
@@ -3071,15 +3027,10 @@ public func FfiConverterTypeZcashExtendedPrivKey_lower(_ value: ZcashExtendedPri
 
 public protocol ZcashExtendedSpendingKeyProtocol {
     func defaultAddress() -> ZcashDiversifierIndexAndPaymentAddress
-
     func deriveChild(index: ZcashChildIndex) -> ZcashExtendedSpendingKey
-
     func deriveInternal() -> ZcashExtendedSpendingKey
-
     func encode(params: ZcashConsensusParameters) -> String
-
     func toBytes() -> [UInt8]
-
     func toDiversifiableFullViewingKey() -> ZcashDiversifiableFullViewingKey
 }
 
@@ -3228,9 +3179,7 @@ public func FfiConverterTypeZcashExtendedSpendingKey_lower(_ value: ZcashExtende
 
 public protocol ZcashExternalIvkProtocol {
     func defaultAddress() -> ZcashTransparentAddressAndIndex
-
     func deriveAddress(childIndex: UInt32) throws -> ZcashTransparentAddress
-
     func toBytes() -> [UInt8]
 }
 
@@ -3607,11 +3556,8 @@ public func FfiConverterTypeZcashFixedSingleOutputChangeStrategy_lower(_ value: 
 
 public protocol ZcashFsBlockDbProtocol {
     func findBlock(height: ZcashBlockHeight) throws -> ZcashBlockMeta?
-
     func getMaxCachedHeight() throws -> ZcashBlockHeight?
-
     func initialize(blocksDir: String) throws
-
     func writeBlockMetadata(blockMeta: [ZcashBlockMeta]) throws
 }
 
@@ -3711,9 +3657,7 @@ public func FfiConverterTypeZcashFsBlockDb_lower(_ value: ZcashFsBlockDb) -> Uns
 
 public protocol ZcashFullViewingKeyProtocol {
     func ovk() -> ZcashOutgoingViewingKey
-
     func toBytes() -> [UInt8]
-
     func vk() -> ZcashViewingKey
 }
 
@@ -3815,7 +3759,6 @@ public func FfiConverterTypeZcashFullViewingKey_lower(_ value: ZcashFullViewingK
 
 public protocol ZcashIncrementalWitnessProtocol {
     func append(node: ZcashSaplingNode) throws
-
     func path() -> ZcashSaplingMerklePath?
 }
 
@@ -3899,7 +3842,6 @@ public func FfiConverterTypeZcashIncrementalWitness_lower(_ value: ZcashIncremen
 
 public protocol ZcashInternalIvkProtocol {
     func defaultAddress() -> ZcashTransparentAddressAndIndex
-
     func toBytes() -> [UInt8]
 }
 
@@ -4124,9 +4066,7 @@ public func FfiConverterTypeZcashJubjubFr_lower(_ value: ZcashJubjubFr) -> Unsaf
 
 public protocol ZcashKeyIndexProtocol {
     func isValid() -> Bool
-
     func normalizeIndex() -> UInt32
-
     func rawIndex() -> UInt32
 }
 
@@ -4750,11 +4690,8 @@ public func FfiConverterTypeZcashNullifierDerivingKey_lower(_ value: ZcashNullif
 
 public protocol ZcashOrchardActionProtocol {
     func cmx() -> ZcashExtractedNoteCommitment
-
     func cvNet() -> ZcashOrchardValueCommitment
-
     func encryptedNote() -> ZcashOrchardTransmittedNoteCiphertext
-
     func nullifier() -> ZcashOrchardNullifier
 }
 
@@ -4849,7 +4786,6 @@ public func FfiConverterTypeZcashOrchardAction_lower(_ value: ZcashOrchardAction
 
 public protocol ZcashOrchardAddressProtocol {
     func diversifier() -> ZcashOrchardDiversifier
-
     func toRawAddressBytes() -> [UInt8]
 }
 
@@ -4934,21 +4870,13 @@ public func FfiConverterTypeZcashOrchardAddress_lower(_ value: ZcashOrchardAddre
 
 public protocol ZcashOrchardBundleProtocol {
     func actions() -> [ZcashOrchardAction]
-
     func anchor() -> ZcashAnchor
-
     func decryptOutputWithKey(actionIdx: UInt64, ivk: ZcashOrchardIncomingViewingKey) throws -> ZcashOrchardDecryptOutput
-
     func decryptOutputWithKeys(ivks: [ZcashOrchardIncomingViewingKey]) -> [ZcashOrchardDecryptOutputForIncomingKeys]
-
     func flags() -> ZcashOrchardFlags
-
     func recoverOutputWithOvk(actionIdx: UInt64, ovk: ZcashOrchardOutgoingViewingKey) throws -> ZcashOrchardDecryptOutput
-
     func recoverOutputsWithOvks(ovks: [ZcashOrchardOutgoingViewingKey]) -> [ZcashOrchardDecryptOutputForOutgoingKeys]
-
     func valueBalance() -> ZcashAmount
-
     func verifyProof(key: ZcashVerifyingKey) throws
 }
 
@@ -5255,9 +5183,7 @@ public func FfiConverterTypeZcashOrchardDiversifierIndex_lower(_ value: ZcashOrc
 
 public protocol ZcashOrchardFlagsProtocol {
     func outputsEnabled() -> Bool
-
     func spendsEnabled() -> Bool
-
     func toByte() -> UInt8
 }
 
@@ -5360,15 +5286,10 @@ public func FfiConverterTypeZcashOrchardFlags_lower(_ value: ZcashOrchardFlags) 
 
 public protocol ZcashOrchardFullViewingKeyProtocol {
     func address(d: ZcashOrchardDiversifier, scope: ZcashOrchardScope) -> ZcashOrchardAddress
-
     func addressAt(j: ZcashOrchardDiversifierIndex, scope: ZcashOrchardScope) -> ZcashOrchardAddress
-
     func scopeForAddress(address: ZcashOrchardAddress) -> ZcashOrchardScope?
-
     func toBytes() -> [UInt8]
-
     func toIvk(scope: ZcashOrchardScope) -> ZcashOrchardIncomingViewingKey
-
     func toOvk(scope: ZcashOrchardScope) -> ZcashOrchardOutgoingViewingKey
 }
 
@@ -5496,11 +5417,8 @@ public func FfiConverterTypeZcashOrchardFullViewingKey_lower(_ value: ZcashOrcha
 
 public protocol ZcashOrchardIncomingViewingKeyProtocol {
     func address(diversifier: ZcashOrchardDiversifier) -> ZcashOrchardAddress
-
     func addressAt(j: ZcashOrchardDiversifierIndex) -> ZcashOrchardAddress
-
     func diversifierIndex(addr: ZcashOrchardAddress) -> ZcashOrchardDiversifierIndex?
-
     func toBytes() -> [UInt8]
 }
 
@@ -5764,9 +5682,7 @@ public func FfiConverterTypeZcashOrchardMerklePath_lower(_ value: ZcashOrchardMe
 
 public protocol ZcashOrchardNoteProtocol {
     func commitment() -> ZcashOrchardNoteCommitment
-
     func recipient() -> ZcashOrchardAddress
-
     func value() -> ZcashOrchardNoteValue
 }
 
@@ -6226,7 +6142,6 @@ public func FfiConverterTypeZcashOrchardRandomSeed_lower(_ value: ZcashOrchardRa
 
 public protocol ZcashOrchardSpendingKeyProtocol {
     func toBytes() -> [UInt8]
-
     func toFvk() -> ZcashOrchardFullViewingKey
 }
 
@@ -6321,9 +6236,7 @@ public func FfiConverterTypeZcashOrchardSpendingKey_lower(_ value: ZcashOrchardS
 
 public protocol ZcashOrchardTransactionBuilderProtocol {
     func addRecipient(ovk: ZcashOrchardOutgoingViewingKey?, recipient: ZcashOrchardAddress, value: ZcashOrchardNoteValue, memo: [UInt8]?) throws
-
     func addSpend(fvk: ZcashOrchardFullViewingKey, note: ZcashOrchardNote, merklePath: ZcashOrchardMerklePath)
-
     func build(keys: [ZcashOrchardSpendingKey], sighash: [UInt8]) throws -> ZcashTransaction
 }
 
@@ -6629,13 +6542,9 @@ public func FfiConverterTypeZcashOutgoingViewingKey_lower(_ value: ZcashOutgoing
 
 public protocol ZcashPaymentAddressProtocol {
     func createNote(value: UInt64, rseed: ZcashRseed) throws -> ZcashSaplingNote
-
     func diversifier() -> ZcashDiversifier
-
     func encode(params: ZcashConsensusParameters) -> String
-
     func pkD() -> ZcashSaplingDiversifiedTransmissionKey
-
     func toBytes() -> [UInt8]
 }
 
@@ -6885,7 +6794,6 @@ public func FfiConverterTypeZcashProvingKey_lower(_ value: ZcashProvingKey) -> U
 
 public protocol ZcashRatioProtocol {
     func denominator() -> UInt64
-
     func numerator() -> UInt64
 }
 
@@ -7026,11 +6934,8 @@ public func FfiConverterTypeZcashReceivedNoteId_lower(_ value: ZcashReceivedNote
 
 public protocol ZcashReceivedSaplingNoteProtocol {
     func diversifier() -> ZcashDiversifier
-
     func internalNoteId() -> ZcashReceivedNoteId
-
     func noteCommitmentTreePosition() -> MerkleTreePosition
-
     func value() -> ZcashAmount
 }
 
@@ -7225,9 +7130,7 @@ public func FfiConverterTypeZcashRecipientAddress_lower(_ value: ZcashRecipientA
 
 public protocol ZcashSaplingBundleProtocol {
     func shieldedOutputs() -> [ZcashSaplingOutputDescription]
-
     func shieldedSpends() -> [ZcashSaplingSpendDescription]
-
     func valueBalance() -> ZcashAmount
 }
 
@@ -7442,7 +7345,6 @@ public func FfiConverterTypeZcashSaplingExtractedNoteCommitment_lower(_ value: Z
 
 public protocol ZcashSaplingIvkProtocol {
     func toPaymentAddress(diversifier: ZcashDiversifier) -> ZcashPaymentAddress?
-
     func toRepr() -> [UInt8]
 }
 
@@ -7520,7 +7422,6 @@ public func FfiConverterTypeZcashSaplingIvk_lower(_ value: ZcashSaplingIvk) -> U
 
 public protocol ZcashSaplingMerklePathProtocol {
     func authPath() -> [ZcashAuthPath]
-
     func position() -> UInt64
 }
 
@@ -7597,7 +7498,6 @@ public func FfiConverterTypeZcashSaplingMerklePath_lower(_ value: ZcashSaplingMe
 
 public protocol ZcashSaplingMetadataProtocol {
     func outputIndex(n: UInt64) -> UInt64?
-
     func spendIndex(n: UInt64) -> UInt64?
 }
 
@@ -7745,7 +7645,6 @@ public func FfiConverterTypeZcashSaplingNode_lower(_ value: ZcashSaplingNode) ->
 
 public protocol ZcashSaplingNoteProtocol {
     func cmu() -> ZcashSaplingExtractedNoteCommitment
-
     func value() -> ZcashSaplingNoteValue
 }
 
@@ -7972,7 +7871,6 @@ public func FfiConverterTypeZcashSaplingNullifier_lower(_ value: ZcashSaplingNul
 
 public protocol ZcashSaplingOutputDescriptionProtocol {
     func cmu() -> ZcashSaplingExtractedNoteCommitment
-
     func cv() -> ZcashSaplingValueCommitment
 }
 
@@ -8114,11 +8012,8 @@ public func FfiConverterTypeZcashSaplingPublicKey_lower(_ value: ZcashSaplingPub
 
 public protocol ZcashSaplingSpendDescriptionProtocol {
     func anchor() -> [UInt8]
-
     func cv() -> ZcashSaplingValueCommitment
-
     func nullifier() -> ZcashSaplingNullifier
-
     func rk() -> ZcashSaplingPublicKey
 }
 
@@ -8279,11 +8174,8 @@ public func FfiConverterTypeZcashSaplingValueCommitment_lower(_ value: ZcashSapl
 
 public protocol ZcashScanRangeProtocol {
     func blockRange() -> [ZcashBlockHeight]
-
     func isEmpty() -> Bool
-
     func len() -> UInt32
-
     func priority() -> ZcashScanPriority
 }
 
@@ -8388,17 +8280,11 @@ public func FfiConverterTypeZcashScanRange_lower(_ value: ZcashScanRange) -> Uns
 
 public protocol ZcashScannedBlockProtocol {
     func blockHash() -> ZcashBlockHash
-
     func blockTime() -> UInt32
-
     func height() -> ZcashBlockHeight
-
     func metadata() -> ZcashBlockMetadata
-
     func saplingCommitments() -> [TupleSaplingCommitments]
-
     func saplingNullifierMap() -> [TripleSaplingNullifierMap]
-
     func transactions() -> [ZcashWalletTx]
 }
 
@@ -8605,13 +8491,9 @@ public func FfiConverterTypeZcashScript_lower(_ value: ZcashScript) -> UnsafeMut
 
 public protocol ZcashSentTransactionOutputProtocol {
     func memo() -> ZcashMemoBytes?
-
     func outputIndex() -> UInt32
-
     func recipient() -> ZcashRecipient
-
     func saplingChangeTo() -> TupleAccountIdAndSaplingNote?
-
     func value() -> ZcashAmount
 }
 
@@ -8855,21 +8737,13 @@ public func FfiConverterTypeZcashTestZip317GreedyInputSelector_lower(_ value: Zc
 
 public protocol ZcashTransactionProtocol {
     func consensusBranchId() -> ZcashBranchId
-
     func expiryHeight() -> ZcashBlockHeight
-
     func lockTime() -> UInt32
-
     func orchardBundle() -> ZcashOrchardBundle?
-
     func saplingBundle() -> ZcashSaplingBundle?
-
     func toBytes() throws -> [UInt8]
-
     func transparentBundle() -> ZcashTransparentBundle?
-
     func txid() -> ZcashTxId
-
     func version() -> ZcashTxVersion
 }
 
@@ -9017,13 +8891,9 @@ public func FfiConverterTypeZcashTransaction_lower(_ value: ZcashTransaction) ->
 
 public protocol ZcashTransactionBuilderProtocol {
     func addSaplingOutput(ovk: ZcashOutgoingViewingKey?, to: ZcashPaymentAddress, value: ZcashAmount, memo: ZcashMemoBytes)
-
     func addSaplingSpend(extsk: ZcashExtendedSpendingKey, diversifier: ZcashDiversifier, note: ZcashSaplingNote, merklePath: ZcashSaplingMerklePath)
-
     func addTransparentInput(sk: SecpSecretKey, utxo: ZcashOutPoint, coin: ZcashTxOut)
-
     func addTransparentOutput(to: ZcashTransparentAddress, value: ZcashAmount)
-
     func build(prover: ZcashLocalTxProver, feeRule: ZcashFeeRules) throws -> ZcashTransactionAndSaplingMetadata
 }
 
@@ -9142,7 +9012,6 @@ public func FfiConverterTypeZcashTransactionBuilder_lower(_ value: ZcashTransact
 
 public protocol ZcashTransactionRequestProtocol {
     func payments() -> [ZcashPayment]
-
     func toUri(params: ZcashConsensusParameters) -> String?
 }
 
@@ -9243,13 +9112,9 @@ public func FfiConverterTypeZcashTransactionRequest_lower(_ value: ZcashTransact
 
 public protocol ZcashTransparentAddressProtocol {
     func encode(params: ZcashConsensusParameters) -> String
-
     func isPublicKey() -> Bool
-
     func isScript() -> Bool
-
     func script() -> ZcashScript
-
     func toBytes() -> [UInt8]
 }
 
@@ -9379,9 +9244,7 @@ public func FfiConverterTypeZcashTransparentAddress_lower(_ value: ZcashTranspar
 
 public protocol ZcashTransparentBundleProtocol {
     func isCoinbase() -> Bool
-
     func vin() -> [ZcashTxIn]
-
     func vout() -> [ZcashTxOut]
 }
 
@@ -9543,7 +9406,6 @@ public func FfiConverterTypeZcashTreeState_lower(_ value: ZcashTreeState) -> Uns
 
 public protocol ZcashTxIdProtocol {
     func toBytes() throws -> [UInt8]
-
     func toHexString() throws -> String
 }
 
@@ -9691,11 +9553,8 @@ public func FfiConverterTypeZcashTxIn_lower(_ value: ZcashTxIn) -> UnsafeMutable
 
 public protocol ZcashTxOutProtocol {
     func recipientAddress() -> ZcashTransparentAddress?
-
     func scriptPubkey() -> ZcashScript
-
     func toBytes() throws -> [UInt8]
-
     func value() -> ZcashAmount
 }
 
@@ -9798,19 +9657,12 @@ public func FfiConverterTypeZcashTxOut_lower(_ value: ZcashTxOut) -> UnsafeMutab
 
 public protocol ZcashTxVersionProtocol {
     func hasOrchard() -> Bool
-
     func hasOverwinter() -> Bool
-
     func hasSapling() -> Bool
-
     func hasSprout() -> Bool
-
     func header() -> UInt32
-
     func selection() -> ZcashTxVersionSelection
-
     func toBytes() throws -> [UInt8]
-
     func versionGroupId() -> UInt32
 }
 
@@ -9956,11 +9808,8 @@ public func FfiConverterTypeZcashTxVersion_lower(_ value: ZcashTxVersion) -> Uns
 
 public protocol ZcashUnifiedAddressProtocol {
     func encode(params: ZcashConsensusParameters) -> String
-
     func orchard() -> ZcashOrchardAddress?
-
     func sapling() -> ZcashPaymentAddress?
-
     func transparent() -> ZcashTransparentAddress?
 }
 
@@ -10075,17 +9924,11 @@ public func FfiConverterTypeZcashUnifiedAddress_lower(_ value: ZcashUnifiedAddre
 
 public protocol ZcashUnifiedFullViewingKeyProtocol {
     func address(j: ZcashDiversifierIndex) -> ZcashUnifiedAddress?
-
     func defaultAddress() -> ZcashUnifiedAddressAndDiversifierIndex
-
     func encode(params: ZcashConsensusParameters) -> String
-
     func findAddress(j: ZcashDiversifierIndex) -> ZcashUnifiedAddressAndDiversifierIndex?
-
     func orchard() -> ZcashOrchardFullViewingKey?
-
     func sapling() -> ZcashDiversifiableFullViewingKey?
-
     func transparent() -> ZcashAccountPubKey?
 }
 
@@ -10229,13 +10072,9 @@ public func FfiConverterTypeZcashUnifiedFullViewingKey_lower(_ value: ZcashUnifi
 
 public protocol ZcashUnifiedSpendingKeyProtocol {
     func orchard() -> ZcashOrchardSpendingKey
-
     func sapling() -> ZcashExtendedSpendingKey
-
     func toBytes(era: ZcashKeysEra) -> [UInt8]
-
     func toUnifiedFullViewingKey() -> ZcashUnifiedFullViewingKey
-
     func transparent() -> ZcashAccountPrivKey
 }
 
@@ -10420,7 +10259,6 @@ public func FfiConverterTypeZcashVerifyingKey_lower(_ value: ZcashVerifyingKey) 
 
 public protocol ZcashViewingKeyProtocol {
     func ivk() -> ZcashSaplingIvk
-
     func toPaymentAddress(diversifier: ZcashDiversifier) -> ZcashPaymentAddress?
 }
 
@@ -10498,73 +10336,39 @@ public func FfiConverterTypeZcashViewingKey_lower(_ value: ZcashViewingKey) -> U
 
 public protocol ZcashWalletDbProtocol {
     func blockFullyScanned() throws -> ZcashBlockMetadata?
-
     func blockMaxScanned() throws -> ZcashBlockMetadata?
-
     func blockMetadata(height: ZcashBlockHeight) throws -> ZcashBlockMetadata?
-
     func chainHeight() throws -> ZcashBlockHeight?
-
     func createAccount(seed: [UInt8], birthday: ZcashAccountBirthday) throws -> TupleAccountIdAndUnifiedSpendingKey
-
     func getAccountBirthday(account: ZcashAccountId) throws -> ZcashBlockHeight
-
     func getAccountForUfvk(zufvk: ZcashUnifiedFullViewingKey) throws -> ZcashAccountId?
-
     func getBlockHash(height: ZcashBlockHeight) throws -> ZcashBlockHash?
-
     func getCurrentAddress(aid: ZcashAccountId) throws -> ZcashUnifiedAddress?
-
     func getMaxHeightHash() throws -> TupleBlockHeightAndHash?
-
     func getMemo(idNote: ZcashNoteId) throws -> ZcashMemo
-
     func getMinUnspentHeight() throws -> ZcashBlockHeight?
-
     func getNextAvailableAddress(account: ZcashAccountId) throws -> ZcashUnifiedAddress?
-
     func getSaplingNullifiers(query: ZcashNullifierQuery) throws -> [TupleAccountIdAndSaplingNullifier]
-
     func getSpendableSaplingNotes(account: ZcashAccountId, anchorHeight: ZcashBlockHeight, exclude: [ZcashReceivedNoteId]) throws -> [ZcashReceivedSaplingNote]
-
     func getTargetAndAnchorHeights(minConfirmations: UInt32) throws -> TupleTargetAndAnchorHeight?
-
     func getTransaction(txid: ZcashTxId) throws -> ZcashTransaction
-
     func getTransparentBalances(account: ZcashAccountId, maxHeight: ZcashBlockHeight) throws -> [String: ZcashAmount]
-
     func getTransparentReceivers(aid: ZcashAccountId) throws -> [String: ZcashAddressMetadata]
-
     func getTxHeight(txid: ZcashTxId) throws -> ZcashBlockHeight?
-
     func getUnifiedFullViewingKeys() throws -> [ZcashAccountId: ZcashUnifiedFullViewingKey]
-
     func getUnspentTransparentOutputs(zta: ZcashTransparentAddress, zbh: ZcashBlockHeight, zop: [ZcashOutPoint]) throws -> [ZcashWalletTransparentOutput]
-
     func getWalletBirthday() throws -> ZcashBlockHeight?
-
     func getWalletSummary(minConfirmations: UInt32) throws -> ZcashWalletSummary?
-
     func initialize(seed: [UInt8]) throws
-
     func isValidAccountExtfvk(account: ZcashAccountId, extfvk: ZcashExtendedFullViewingKey) throws -> Bool
-
     func putBlocks(blocks: [ZcashScannedBlock]) throws
-
     func putReceivedTransparentUtxo(output: ZcashWalletTransparentOutput) throws -> Int64
-
     func putSaplingSubtreeRoots(startIndex: UInt64, roots: [ZcashCommitmentTreeRoot]) throws
-
     func selectSpendableSaplingNotes(account: ZcashAccountId, targetValue: ZcashAmount, anchorHeight: ZcashBlockHeight, exclude: [ZcashReceivedNoteId]) throws -> [ZcashReceivedSaplingNote]
-
     func storeDecryptedTx(dTx: ZcashDecryptedTransaction) throws
-
     func storeSentTx(sentTx: ZcashSentTransaction) throws
-
     func suggestScanRanges() throws -> [ZcashScanRange]
-
     func truncateToHeight(blockHeight: UInt32) throws
-
     func updateChainTip(tipHeight: UInt32) throws
 }
 
@@ -11053,13 +10857,9 @@ public func FfiConverterTypeZcashWalletSaplingSpend_lower(_ value: ZcashWalletSa
 
 public protocol ZcashWalletSummaryProtocol {
     func accountBalances() -> [String: ZcashAccountBalance]
-
     func chainTipHeight() -> ZcashBlockHeight
-
     func fullyScannedHeight() -> ZcashBlockHeight
-
     func isSynced() -> Bool
-
     func scanProgress() -> ZcashRatio?
 }
 
@@ -11174,13 +10974,9 @@ public func FfiConverterTypeZcashWalletSummary_lower(_ value: ZcashWalletSummary
 
 public protocol ZcashWalletTransparentOutputProtocol {
     func height() -> ZcashBlockHeight
-
     func outpoint() -> ZcashOutPoint
-
     func recipientAddress() -> ZcashTransparentAddress
-
     func txout() -> ZcashTxOut
-
     func value() -> ZcashAmount
 }
 
@@ -12365,20 +12161,13 @@ public func FfiConverterTypeZcashUnifiedAddressAndDiversifierIndex_lower(_ value
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashBranchId {
     case sprout
-
     case overwinter
-
     case sapling
-
     case blossom
-
     case heartwood
-
     case canopy
-
     case nu5
 }
 
@@ -12444,10 +12233,8 @@ extension ZcashBranchId: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashChildIndex {
     case nonHardened(v: UInt32)
-
     case hardened(v: UInt32)
 }
 
@@ -12494,10 +12281,8 @@ extension ZcashChildIndex: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashConsensusParameters {
     case mainNetwork
-
     case testNetwork
 }
 
@@ -12538,12 +12323,9 @@ extension ZcashConsensusParameters: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashDustAction {
     case reject
-
     case allowDustChange
-
     case addDustToFee
 }
 
@@ -12813,14 +12595,10 @@ extension ZcashError: Error {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashFeeRules {
     case fixedStandard
-
     case fixedNonStandard(amount: UInt64)
-
     case zip317Standard
-
     case zip317NonStandard(marginalFee: UInt64, graceActions: UInt64, p2pkhStandardInputSize: UInt64, p2pkhStandardOutputSize: UInt64)
 }
 
@@ -12883,12 +12661,9 @@ extension ZcashFeeRules: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashKeySeed {
     case s128
-
     case s256
-
     case s512
 }
 
@@ -12934,7 +12709,6 @@ extension ZcashKeySeed: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashKeysEra {
     case orchard
 }
@@ -12971,14 +12745,10 @@ extension ZcashKeysEra: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashMemo {
     case empty
-
     case text(v: String)
-
     case future(v: [UInt8])
-
     case arbitrary(v: [UInt8])
 }
 
@@ -13038,10 +12808,8 @@ extension ZcashMemo: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashNullifierQuery {
     case unspent
-
     case all
 }
 
@@ -13082,10 +12850,8 @@ extension ZcashNullifierQuery: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashOrchardScope {
     case external
-
     case `internal`
 }
 
@@ -13126,12 +12892,9 @@ extension ZcashOrchardScope: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashOvkPolicy {
     case sender
-
     case custom(bytes: [UInt8])
-
     case discard
 }
 
@@ -13180,10 +12943,8 @@ extension ZcashOvkPolicy: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashPoolType {
     case transparent
-
     case shielded(v: ZcashShieldedProtocol)
 }
 
@@ -13227,14 +12988,10 @@ extension ZcashPoolType: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashRecipient {
     case transparent(script: [UInt8])
-
     case sapling(paymentAddressBytes: [UInt8])
-
     case unified(uae: String, params: ZcashConsensusParameters, zpt: ZcashPoolType)
-
     case internalAccount(aid: ZcashAccountId, zpt: ZcashPoolType)
 }
 
@@ -13303,10 +13060,8 @@ extension ZcashRecipient: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashRseed {
     case beforeZip212(frData: [UInt8])
-
     case afterZip212(data: [UInt8])
 }
 
@@ -13353,20 +13108,13 @@ extension ZcashRseed: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashScanPriority {
     case ignored
-
     case scanned
-
     case historic
-
     case openAdjacent
-
     case foundNote
-
     case chainTip
-
     case verify
 }
 
@@ -13432,10 +13180,8 @@ extension ZcashScanPriority: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashScope {
     case external
-
     case `internal`
 }
 
@@ -13476,7 +13222,6 @@ extension ZcashScope: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashShieldedProtocol {
     case sapling
 }
@@ -13513,12 +13258,9 @@ extension ZcashShieldedProtocol: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashTransferType {
     case incoming
-
     case walletInternal
-
     case outgoing
 }
 
@@ -13564,14 +13306,10 @@ extension ZcashTransferType: Equatable, Hashable {}
 
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
-
 public enum ZcashTxVersionSelection {
     case sprout(v: UInt32)
-
     case overwinter
-
     case sapling
-
     case zip225
 }
 
@@ -13624,7 +13362,7 @@ public func FfiConverterTypeZcashTxVersionSelection_lower(_ value: ZcashTxVersio
 extension ZcashTxVersionSelection: Equatable, Hashable {}
 
 public enum ZcashWalletMigrationError {
-    case SeedRequired
+    case SeedRequired(v: String)
     case CorruptedData(v: String)
     case DbError(v: String)
     case BalanceError(v: String)
@@ -13641,7 +13379,9 @@ public struct FfiConverterTypeZcashWalletMigrationError: FfiConverterRustBuffer 
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ZcashWalletMigrationError {
         let variant: Int32 = try readInt(&buf)
         switch variant {
-        case 1: return .SeedRequired
+        case 1: return try .SeedRequired(
+                v: FfiConverterString.read(from: &buf)
+            )
         case 2: return try .CorruptedData(
                 v: FfiConverterString.read(from: &buf)
             )
@@ -13661,8 +13401,9 @@ public struct FfiConverterTypeZcashWalletMigrationError: FfiConverterRustBuffer 
 
     public static func write(_ value: ZcashWalletMigrationError, into buf: inout [UInt8]) {
         switch value {
-        case .SeedRequired:
+        case let .SeedRequired(v):
             writeInt(&buf, Int32(1))
+            FfiConverterString.write(v, into: &buf)
 
         case let .CorruptedData(v):
             writeInt(&buf, Int32(2))
@@ -15642,7 +15383,7 @@ private enum InitializationResult {
 // the code inside is only computed once.
 private var initializationResult: InitializationResult {
     // Get the bindings contract version from our ComponentInterface
-    let bindings_contract_version = 23
+    let bindings_contract_version = 24
     // Get the scaffolding contract version by calling the into the dylib
     let scaffolding_contract_version = ffi_uniffi_zcash_uniffi_contract_version()
     if bindings_contract_version != scaffolding_contract_version {
@@ -16623,400 +16364,400 @@ private var initializationResult: InitializationResult {
     if uniffi_uniffi_zcash_checksum_method_zcashzip317feerule_marginal_fee() != 8182 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_secpsecretkey_new() != 64573 {
+    if uniffi_uniffi_zcash_checksum_constructor_secpsecretkey_new() != 24450 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_testsupport_from_csv_file() != 33828 {
+    if uniffi_uniffi_zcash_checksum_constructor_testsupport_from_csv_file() != 51338 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountbalance_zero() != 33487 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountbalance_zero() != 41009 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountbirthday_from_treestate() != 15382 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountbirthday_from_treestate() != 59202 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_bytes() != 26651 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_bytes() != 29354 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_extended_privkey() != 37304 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_extended_privkey() != 17854 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_seed() != 64225 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountprivkey_from_seed() != 30363 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountpubkey_new() != 9170 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashaccountpubkey_new() != 64025 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashaddressmetadata_new() != 57325 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashaddressmetadata_new() != 50681 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashamount_new() != 42128 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashamount_new() != 61544 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashamount_zero() != 24788 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashamount_zero() != 27621 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashanchor_from_bytes() != 1309 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashanchor_from_bytes() != 8647 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashbalance_zero() != 29923 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashbalance_zero() != 35188 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashblockhash_from_slice() != 58322 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashblockhash_from_slice() != 53263 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashblockheight_new() != 45578 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashblockheight_new() != 5550 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashblockmeta_new() != 6192 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashblockmeta_new() != 16367 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashblockmetadata_from_parts() != 35064 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashblockmetadata_from_parts() != 13789 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashcommitmenttree_empty() != 623 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashcommitmenttree_empty() != 25184 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashcommitmenttreeroot_from_parts() != 45967 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashcommitmenttreeroot_from_parts() != 31456 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifiablefullviewingkey_from_bytes() != 13134 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifiablefullviewingkey_from_bytes() != 58255 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifier_new() != 59084 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifier_new() != 6084 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_from_u32() != 9534 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_from_u32() != 40615 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_from_u64() != 34210 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_from_u64() != 61660 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_new() != 56308 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashdiversifierindex_new() != 30153 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashdustoutputpolicy_new() != 22663 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashdustoutputpolicy_new() != 26916 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashexpandedspendingkey_from_bytes() != 47896 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashexpandedspendingkey_from_bytes() != 32908 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashexpandedspendingkey_from_spending_key() != 45434 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashexpandedspendingkey_from_spending_key() != 59653 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedfullviewingkey_decode() != 31388 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedfullviewingkey_decode() != 57981 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedfullviewingkey_from_bytes() != 59768 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedfullviewingkey_from_bytes() != 62935 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_from_bytes() != 60356 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_from_bytes() != 47106 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_random() != 14451 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_random() != 1933 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_random_with_seed_size() != 59830 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_random_with_seed_size() != 950 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_with_seed() != 4742 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedprivkey_with_seed() != 65017 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_decode() != 45865 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_decode() != 45511 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_from_bytes() != 1088 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_from_bytes() != 31395 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_from_path() != 54996 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_from_path() != 42966 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_master() != 52937 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextendedspendingkey_master() != 61382 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashexternalivk_from_bytes() != 41557 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashexternalivk_from_bytes() != 5395 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashextractednotecommitment_from_bytes() != 36721 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashextractednotecommitment_from_bytes() != 12198 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashfixedfeerule_non_standard() != 43642 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashfixedfeerule_non_standard() != 64005 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashfixedfeerule_standard() != 26951 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashfixedfeerule_standard() != 14392 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashfixedsingleoutputchangestrategy_new() != 34109 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashfixedsingleoutputchangestrategy_new() != 32638 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashfsblockdb_for_path() != 56557 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashfsblockdb_for_path() != 34977 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashfullviewingkey_from_bytes() != 31151 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashfullviewingkey_from_bytes() != 37803 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashfullviewingkey_from_expanded_spending_key() != 15606 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashfullviewingkey_from_expanded_spending_key() != 37490 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashincrementalwitness_from_tree() != 24062 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashincrementalwitness_from_tree() != 44102 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashinternalivk_from_bytes() != 14714 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashinternalivk_from_bytes() != 4114 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashjubjubfr_from_bytes() != 58321 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashjubjubfr_from_bytes() != 41856 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_from_index() != 15946 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_from_index() != 7885 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_from_u32() != 10447 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_from_u32() != 14229 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_hardened_from_normalize_index() != 38879 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashkeyindex_hardened_from_normalize_index() != 36013 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_from_bytes() != 25592 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_from_bytes() != 25125 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_new() != 57963 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_new() != 47078 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_with_default_location() != 59894 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashlocaltxprover_with_default_location() != 1509 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashmainfixedgreedyinputselector_new() != 6847 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashmainfixedgreedyinputselector_new() != 11004 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashmainzip317greedyinputselector_new() != 20331 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashmainzip317greedyinputselector_new() != 64325 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashmemobytes_empty() != 65126 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashmemobytes_empty() != 52783 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashmemobytes_new() != 37981 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashmemobytes_new() != 45435 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_from_nonnegative_i64() != 8268 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_from_nonnegative_i64() != 42055 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_from_u64() != 56516 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_from_u64() != 39966 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_zero() != 8841 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashnonnegativeamount_zero() != 43170 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashnoteid_new() != 38776 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashnoteid_new() != 14039 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashnullifierderivingkey_from_bytes() != 21854 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashnullifierderivingkey_from_bytes() != 34769 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardaddress_from_raw_address_bytes() != 63827 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardaddress_from_raw_address_bytes() != 42441 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifier_from_bytes() != 34408 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifier_from_bytes() != 2473 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_bytes() != 25514 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_bytes() != 45451 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_u32() != 43709 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_u32() != 59810 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_u64() != 2654 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorcharddiversifierindex_from_u64() != 65342 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardflags_from_byte() != 60462 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardflags_from_byte() != 5752 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardflags_from_parts() != 29886 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardflags_from_parts() != 1820 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardfullviewingkey_from_bytes() != 36989 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardfullviewingkey_from_bytes() != 52675 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardincomingviewingkey_from_bytes() != 13118 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardincomingviewingkey_from_bytes() != 59311 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklehash_from_bytes() != 12323 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklehash_from_bytes() != 1473 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklehash_from_cmx() != 16324 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklehash_from_cmx() != 39699 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklepath_from_parts() != 28767 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardmerklepath_from_parts() != 294 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardnote_from_parts() != 18196 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardnote_from_parts() != 57426 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardnotevalue_from_raw() != 19994 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardnotevalue_from_raw() != 26192 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardnullifier_from_bytes() != 34345 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardnullifier_from_bytes() != 40659 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardoutgoingviewingkey_from_bytes() != 22911 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardoutgoingviewingkey_from_bytes() != 26403 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardrandomseed_from_bytes() != 24509 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardrandomseed_from_bytes() != 43792 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardspendingkey_from_bytes() != 63051 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardspendingkey_from_bytes() != 25783 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardspendingkey_from_zip32_seed() != 9945 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardspendingkey_from_zip32_seed() != 34551 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardtransactionbuilder_new() != 33 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashorchardtransactionbuilder_new() != 52986 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashoutpoint_new() != 20595 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashoutpoint_new() != 64962 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashoutgoingviewingkey_from_bytes() != 48420 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashoutgoingviewingkey_from_bytes() != 40852 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashpaymentaddress_decode() != 17087 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashpaymentaddress_decode() != 140 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashpaymentaddress_from_bytes() != 42926 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashpaymentaddress_from_bytes() != 65004 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashprovingkey_new() != 64689 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashprovingkey_new() != 3972 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashratio_new() != 39493 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashratio_new() != 13179 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_decode() != 46681 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_decode() != 370 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_shielded() != 24211 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_shielded() != 39536 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_transparent() != 40355 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_transparent() != 15448 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_unified() != 56662 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashrecipientaddress_unified() != 5482 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingextractednotecommitment_new() != 40184 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingextractednotecommitment_new() != 19900 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingmetadata_new() != 36534 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingmetadata_new() != 52155 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnode_from_cmu() != 29378 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnode_from_cmu() != 52964 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnote_from_parts() != 3241 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnote_from_parts() != 6781 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnotevalue_from_raw() != 23308 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashsaplingnotevalue_from_raw() != 45373 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashscanrange_from_parts() != 14720 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashscanrange_from_parts() != 6055 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashscannedblock_from_parts() != 4873 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashscannedblock_from_parts() != 44942 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashscript_from_bytes() != 8889 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashscript_from_bytes() != 19166 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashsenttransactionoutput_from_parts() != 48100 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashsenttransactionoutput_from_parts() != 56107 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtestfixedgreedyinputselector_new() != 34859 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtestfixedgreedyinputselector_new() != 41170 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtestzip317greedyinputselector_new() != 17043 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtestzip317greedyinputselector_new() != 19551 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtransaction_from_bytes() != 51056 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtransaction_from_bytes() != 38030 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtransactionbuilder_new() != 65172 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtransactionbuilder_new() != 19445 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_empty() != 62739 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_empty() != 18477 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_from_uri() != 57836 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_from_uri() != 16881 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_new() != 17827 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtransactionrequest_new() != 25973 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_decode() != 55219 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_decode() != 57996 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_public_key() != 35825 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_public_key() != 8477 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_script() != 29163 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtransparentaddress_from_script() != 47360 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtreestate_from_bytes() != 9245 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtreestate_from_bytes() != 16433 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtreestate_new() != 64658 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtreestate_new() != 60690 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtxid_from_bytes() != 481 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtxid_from_bytes() != 33849 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtxout_new() != 48394 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtxout_new() != 43558 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtxversion_from_bytes() != 14907 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtxversion_from_bytes() != 43105 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashtxversion_suggested_for_branch() != 60942 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashtxversion_suggested_for_branch() != 9191 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedaddress_decode() != 57622 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedaddress_decode() != 61186 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedaddress_new() != 60718 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedaddress_new() != 65006 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedfullviewingkey_decode() != 35783 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedfullviewingkey_decode() != 34107 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedfullviewingkey_new() != 56024 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedfullviewingkey_new() != 33879 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedspendingkey_from_bytes() != 51407 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedspendingkey_from_bytes() != 30988 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedspendingkey_from_seed() != 2426 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashunifiedspendingkey_from_seed() != 47013 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashverifyingkey_new() != 26863 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashverifyingkey_new() != 45432 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashwalletdb_for_path() != 43172 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashwalletdb_for_path() != 16888 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashwalletsummary_new() != 3775 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashwalletsummary_new() != 43547 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashwallettransparentoutput_from_parts() != 12073 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashwallettransparentoutput_from_parts() != 17421 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashwallettx_new() != 63654 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashwallettx_new() != 55032 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashzip317feerule_non_standard() != 29630 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashzip317feerule_non_standard() != 13263 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashzip317feerule_standard() != 16827 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashzip317feerule_standard() != 32217 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_uniffi_zcash_checksum_constructor_zcashzip317singleoutputchangestrategy_new() != 48217 {
+    if uniffi_uniffi_zcash_checksum_constructor_zcashzip317singleoutputchangestrategy_new() != 66 {
         return InitializationResult.apiChecksumMismatch
     }
 
